@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+<script>plausible("404",{ props: { path: document.location.pathname } });</script>
+{% endblock %}
+
+{% block main %}
+
+
+<section class="vertical-spacing-top">
+  <div class="grid-container">
+    <div class="column-full-width">
+      <div class="inner">
+        <h1 class="vertical-spacing-bottom">Ooops</h1>
+        <p>
+            <div class="vertical-spacing-bottom-0-25">
+                Sorry, we can't find that.
+            </div>
+            <div class="vertical-spacing-bottom-0-25">
+                Requested url : /{{path}}
+            </div>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include "fragments/bsi_2021.html" %}
+{% endblock %}

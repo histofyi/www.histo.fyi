@@ -1,0 +1,14 @@
+    {% if not nav %}
+        <li><a class="is-active" href="/">Home</a></li>
+    {% else %}
+        <li><a href="/">Home</a></li>
+    {% endif %}
+    {% set navitems = ['structures', 'about', 'changelog'] %}
+    {% for navitem in navitems %}
+        {% if nav == navitem %}
+            <li><a class="is-active" href="/{{navitem}}">{{navitem|title}}</a></li>
+        {% else %}
+            <li><a href="/{{navitem}}">{{navitem|title}}</a></li>
+        {% endif %}
+    {% endfor %}
+    

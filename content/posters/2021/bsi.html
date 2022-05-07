@@ -1,0 +1,145 @@
+<style>
+    a.no-decoration {
+    text-decoration: none; }
+</style>
+
+<section class="vertical-spacing-top">
+    <div class="grid-container">
+        <div class="column-full-width">
+        <div class="inner">
+            <h2>Using automated clustering of the geometry of bulk MHC class I crystal structures to probe the plasticity of the antigen binding cleft and the flexibility of peptide conformers</h2>
+            <div class="vertical-spacing-bottom-0-5"><strong>Christopher J. Thorpe</strong> - Currently without organisational affiliation, returning from a career break.</div>
+            <p>British Society for Immunology 2021 Poster [P-054]</p>
+            <p><a href="https://data.histo.fyi/posters/bsi-2021-p-054.pdf" target="_new">High resolution poster download</a></p>
+        </div>
+        </div>
+    </div>
+</section>
+  
+
+<section class="vertical-spacing-top">
+    <div class="grid-container">
+        <div class="column-three-quarters">
+        <div class="inner">
+            <a name="introduction" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom vertical-spacing-top">Introduction</h3></a>
+            <p>
+                MHC Class I molecules bind a variety of peptides, conforming to a motif, in an antigen binding cleft and present them to T cells. The three-dimensional fold of these molecules is highly conserved across alleles and species, yet variability of amino acids and the underlying plasticity of the binding groove is the determinant of a wide range of peptide motifs.
+            </p>
+            <p>
+                This variability and plasticity make these molecules challenging for high fidelity 3D structure prediction. Even recent exciting developments, AlphaFold2 and RoseTTAFold, struggle to define accurate atomic-scale models of MHC class I:peptide complexes. This is largely due to insufficient fidelity in template selection/alteration, not taking into account the concerted side-chain movements within the cleft that rearrange to adapt to bound peptide and allelic variations.
+            </p>
+            <a name="aims" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom vertical-spacing-top">Aims</h3></a>
+            <p>
+                To understand the variability in the cleft and bound peptide, bulk analysis of known 3D structures of MHC class I:peptide complexes has been performed. Dictionaries of side-chain angles for the cleft and peptide backbone have been created for over 700 MHC class I structures. These dictionaries have then been automatically clustered and analyzed. Further analysis of these clusters, their intersections and their relationship to each other and the underlying sequences of the MHC:peptide complexes will hopefully lead to better fragment selection for homology modelling and a set of restraints for molecular simulations.
+            </p>
+            <a name="results" class="no-decoration"><h3 class="heading-medium vertical-spacing-top">Results</h3></a>
+            <h4 class="heading-small vertical-spacing-bottom">
+                Dissimilar peptides, bound to dissimilar alleles take similar paths through the peptide binding groove
+            </h4>
+            <p>
+                Clusters were formed from a collection of Class I nonamer peptides using the DBSCAN algorithm (see <a href="https://data.histo.fyi/notebooks/bsi/2021/nonamer-peptides" target="_new">Google Colab notebook</a>) with the backbone phi/psi angles of P4, P5, P6, P7 and P8 being used as input. Picking the optimal value of epsilon yielded a set of 5 clusters and 27 outliers. Reducing the number of angles to those with greatest variability as input data for clustering reduced the number of outliers. A similar analysis was performed for octamers with less variablility shown.
+            </p>
+            <p>
+                In the 5 clusters, three of them have the P5 position pointing downwards into the floor of the cleft or towards the alpha1 helix of the Class I molecule using the C-pocket as the primary or secondary anchor. 2 of the clusters display similar behaviour, but with the P6 residue mostly sequestered in the C-pocket. 
+            </p>
+            <p>
+                Each cluster has a distinctive phi/psi profile, displayed as a plot and heatmap in the clusters below. Many alleles have promiscuous modes of binding, yet some are more restricted. It is not yet known whether this is due to significantly more structures being available for some alleles e.g. HLA-A*02:01. A homology modelling and molecular dynamics simulations will be performed to look at the viability of modes of binding for alleles with a small number of structures.   
+            </p>
+            <h4 class="heading-small vertical-spacing-bottom vertical-spacing-top">
+                Discrete clusters can be formed using sidechain chi1/chi2 angles of specific residues lining the antigen binding cleft
+            </h4>
+            <p>
+                An analysis was performed of all amino acid residues in the MHC Class I molecule which contact the peptide. The most common of these amino acid positions were collated and a dataset of the chi1/chi2 angles of these positions created. This dataset was clustered using the Birch algorithm (see <a href="https://data.histo.fyi/notebooks/bsi/2021/antigen-binding-cleft" target="_new">Google Colab notebook</a>)and a set of 20 clusters was selected as the optimum starting place to analyse the dataset. 
+            </p>
+            <p>
+                The dataset is significantly more complex to analyse than the clusters of the peptides and further work will be needed to gain more understanding of the clusters. One thing which is emerging on initial analysis is that concommitant rearangements that form part of the plasticity of the groove are visible between clusters. For example the rearrangment of the F-pocket which sequesters the last amino acid of the peptide are clearly distinguishable in individual clusters, as is the rearrangement of the groove to form a distinct ridge in H2-Db.
+            </p>
+            <p>
+                A sample set of clusters and rationale for the differences between complexes of different clusters is displayed. 
+            </p>
+            <a name="further-work" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom vertical-spacing-top">Further work</h3></a>
+            <p>Some of the peptide clusters are well formed but have anchor sidechains directed at different regions of the binding groove. This suggests that although main chain torsion angles are in themselves useful as a mechanism of clustering, they are not entirely sufficient. Including a measure of the direction of the sidechain should yield sub-clusters or improved clusters. 
+            </p>
+            <p>
+                More analysis is needed to optimise the antigen binding cleft clustering in order to discern “critical changes” that result in the reorganisation of the peptide binding cleft and the selection of a specific peptide conformation. The residues selected for clustering need refining to more tightly match the residues on the side walls and floor of the cleft. Clustering of individual features (such as pockets) will be investigated. 
+            </p>
+            <p>
+                Investigations will be performed on the intersections of the peptide and cleft clusters to understand the effect of the peptide on concommitant rearrangements within the binding groove and the groove architecture on peptide conformation. 
+            </p>
+            <p>    
+                The effect of amino acid substitutions will be investigated at through contact maps and side chain torsion angles in closely related MHC Class I alleles and peptides so that predictions can be made for which clusters are likely to represent the structures of as yet unsolved alleles and peptides.
+            </p>
+            <p>    
+                Discussions, suggestions and collaborations would be welcomed.
+            </p>
+            <a name="methods" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom vertical-spacing-top">Methods</h3></a>
+            <p>
+                PDB format structures were obtained from the RCSB. Structures were categorized using a mix automated tools and manual curation for outliers. One molecule per structure was used, unless significant changes in peptide backbone conformation were present.
+            </p>
+            <p>
+                Single molecules were aligned three-dimensionally to a canonical structure (3HLA) with BioPython. Side chain angles within the binding cleft and peptide backbone phi/psi torsion angles were measured with BioPython. Angles were rounded to the nearest integer and negative angles converted into their positive equivalent.
+            </p>
+            <p>
+                Test clusters were generated using a range of target cluster sizes and a variety of different clustering methods to identify optimal algorithms. KMeans, Birch, Mini Batch Kmeans, Agglomerative clustering, DBSCAN and Bayesian Gaussian Mixture were tested. 
+            </p>
+            <p>
+                Clustering was optimised by selecting the parameters which performed best with both the Silhouette score and the Calinski-Harabasz score. Further work is needed to test functions which relate to optimisation of structural features, in addition to statistical optimisation.
+            </p>
+            <p>
+                For clustering of clefts only side chain angles only chi1 and chi2 angles were used. Where angles were missing, such as with Ala/Gly residues, side chain angles were replaced with pseudorandom numbers in the range 0-359 to remove any influence of the underlying amino acid residue at that position. Further experiments will be performed using the mode for chi1/chi2 angles.
+            </p>
+            <a name="notebooks" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom vertical-spacing-top">Notebooks</h3></a>
+            <ul class="vertical-spacing-bottom">
+                <li><a href="https://data.histo.fyi/notebooks/bsi/2021/nonamer-peptides" target="_new">Clustering of MHC Class I bound nonamer peptides</a></li>
+                <li><a href="https://data.histo.fyi/notebooks/bsi/2021/antigen-binding-cleft" target="_new">Initial clustering of MHC Class I binding cleft residues</a></li>
+            </ul>
+            <a name="software-used" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom">Software used</h3></a>
+            <ul class="vertical-spacing-bottom">
+                <li><a href="https://colab.research.google.com/" target="_new">Google Colab</a></li>
+                <li><a href="https://pymol.org/" target="_new">PyMol</a></li>
+                <li><a href="https://www.rcsb.org/" target="_new">RCSB</a></li>
+                <li><a href="https://biopython.org/" target="_new">BioPython</a></li>
+                <li><a href="https://matplotlib.org/" target="_new">Mapplotlib</a></li>
+                <li><a href="https://seaborn.pydata.org/" target="_new">Seaborn</a></li>
+            </ul>
+            <a name="abstract" class="no-decoration"><h3 class="heading-medium vertical-spacing-bottom">Abstract</h3></a>
+            <p>
+                MHC Class I molecules bind a variety of peptides, conforming to a motif, in an antigen binding cleft and present them to T cells. The three-dimensional fold of these molecules is highly conserved across alleles and species, yet variability of amino acids and the underlying plasticity of the binding groove is the determinant of a wide range of peptide motifs.
+            </p>
+            <p>
+                This variability and plasticity make these molecules challenging for high fidelity 3D structure prediction. Even recent exciting developments, AlphaFold2 and RoseTTAFold, struggle to define accurate atomic-scale models of MHC class I:peptide complexes. This is largely due to insufficient fidelity in template selection/alteration, not taking into account the concerted side-chain movements within the cleft that rearrange to adapt to bound peptide and allelic variations.
+            </p>
+            <p>
+                To understand the variability in the cleft and bound peptide, bulk analysis of known 3D structures of MHC class I:peptide complexes has been performed. Dictionaries of side-chain angles for the cleft and peptide backbone have been created for over 700 MHC class I structures. These dictionaries have then been automatically clustered and analyzed.
+            </p>
+            <p>
+                The clustering of peptide backbone angles demonstrates that for octamers/nonamers there are a limited number of "routes" for the peptide through the cleft. The degrees of freedom in the peptide backbone is limited by the steric, hydrophobic, and electrostatic shape of the cleft. These routes are shared by many disparate alleles.
+            </p>
+            <p>
+                Clustering of the side chain geometry within the cleft, without knowledge of sequence, results in clusters that relate to existing MHC class I subgroups, even when noise is introduced for missing angles from Glycine or Alanine amino acids.
+            </p>
+            <p>
+                These clusters, and the interplay between them, can help in template selection and alteration and can be used as restraints and local energy minima to help refine predicted models and explore the effects of substitutions.
+            </p>
+
+        </div>
+        </div>
+        <div class="column-one-quarter">
+            <div class="inner">
+                <div class="vertical-spacing-bottom-0-25">
+                    <strong>Sections</strong>
+                </div>
+                <ul class="body-copy-small">
+                    <li><a href="#introduction">Introduction</a></li>
+                    <li><a href="#aims">Aims</a></li>
+                    <li><a href="#results">Results</a></li>
+                    <li><a href="#further-work">Further work</a></li>
+                    <li><a href="#methods">Methods</a></li>
+                    <li><a href="#notebooks">Notebooks</a></li>
+                    <li><a href="#software-used">Software used</a></li>                    
+                    <li><a href="#abstract">Abstract</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
