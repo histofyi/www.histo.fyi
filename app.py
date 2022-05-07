@@ -1,4 +1,5 @@
 from flask import Flask, request
+from cache import cache
 
 import doi
 
@@ -19,6 +20,14 @@ current_species = ['human', 'mouse', 'chicken', 'norway_rat', 'rhesus_monkey', '
 peptide_lengths = ['octamer', 'nonamer', 'decamer', 'undecamer', 'dodecamer', 'tridecamer', 'tetradecamer', 'pentadecamer']
 
 
+
+config = {
+    "CACHE_TYPE": "SimpleCache",  # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 300, # Flask-Caching related configs
+    "TEMPLATE_DIRS": "templates" # Default template directory
+}
+
+
 def create_app():
     """
     Creates an instance of the Flask app, and associated configuration and blueprints registration for specific routes. 
@@ -35,6 +44,11 @@ def create_app():
     app = Flask(__name__)
     app.config.from_file('config.toml', toml.load)
     app.secret_key = app.config['SECRET_KEY']
+
+    # configuration of the cache from config
+    app.config.from_mapping(config)
+    cache.init_app(app)
+
 
     # removing whitespace from templated returns    
     app.jinja_env.trim_blocks = True
@@ -84,6 +98,7 @@ def check_datastore():
     return scratch_json
 
 
+@cache.memoize(timeout=5)
 def get_species_sets(s3, key_provider):
     species_collection = {
         'class_i':[]
@@ -97,6 +112,7 @@ def get_species_sets(s3, key_provider):
     return species_collection
 
 
+@cache.memoize(timeout=5)
 def get_peptides_sets(s3, key_provider):
     peptides_collection = {
         'class_i':[]
