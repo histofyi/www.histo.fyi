@@ -11,6 +11,8 @@ python-doi = "*"
 biopython = "*"
 numpy = "*"
 toml = "*"
+Flask-Caching = "*"
+pyjwt = "*"
 
 
 [dev-packages]
