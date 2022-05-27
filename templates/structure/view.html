@@ -1,12 +1,38 @@
 {% extends "base.html" %}
 
+{% set nav = 'structures' %}
+
 {% block main %}
 <style>
     small {
         font-size: 11pt;
     }
+    div.chain_block {
+        border-left: 7px solid;
+        padding-left: 10px;
+    }
+
+    div.peptide {
+        border-left-color: #E5E54B;
+    }
+
+    div.class_i_alpha {
+        border-left-color: #61927E;
+    }
+
+    div.beta2m {
+        border-left-color: #E1935B;
+    }
+
+    div.tcr_alpha {
+        border-left-color: #96C45E;
+    }
+
+    div.tcr_beta {
+        border-left-color: #DA4EA9;
+    }
 </style>
-<section class="vertical-spacing-top">
+<section class="">
     <div class="grid-container">
         <div class="column-full-width">
             <small><strong>{{structure.pdb_code|upper}}</strong></small>
@@ -14,43 +40,32 @@
         </div>
         <div class="column-two-thirds">
             <div class="inner">
-
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
-                {% set data_url = "/structures/files/view/aligned/" + pdb_code + "_1.cif"%}
-                
-                <div id="element1" style="height: 600px; width: 550px; position: relative;" class="viewer_3Dmoljs"
-                            
-                data-href={{data_url}}
-                    
-                data-backgroundcolor="0xffffff"
-                
-                data-style='cartoon'
-                
-            ></div>
+                {% include "structure/full_structure_display.html" %}
             </div>
         </div>
         <div class="column-one-third">
             <div class="inner">
-                <h3 class="vertical-spacing-top-0-25 heading-small">Organism</h3>
-                {{structure.organism}}
-                <h3 class="vertical-spacing-top-0-25 heading-small">Locus</h3>
-                <div class="vertical-spacing-bottom-0-5">
-                    {{structure.locus}} ->  
-                    {{structure.allele_group.mhc_alpha}}
-                </div>
-
-                <h3 class="vertical-spacing-top-0-25 heading-small">Chains</h3>
+                <h3 class="vertical-spacing-top-0-5 heading-small">Chains in complex</h3>
                 {% for chain in structure.facets.chains %}
                 {% set thischain = structure.facets.chains[chain] %}
                     <div class="vertical-spacing-bottom-0-25">
-                        <div>
-                            <strong>{{chain}}.</strong> {{thischain.best_match.match}}
-                        </div>
-                        <div>
-                            {{thischain.chains}}
+                        <div class="chain_block {{thischain.best_match.match}}">
+                            <div>
+                                <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
+                            </div>
+                            <div>
+                                {{thischain.chains}}
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
+                <h3 class="vertical-spacing-top-0-5 heading-small">Organism</h3>
+                <div>{{structure.organism.scientific_name}} ({{structure.organism.common_name}})</div>
+                <h3 class="vertical-spacing-top-0-5 heading-small">Locus / Allele group</h3>
+                <div class="vertical-spacing-bottom-0-5">
+                    {{structure.locus}} / 
+                    {{structure.allele_group.mhc_alpha}}
+                </div>
             </div>
         </div>
     </div>
@@ -98,5 +113,7 @@
     </div>
   </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
 
 {% endblock %}

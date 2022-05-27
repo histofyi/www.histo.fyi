@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, make_response
 from cache import cache
 
 
@@ -8,6 +8,7 @@ from common.decorators import templated
 from common.providers import s3Provider, awsKeyProvider
 import common.functions as functions
 from common.forms import request_variables
+from common.helpers import fetch_constants
 
 from common.helpers import fetch_core
 
@@ -268,7 +269,6 @@ def home_route():
     key_provider = awsKeyProvider()
     for collection in collections:
         hydrated_collection = get_collection_items(s3, key_provider, collection)
-        logging.warn(hydrated_collection)
     return {'collections':collections, 'collection_colours':collection_colours}
 
 
@@ -299,8 +299,9 @@ def structures_lookup():
     variables = request_variables(None, ['pdb_code'])
     if variables['pdb_code'] is not None:
         pdb_code = variables['pdb_code'].lower()
-        core_key = awsKeyProvider().block_key(pdb_code, 'core', 'info')
-        data, success, errors = s3.get(core_key)
+        if '_' in pdb_code:
+            pdb_code = pdb_code.split('_')[0]
+        data, success, errors = s3.get(awsKeyProvider().block_key(pdb_code, 'core', 'info'))
     else:
         success = False
     if success:
@@ -327,7 +328,7 @@ def structure_view_route(pdb_code):
             structure['facets'][block] = block_data
         if structure['doi'] is not None:
             structure['doi_url'] = doi.get_real_url_from_doi(structure['doi'])
-    return {'structure':structure, 'pdb_code':pdb_code}
+    return {'structure':structure, 'pdb_code':pdb_code, 'chain_types':fetch_constants('chains')}
 
 
 @app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.cif')
@@ -337,7 +338,10 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
     assembly_identifier = f'{pdb_code}_{assembly_id}'
     file_key = awsKeyProvider().cif_file_key(assembly_identifier, 'split')
     structure_file, success, errors = s3.get(file_key, data_format='cif')
-    return structure_file
+    structure_file = structure_file.decode('utf-8')
+    response = make_response(structure_file, 200)
+    response.mimetype = "text/plain"
+    return response
 
 
 @app.route('/changelog')

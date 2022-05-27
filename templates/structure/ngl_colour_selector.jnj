@@ -1,0 +1,11 @@
+{% for chain in structure.facets.chains %}
+    {% set chain_label = structure.facets.chains[chain]['best_match']['match'] %}
+    {% set chain_letter = structure.facets.chains[chain]['chains'][0] %}
+    {% if chain_label == "peptide" %}
+        data-select{{chain_letter}}="chain:{{chain_letter}}" data-style{{chain_letter}}="stick:colorscheme=yellowCarbon"
+    {% elif chain_label in chain_types %}
+        data-select{{chain_letter}}="chain:{{chain_letter}}" data-style{{chain_letter}}="cartoon:color={{chain_types[chain_label].webglcolor}}" 
+    {% else %}
+        data-select{{chain_letter}}='chain:{{chain_letter}}' data-style{{chain_letter}}='cartoon:color=0xbbbbbb' 
+    {% endif %}
+{% endfor %}
