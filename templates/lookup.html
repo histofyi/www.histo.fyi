@@ -2,15 +2,14 @@
 
 {% block main %}
 
-<section class="vertical-spacing-top">
+<section class="">
   <div class="grid-container">
     <div class="column-full-width">
       <div class="inner">
-        {% include "fragments/search_bar.html" %}
-        <h1 class="vertical-spacing-bottom">Sorry, we can't find that</h1>
+        <h1 class="vertical-spacing-bottom">Sorry, we can't find "{{variables['pdb_code']|upper}}"</h1>
         <p>
             <div class="vertical-spacing-bottom-0-25">
-                If you think this is the PDB code for an MHC molecule, please let us know.
+                If you think "{{variables['pdb_code']|upper}}" is the PDB code for an MHC molecule, please let us know.
             </div>
             
         </p>
