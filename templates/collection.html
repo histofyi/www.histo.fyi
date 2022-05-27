@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% set nav = 'structures' %}
+
+{% block main %}
+
+<section class="phases vertical-spacing-top">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                {% include "fragments/search_bar.html" %}
+                <h1 class="heading-extra-large vertical-spacing-bottom">{{collection.name|capitalize}}</h1>
+            </div>
+        </div>
+    </div>
+
+    <section class="vertical-spacing-top">
+        <div class="grid-container">
+          <div class="column-full-width">
+            <div class="inner">
+              <h2>MHC Class I structures</h2>
+            </div>
+          </div>
+        </div>
+        <div class="grid-container">
+           
+        {% for set_slug in collection['hydrated_members'] %}
+          {% set itemset = collection['hydrated_members'][set_slug]%}
+          <div class="grid-column proto-pipeline-phase">
+              <div class="inner">
+                  <span class="phase-title is-{{collection_colours[collection.slug]}}"><a href="/structures/browse/{{itemset.context}}/{{set_slug}}">{{itemset.metadata.title}}</a></span>
+                  <span class="heading-extra-large phase-count">{{itemset.members|length}}</span><span class="small">{{itemset.description}}</span>
+                  <p class="small">   
+                  </p>    
+                  <br />
+              </div>
+          </div>
+          {% endfor%}
+          
+      
+      
+      </div>
+      </section>
+
+
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                {{collection}}
+            </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

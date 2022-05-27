@@ -30,55 +30,19 @@
         <h2>MHC Class I Structures</h2>
       </div>
     </div>
+    {% for collection in collections %}
+    {% set collection = collections[collection]%}
     <div class="grid-column proto-pipeline-phase">
         <div class="inner">
-            <span class="phase-title is-indy"><a href="/structures/sets/browse/species/">species</a></span>
-            <span class="heading-extra-large phase-count">4</span><span class="small">species</span>
+            <span class="phase-title is-{{collection_colours[collection.slug]}}"><a href="/structures/collections/{{collection.slug}}">{{collection.name}}</a></span>
+            <span class="heading-extra-large phase-count">{{collection.members|length}}</span><span class="small">{{collection.description}}</span>
             <p class="small">   
             </p>    
             <br />
         </div>
     </div>
-
-    <div class="grid-column proto-pipeline-phase">
-      <div class="inner">
-          <span class="phase-title is-purple"><a href="/structures/sets/browse/peptide_length/">peptide length</a></span>
-          <span class="heading-extra-large phase-count">4</span><span class="small">lengths</span>
-          <p class="small">   
-          </p>    
-          <br />
-      </div>
-  </div>
-
-  <div class="grid-column proto-pipeline-phase">
-    <div class="inner">
-        <span class="phase-title is-teal"><a href="/structures/sets/browse/accessory_molecule/">complex type</a></span>
-        <span class="heading-extra-large phase-count">4</span><span class="small">different accessory molucules and receptors</span>
-        <p class="small">
-        </p>    
-        <br />
-    </div>
-</div>
-
-<div class="grid-column proto-pipeline-phase">
-  <div class="inner">
-      <span class="phase-title is-indigo"><a href="/structures/sets/browse/year/">deposition year</a></span>
-      <span class="heading-extra-large phase-count">4</span><span class="small">years</span>
-      <p class="small">
-      </p>    
-      <br />
-  </div>
-</div>
-
-<div class="grid-column proto-pipeline-phase">
-  <div class="inner">
-      <span class="phase-title is-fuel"><a href="/structures/sets/browse/peptide_features/">peptide features</a></span>
-      <span class="heading-extra-large phase-count">4</span><span class="small">features of MHC bound peptides</span>
-      <p class="small">
-      </p>    
-      <br />
-  </div>
-</div>
+    {% endfor%}
+    
 
 
 </div>

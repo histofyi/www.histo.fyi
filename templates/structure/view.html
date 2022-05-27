@@ -1,16 +1,56 @@
 {% extends "base.html" %}
 
 {% block main %}
-
+<style>
+    small {
+        font-size: 11pt;
+    }
+</style>
 <section class="vertical-spacing-top">
     <div class="grid-container">
         <div class="column-full-width">
+            <small><strong>{{structure.pdb_code|upper}}</strong></small>
+            <h1 class="heading-large vertical-spacing-bottom">{{structure.allele.mhc_alpha}} binding {{structure.peptide.sequence}} at {{structure.resolution}}&#8491; resolution</h1>
+        </div>
+        <div class="column-two-thirds">
             <div class="inner">
-                <small><strong>{{structure.pdb_code|upper}}</strong></small>
-                <h1 class="heading-large vertical-spacing-bottom">{{structure.allele.mhc_alpha}} binding {{structure.peptide.sequence}} at {{structure.resolution}}&#8491; resolution</h1>
-                <p>
-                    {{structure}}
-                </p>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
+                {% set data_url = "/structures/files/view/aligned/" + pdb_code + "_1.cif"%}
+                
+                <div id="element1" style="height: 600px; width: 550px; position: relative;" class="viewer_3Dmoljs"
+                            
+                data-href={{data_url}}
+                    
+                data-backgroundcolor="0xffffff"
+                
+                data-style='cartoon'
+                
+            ></div>
+            </div>
+        </div>
+        <div class="column-one-third">
+            <div class="inner">
+                <h3 class="vertical-spacing-top-0-25 heading-small">Organism</h3>
+                {{structure.organism}}
+                <h3 class="vertical-spacing-top-0-25 heading-small">Locus</h3>
+                <div class="vertical-spacing-bottom-0-5">
+                    {{structure.locus}} ->  
+                    {{structure.allele_group.mhc_alpha}}
+                </div>
+
+                <h3 class="vertical-spacing-top-0-25 heading-small">Chains</h3>
+                {% for chain in structure.facets.chains %}
+                {% set thischain = structure.facets.chains[chain] %}
+                    <div class="vertical-spacing-bottom-0-25">
+                        <div>
+                            <strong>{{chain}}.</strong> {{thischain.best_match.match}}
+                        </div>
+                        <div>
+                            {{thischain.chains}}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -42,14 +82,16 @@
             <p>
                 {{ publication.abstract }}
             </p>
-            <p>Data retrieved on [{{structure.last_updated}}] from PDBe REST API</p>
+            <p><small>Data retrieved on [{{structure.last_updated}}] from PDBe REST API</small></p>
         </div>
         <div class="column-one-third">
             <p>Other structures from this publication</p>
             {% for associated_structure in structure.associated_structures %}
+            {% if associated_structure != pdb_code %}
             <p>
-                <strong>{{associated_structure | upper}}</strong>
+                <strong><a href="/structures/view/{{associated_structure}}">{{associated_structure | upper}}</a></strong>
             </p>
+            {% endif %}
             {% endfor %}
         </div>
       </div>
