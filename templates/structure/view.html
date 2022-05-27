@@ -13,7 +13,7 @@
     }
 
     div.peptide {
-        border-left-color: #E5E54B;
+        border-left-color: #F5E54B;
     }
 
     div.class_i_alpha {
@@ -63,8 +63,10 @@
                 <div>{{structure.organism.scientific_name}} ({{structure.organism.common_name}})</div>
                 <h3 class="vertical-spacing-top-0-5 heading-small">Locus / Allele group</h3>
                 <div class="vertical-spacing-bottom-0-5">
-                    {{structure.locus}} / 
-                    {{structure.allele_group.mhc_alpha}}
+                    {{structure.locus}}
+                    {% if structure.allele_group %}
+                    / {{structure.allele_group.mhc_alpha}}
+                    {% endif %}
                 </div>
             </div>
         </div>
