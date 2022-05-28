@@ -1,10 +1,25 @@
-<section class="vertical-spacing-top">
+<section class="">
     <div class="grid-container">
       <div class="column-full-width">
         <div class="inner">
-          <h1 class="vertical-spacing-bottom">Changelog</h1>
-
-          <h2 class="vertical-spacing-bottom">v 0.1</h2>
+          <h1 class="vertical-spacing-bottom heading-extra-large">Changelog</h1>
+          <h2 class="vertical-spacing-bottom heading-large">v 0.2</h2>
+          <ul>
+            <li class="vertical-spacing-bottom-0-25"></li>
+          </ul>
+          <h3 class="vertical-spacing-bottom-0-25 heading-small">
+            Known issues
+          </h3>
+          <ul>
+            <li class="vertical-spacing-bottom-0-25">Single chain complexes are currently not categorized - single chain complexes being a combination of peptide, Class I alpha chain and beta 2 microglobulin joined by linkers. e.g. 2QRI</li>
+            <li class="vertical-spacing-bottom-0-25">Class I alpha chains with a full length sequence in their structure files currently fail on categorization and matching to allele sequences.</li>
+            <li class="vertical-spacing-bottom-0-25">Early structures, either without discernable peptide or with fragments of modelled peptides are not categorized. e.g. 2HLA</li>
+            <li class="vertical-spacing-bottom-0-25">Structures with unusual chain lettering, e.g. D-2 will not have those chains coloured correctly in molecular visualisations. e.g. 7RRG</li>
+            <li class="vertical-spacing-bottom-0-25">52 structures are currently uncategorised, representing just under 4% of the Class I structures analyzed.</li>
+            <li class="vertical-spacing-bottom-0-25">Some gamma/delta T cell receptor containing complexes are not-currently characterised, leading to an under representation in the sets.</li>
+            <li class="vertical-spacing-bottom-0-25">Truncated Class I alpha chains (expressed as antigen binding domains only) are not currently present in the PDBe search query. Future releases will include these by combining a set of different queries. e.g. 6L9K</li>
+          </ul>
+          <h2 class="vertical-spacing-bottom vertical-spacing-top heading-large">v 0.1</h2>
           <ul>
               <li class="vertical-spacing-bottom-0-25">
                   Place holder site built in <a href="https://flask.palletsprojects.com/en/2.0.x/" target="_new">Flask</a>, deployed to <a href="https://aws.amazon.com/lambda/" target="_new">AWS Lambda</a> using <a href="https://github.com/zappa/Zappa" target="_new">Zappa</a>.
@@ -16,6 +31,17 @@
                   Setting up the backend machinery to host datasets of work to date.
               </li>
             </ul>
+          <h2 class="vertical-spacing-top heading-large">Roadmap</h2>
+          <ul>
+            <li>API access</li>
+            <li>MHC Class II</li>
+            <li>Analysis of positions</li>
+            <li>Analysis of complexes with receptors and accessory molecules</li>
+            <li>Analysis of peptide conformation</li>
+            <li>Analysis of MHC cleft rotamers</li>
+            <li>Analysis of coarse scale MHC molecule geometry changes</li>
+            <li>Non-classical MHC Class I</li>
+          </ul>
         </div>
       </div>
     </div>
