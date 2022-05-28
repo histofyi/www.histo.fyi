@@ -1,0 +1,26 @@
+{
+    "context":"species",
+    "slug":"species",
+    "name":"species",
+    "description":"MHC Class I structures of different species",
+    "members":[
+        "human_class_i", 
+        "mouse_class_i", 
+        "chicken_class_i", 
+        "norway_rat_class_i", 
+        "rhesus_monkey_class_i", 
+        "horse_class_i", 
+        "feral_pig_class_i", 
+        "domestic_cat_class_i", 
+        "domestic_dog_class_i", 
+        "domestic_cattle_class_i", 
+        "mallard_duck_class_i", 
+        "european_rabbit_class_i", 
+        "black_fruit_bat_class_i", 
+        "african_clawed_frog_class_i", 
+        "giant_panda_class_i", 
+        "grass_carp_class_i", 
+        "green_anole_lizard_class_i", 
+        "nurse_shark_class_i"
+    ]
+}

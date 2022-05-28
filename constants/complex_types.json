@@ -1,0 +1,12 @@
+{
+    "context":"complex_type",
+    "slug":"complex_types",
+    "name":"complex types",
+    "description":"Different accessory molucules and receptors",
+    "members":[
+        "class_i_with_peptide.json",
+        "class_i_with_peptide_and_alpha_beta_tcr.json",
+        "class_i_with_peptide_and_gamma_delta_tcr.json",
+        "class_i_with_tapbpr.json"
+        ]
+}

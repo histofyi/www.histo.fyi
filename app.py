@@ -7,11 +7,16 @@ import doi
 
 from common.decorators import templated
 from common.providers import s3Provider, awsKeyProvider
-import common.functions as functions
-from common.forms import request_variables
-from common.helpers import fetch_constants
 
-from common.helpers import fetch_core
+import common.functions as functions
+import common.views as views
+import common.filters as filters
+
+from common.forms import request_variables
+from common.helpers import fetch_constants, fetch_core
+
+from sitespecific import get_collection_colours, get_species_sets
+
 
 
 import toml
@@ -22,15 +27,6 @@ import logging
 
 current_species = ['human', 'mouse', 'chicken', 'norway_rat', 'rhesus_monkey', 'horse', 'feral_pig', 'domestic_cat', 'domestic_dog', 'domestic_cattle', 'mallard_duck', 'european_rabbit', 'black_fruit_bat', 'african_clawed_frog', 'giant_panda', 'grass_carp', 'green_anole_lizard', 'nurse_shark']
 peptide_lengths = ['octamer', 'nonamer', 'decamer', 'undecamer', 'dodecamer', 'tridecamer', 'tetradecamer', 'pentadecamer', 'hexadecamer', 'nonadecamer']
-
-
-collection_colours = {
-    'species':'indy',
-    'peptide_lengths':'purple',
-    'complex_types':'teal',
-    'deposition_years':'indigo',
-    'peptide_features':'fuel'
-}
 
 
 collections = {
@@ -189,14 +185,7 @@ def timesince(start_time):
 
 @app.template_filter()
 def structure_title(structure):
-    title = ''
-    if structure['complex']['slug'] == 'class_i_with_peptide':
-        if 'h2-' in structure["allele"]["mhc_alpha"]:
-            allele = structure["allele"]["mhc_alpha"][0:3].upper() + structure["allele"]["mhc_alpha"][3:4].upper() + structure["allele"]["mhc_alpha"][4:]
-        else:
-            allele = structure["allele"]["mhc_alpha"]
-        title = f'{allele} binding {structure["peptide"]["sequence"]} at {structure["resolution"]}&#8491; resolution'
-    return title
+    return filters.structure_title(structure)
 
 
 def check_datastore():
@@ -210,21 +199,7 @@ def check_datastore():
     return scratch_json
 
 
-@cache.memoize(timeout=120)
-def get_species_sets(s3, key_provider):
-    species_collection = {
-        'class_i':[]
-    }
-    count = 0
-    for species in current_species:
-        species_slug = f'{species}_class_i'
-        species_key = key_provider.set_key(species_slug, 'structures', 'species')
-        species_set, success, errors = s3.get(species_key)
-        if species_set:
-            species_collection['class_i'].append(species_set)
-            count += len(species_set['members'])
-    print(count)
-    return species_collection
+
 
 
 @cache.memoize(timeout=120)
@@ -281,7 +256,7 @@ def home_route():
     key_provider = awsKeyProvider()
     for collection in collections:
         hydrated_collection = get_collection_items(s3, key_provider, collection)
-    return {'collections':collections, 'collection_colours':collection_colours}
+    return {'collections':collections, 'collection_colours':get_collection_colours()}
 
 
 @app.route('/structures')
@@ -301,45 +276,19 @@ def structures_collections_route(collection_slug):
     s3 = s3Provider(app.config['AWS_CONFIG'])
     key_provider = awsKeyProvider()
     collection = get_collection_items(s3, key_provider, collection_slug)
-    return {'collection':collection, 'collection_colours':collection_colours}
+    return {'collection':collection, 'collection_colours':get_collection_colours()}
 
 
 @app.route('/structures/lookup')
 @templated('lookup')
-def structures_lookup():
-    s3 = s3Provider(app.config['AWS_CONFIG'])
-    variables = request_variables(None, ['pdb_code'])
-    if variables['pdb_code'] is not None:
-        pdb_code = variables['pdb_code'].lower()
-        if '_' in pdb_code:
-            pdb_code = pdb_code.split('_')[0]
-        data, success, errors = s3.get(awsKeyProvider().block_key(pdb_code, 'core', 'info'))
-    else:
-        success = False
-    if success:
-        return {'redirect_to': f'/structures/view/{pdb_code}'}
-    else:
-        return {'variables': variables}
-
-
+def structure_lookup():
+    return views.structure_lookup()
 
 
 @app.route('/structures/view/<string:pdb_code>')
 @templated('structure/view')
-def structure_view_route(pdb_code):
-    blocks = ['chains', 'allele_match', 'peptide_matches', 'peptide_neighbours', 'peptide_structures', 'peptide_angles', 'cleft_angles', 'c_alpha_distances']
-    structure, success, errors = fetch_core(pdb_code, app.config['AWS_CONFIG'])
-    if success:
-        structure['pdb_code'] = pdb_code
-        structure['facets'] = {}
-        s3 = s3Provider(app.config['AWS_CONFIG'])
-        for block in blocks:
-            block_key = awsKeyProvider().block_key(pdb_code, block, 'info')
-            block_data, success, errors = s3.get(block_key)
-            structure['facets'][block] = block_data
-        if structure['doi'] is not None:
-            structure['doi_url'] = doi.get_real_url_from_doi(structure['doi'])
-    return {'structure':structure, 'pdb_code':pdb_code, 'chain_types':fetch_constants('chains')}
+def structure_view(pdb_code):    
+    return views.structure_view(pdb_code)
 
 
 @app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.cif')

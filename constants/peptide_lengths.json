@@ -1,0 +1,19 @@
+{
+    "context":"peptide_length",
+    "slug":"peptide_lengths",
+    "name":"Peptide lengths",
+    "description":"Structures of MHC Class I bound peptides of different lengths",
+    "members":[
+                "octamer.json",
+                "nonamer.json",
+                "decamer.json",
+                "undecamer.json",
+                "dodecamer.json",
+                "tridecamer.json",
+                "tetradecamer.json",
+                "pentadecamer.json",
+                "hexadecamer.json",
+                "nonadecamer.json",
+                "icosamer.json"
+            ]
+}
