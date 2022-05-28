@@ -1,20 +1,21 @@
+
 {% set publication = structure.publication %}
 <div class="column-two-thirds">
     <h3 class="heading-small">
-        {{publication.citation.title}}
+        {{publication.citation.title | safe}}
     </h3>
     <div>
         {% for author in publication.citation.authors %}
-            {{author.full_name}}{% if not loop.last %}, {% endif %}
+            {{author.full_name | safe }}{% if not loop.last %}, {% endif %}
         {% endfor %}
     </div>
     <div>
         <i>{{publication.citation.iso_abbreviation}}</i> ({{publication.citation.year}}), <strong>{{publication.citation.volume}}</strong>, 
-        {{publication.citation.pages}} [<a href="{{structure.doi_url}}">{{structure.doi }}</a>] [View on PubMed]  
+        {{publication.citation.pages}} [<a href="{{structure.doi_url}}" target="_new">doi://{{structure.doi }}</a>] [View on PubMed]  
     </div>
     <br />
     <p>
-        {{ publication.abstract }}
+        {{ publication.abstract | safe}}
     </p>
-    <p><small>Data retrieved on [{{structure.last_updated}}] from PDBe REST API</small></p>
+    <p><smaller>Data retrieved on [{{structure.last_updated}}] from PDBe REST API<a class="superscript" href="#5">5</a> and PMCe REST API<a class="superscript" href="#2">6</a></smaller></p>
 </div>
