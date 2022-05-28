@@ -4,8 +4,12 @@
 
 {% block main %}
 <style>
-    small {
-        font-size: 11pt;
+    smaller {
+        font-size: 10pt;
+        color: #333355;
+    }
+    a.no-decoration {
+        text-decoration: none;
     }
     div.chain_block {
         border-left: 7px solid;
@@ -31,7 +35,14 @@
     div.tcr_beta {
         border-left-color: #DA4EA9;
     }
+    a.superscript {
+            position: relative; 
+            top: -0.5em; 
+            font-size: 80%; 
+            font-weight: bold;
+    }
 </style>
+
 <section class="">
     <div class="grid-container">
         <div class="column-full-width">
@@ -52,6 +63,15 @@
                         <div class="chain_block {{thischain.best_match.match}}">
                             <div>
                                 <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
+                                {% if thischain.best_match.match == 'class_i_alpha' %}
+                                <br />
+                                {{structure.allele.mhc_alpha}}
+                                {% elif thischain.best_match.match == 'peptide' %}
+                                <br />
+                                {{structure.peptide.sequence}}
+                                {% else %}
+                                
+                                {% endif%}
                             </div>
                             <div>
                                 {{thischain.chains}}
@@ -68,12 +88,17 @@
                     / {{structure.allele_group.mhc_alpha}}
                     {% endif %}
                 </div>
+
             </div>
         </div>
-    </div>
+        <div class="column-full-width">
+            <div class="inner"><smaller>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint.</smaller></div>
+
+        </div>
+</div>
 </section>
 
-<section class="vertical-spacing-top">
+<section class="">
     <div class="grid-container">
         <div class="column-full-width">
             <div class="inner">
@@ -84,10 +109,12 @@
         {% include "structure/publication_block.html" %}
         <div class="column-one-third">
             <p>Other structures from this publication</p>
-            {% for associated_structure in structure.associated_structures %}
+            {% for associated_structure in associated_structures %}
             {% if associated_structure != pdb_code %}
             <p>
                 <strong><a href="/structures/view/{{associated_structure}}">{{associated_structure | upper}}</a></strong>
+                <br />
+                {{ associated_structures[associated_structure]|structure_title|safe}}
             </p>
             {% endif %}
             {% endfor %}
@@ -97,6 +124,67 @@
   </div>
 </section>
 
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide</h2>    
+                
+            </div>
+        </div>
+        <div class="column-one-third">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>    
+                
+            </div>
+        </div>
+        <div class="column-one-third">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Crystallography</h2>    
+                {{structure.crystallography}}
+            </div>
+        </div>
+        <div class="column-one-third">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vertical-spacing-top">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <h4 class="heading-small vertical-spacing-bottom-0-25">Footnotes</h4>
+                <ol>
+                    <li><a name="1" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_new">Publication Method</a></li>
+                </ol>
+                
+            </div>
+        </div>
+    </div>
+</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
 
 {% endblock %}
