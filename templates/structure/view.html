@@ -81,26 +81,7 @@
                 <h2 class="heading-medium vertical-spacing-top-0-5">Publication</h2>    
             </div>
         </div>
-        {% set publication = structure.publication %}
-        <div class="column-two-thirds">
-            <h3 class="heading-small">
-                {{publication.citation.title}}
-            </h3>
-            <div>
-                {% for author in publication.citation.authors %}
-                    {{author.full_name}}{% if not loop.last %}, {% endif %}
-                {% endfor %}
-            </div>
-            <div>
-                <i>{{publication.citation.iso_abbreviation}}</i> ({{publication.citation.year}}), <strong>{{publication.citation.volume}}</strong>, 
-                {{publication.citation.pages}} [<a href="{{structure.doi_url}}">{{structure.doi }}</a>] [View on PubMed]  
-            </div>
-            <br />
-            <p>
-                {{ publication.abstract }}
-            </p>
-            <p><small>Data retrieved on [{{structure.last_updated}}] from PDBe REST API</small></p>
-        </div>
+        {% include "structure/publication_block.html" %}
         <div class="column-one-third">
             <p>Other structures from this publication</p>
             {% for associated_structure in structure.associated_structures %}
