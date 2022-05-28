@@ -1,3 +1,4 @@
+from turtle import title
 from flask import Flask, request, make_response
 from cache import cache
 
@@ -186,6 +187,17 @@ def timesince(start_time):
     return functions.timesince(start_time)
 
 
+@app.template_filter()
+def structure_title(structure):
+    title = ''
+    if structure['complex']['slug'] == 'class_i_with_peptide':
+        if 'h2-' in structure["allele"]["mhc_alpha"]:
+            allele = structure["allele"]["mhc_alpha"][0:3].upper() + structure["allele"]["mhc_alpha"][3:4].upper() + structure["allele"]["mhc_alpha"][4:]
+        else:
+            allele = structure["allele"]["mhc_alpha"]
+        title = f'{allele} binding {structure["peptide"]["sequence"]} at {structure["resolution"]}&#8491; resolution'
+    return title
+
 
 def check_datastore():
     """
@@ -308,7 +320,6 @@ def structures_lookup():
         return {'redirect_to': f'/structures/view/{pdb_code}'}
     else:
         return {'variables': variables}
-
 
 
 

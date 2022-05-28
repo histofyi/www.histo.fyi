@@ -36,7 +36,7 @@
     <div class="grid-container">
         <div class="column-full-width">
             <small><strong>{{structure.pdb_code|upper}}</strong></small>
-            <h1 class="heading-large vertical-spacing-bottom">{{structure.allele.mhc_alpha}} binding {{structure.peptide.sequence}} at {{structure.resolution}}&#8491; resolution</h1>
+            <h1 class="heading-large vertical-spacing-bottom">{{structure|structure_title|safe}}</h1>
         </div>
         <div class="column-two-thirds">
             <div class="inner">
