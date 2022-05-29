@@ -1,7 +1,8 @@
 {
     "context":"species",
     "slug":"species",
-    "name":"species",
+    "name":"Species",
+    "title":"Browse by species",
     "description":"MHC Class I structures of different species",
     "members":[
         "human_class_i", 

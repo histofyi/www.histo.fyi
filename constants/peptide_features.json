@@ -1,0 +1,8 @@
+{
+    "context":"peptide_features",
+    "slug":"peptide_features",
+    "name":"Peptide features",
+    "title":"Browse by peptide features",
+    "description":"Structures of MHC Class I bound peptides with different features",
+    "members":[]
+}

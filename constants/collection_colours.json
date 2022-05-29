@@ -1,7 +1,7 @@
 {
     "species":"indy",
-    "peptide_lengths":"purple",
-    "complex_types":"teal",
-    "deposition_years":"indigo",
+    "peptide_length":"purple",
+    "complex_type":"teal",
+    "chronology":"indigo",
     "peptide_features":"fuel"
 }
