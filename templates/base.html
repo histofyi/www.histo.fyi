@@ -19,7 +19,17 @@
   <script defer data-domain="histo.fyi" src="https://plausible.io/js/plausible.js"></script>
 {% block head %}
 {% endblock %}
-  {% block style %}{% endblock %}  
+<style>
+  smaller {
+        font-size: 10pt;
+        color: #333355;
+    }
+    small {
+        font-size: 11pt;
+        color: #333355;
+    }
+</style>
+{% block style %}{% endblock %}  
 </head>
 
 <body>
@@ -76,6 +86,13 @@
       <div class="column-full-width">
         <div class="inner">
             {% include "fragments/logo.svg" %}
+            <p>
+              <smaller>
+              Site version: 0.2
+              /
+              Dataset version: 0.2
+              </smaller>
+            </p>
         </div>
       </div>
     </div>

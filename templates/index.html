@@ -34,7 +34,7 @@
     {% set collection = collections[collection]%}
     <div class="grid-column proto-pipeline-phase">
         <div class="inner">
-            <span class="phase-title is-{{collection_colours[collection.slug]}}"><a href="/structures/collections/{{collection.slug}}">{{collection.name|capitalize}}</a></span>
+            <span class="phase-title is-{{collection_colours[collection.context]}}"><a href="/structures/collections/browse/{{collection.slug}}">{{collection.name|capitalize}}</a></span>
             <span class="heading-extra-large phase-count">{{collection.members|length}}</span><span class="small">{{collection.description}}</span>
             <p class="small">   
             </p>    

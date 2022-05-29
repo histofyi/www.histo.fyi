@@ -12,11 +12,6 @@
                 <div class="vertical-spacing-bottom">
                     Initially the focus is on MHC Class I molecules. MHC Class II molecules will follow on by the autumn. 
                 </div>
-                <p>
-                    Look up by PDB code
-                </p>
-                <hr />
-                <br />
                 <h2>
                     Browse Class I structures by species
                 </h2>        
@@ -25,19 +20,9 @@
     </div>
 
     <div class="grid-container">
-        {% for species in species_collection['class_i'] %}
-        <div class="grid-column proto-pipeline-phase">
-            <div class="inner">
-                <span class="phase-title is-indy"><a href="/structures/sets/browse/species/{{species.metadata.slug}}">{{species['metadata']['title'] | mhc_class_stripper | capitalize}}</a></span>
-                <span class="heading-extra-large phase-count"><a href="#">{{species.members|count}}</a></span>
-                <p class="small">
-                    Last updated:<br />
-                    {{species.last_updated | timesince}}
-                </p>    
-                <br />
-            </div>
-        </div>
-
+        {% for species in species_collection['hydrated_members'] %}
+        {% set item = species_collection['hydrated_members'][species]%}
+        {% include "shared/partials/sets/collection_card.html" %}
         {% endfor %}
     </div>
 
@@ -54,19 +39,9 @@
     </div>
 
     <div class="grid-container">
-        {% for peptide in peptides_collection['class_i'] %}
-        <div class="grid-column proto-pipeline-phase">
-            <div class="inner">
-                <span class="phase-title is-purple"><a href="/structures/sets/browse/peptide_length/{{peptide.metadata.slug}}">{{peptide['metadata']['title'] | capitalize}}</a></span>
-                <span class="heading-extra-large phase-count"><a href="#">{{peptide.members|count}}</a></span>
-                <p class="small">
-                    Last updated:<br />
-                    {{peptide.last_updated | timesince}}
-                </p>    
-                <br />
-            </div>
-        </div>
-
+        {% for peptide in peptides_collection['hydrated_members'] %}
+        {% set item = peptides_collection['hydrated_members'][peptide]%}
+        {% include "shared/partials/sets/collection_card.html" %}
         {% endfor %}
     </div>
 

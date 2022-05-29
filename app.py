@@ -1,5 +1,5 @@
-from turtle import title
 from flask import Flask, request, make_response
+from typing import Dict, List
 from cache import cache
 
 
@@ -13,11 +13,11 @@ import common.views as views
 import common.filters as filters
 
 from common.forms import request_variables
-from common.helpers import fetch_constants, fetch_core
+from common.helpers import fetch_constants, fetch_core, slugify
 
-from sitespecific import get_collection_colours, get_species_sets
+from sitespecific import get_collection_colours, get_collection_sets
 
-
+from common.models import itemSet, Core
 
 import toml
 import datetime
@@ -25,97 +25,6 @@ import datetime
 
 import logging
 
-current_species = ['human', 'mouse', 'chicken', 'norway_rat', 'rhesus_monkey', 'horse', 'feral_pig', 'domestic_cat', 'domestic_dog', 'domestic_cattle', 'mallard_duck', 'european_rabbit', 'black_fruit_bat', 'african_clawed_frog', 'giant_panda', 'grass_carp', 'green_anole_lizard', 'nurse_shark']
-peptide_lengths = ['octamer', 'nonamer', 'decamer', 'undecamer', 'dodecamer', 'tridecamer', 'tetradecamer', 'pentadecamer', 'hexadecamer', 'nonadecamer']
-
-
-collections = {
-    'species':{
-        'context':'species',
-        'slug':'species',
-        'name':'species',
-        'description':'MHC Class I structures of different species',
-        'members':['human_class_i.json','mouse_class_i.json', 'chicken_class_i.json', 'norway_rat_class_i.json', 'rhesus_monkey_class_i.json', 'horse_class_i.json', 'feral_pig_class_i.json']
-    },
-    'peptide_lengths':{
-        'context':'peptide_length',
-        'slug':'peptide_lengths',
-        'name':'peptide lengths',
-        'description':'Lengths of peptides',
-        'members':[
-                    'octamer.json',
-                    'nonamer.json',
-                    'decamer.json',
-                    'undecamer.json',
-                    'dodecamer.json',
-                    'tridecamer.json',
-                    'tetradecamer.json',
-                    'pentadecamer.json',
-                    'hexadecamer.json',
-                    'nonadecamer.json',
-                    'icosamer.json'
-                ]
-    },
-    'complex_types':{
-        'context':'complex_type',
-        'slug':'complex_types',
-        'name':'complex types',
-        'description':'Different accessory molucules and receptors',
-        'members':[
-            'class_i_with_peptide.json',
-            'class_i_with_peptide_and_alpha_beta_tcr.json',
-            'class_i_with_peptide_and_gamma_delta_tcr.json',
-            'class_i_with_tapbpr.json'
-            ]
-    },
-    'deposition_years':{
-        'context':'chronology',
-        'slug':'deposition_years',
-        'name':'deposition years',
-        'description':'Structures deposited in specific years',
-        'members':[
-                    'structures_released_in_1990.json', 
-                    'structures_released_in_1992.json', 
-                    'structures_released_in_1993.json', 
-                    'structures_released_in_1994.json', 
-                    'structures_released_in_1995.json', 
-                    'structures_released_in_1996.json', 
-                    'structures_released_in_1997.json', 
-                    'structures_released_in_1998.json', 
-                    'structures_released_in_1999.json', 
-                    'structures_released_in_2000.json', 
-                    'structures_released_in_2001.json', 
-                    'structures_released_in_2002.json', 
-                    'structures_released_in_2003.json', 
-                    'structures_released_in_2004.json', 
-                    'structures_released_in_2005.json', 
-                    'structures_released_in_2006.json', 
-                    'structures_released_in_2007.json', 
-                    'structures_released_in_2008.json', 
-                    'structures_released_in_2009.json', 
-                    'structures_released_in_2010.json', 
-                    'structures_released_in_2011.json', 
-                    'structures_released_in_2012.json', 
-                    'structures_released_in_2013.json', 
-                    'structures_released_in_2014.json', 
-                    'structures_released_in_2015.json',
-                    'structures_released_in_2016.json',
-                    'structures_released_in_2017.json',
-                    'structures_released_in_2018.json',
-                    'structures_released_in_2019.json',
-                    'structures_released_in_2020.json',
-                    'structures_released_in_2021.json',
-                    'structures_released_in_2022.json'
-                ]
-    },
-    'peptide_features':{
-        'context':'features',
-        'slug':'peptide_features',
-        'name':'peptide features',
-        'description':'Features of MHC bound peptides, extensions, bulges etc',
-        'members':['c_terminally_extended.json']
-    }
-}
 
 
 config = {
@@ -174,8 +83,19 @@ app = create_app()
 
 
 @app.template_filter()
-def mhc_class_stripper(species_title):
-    return species_title.split('Class')[0]
+def collection_title(title):
+    print (title)
+    if 'Class' in title:
+        if len(title.split('Class')[1]) < 4:
+            title = title.split('Class')[0]
+    elif 'structure' in title:
+        if len(title.split('structure')[1]) < 4:
+            title = title.split('structure')[0]
+    elif 'Deposited in' in title:
+        print (len(title.split('Deposited in')[1]))
+        if len(title.split('Deposited in')[1]) >= 4:
+            title = title.split('Deposited in')[1]
+    return title
 
 
 @app.template_filter()
@@ -184,7 +104,12 @@ def timesince(start_time):
 
 
 @app.template_filter()
-def structure_title(structure):
+def short_structure_title(structure):
+    return filters.structure_title(structure, short=True)
+
+
+@app.template_filter()
+def full_structure_title(structure):
     return filters.structure_title(structure)
 
 
@@ -202,61 +127,20 @@ def check_datastore():
 
 
 
-@cache.memoize(timeout=120)
-def get_peptides_sets(s3, key_provider):
-    peptides_collection = {
-        'class_i':[]
-    }
-    count = 0
-    for peptide_slug in peptide_lengths:
-        peptide_key = key_provider.set_key(peptide_slug, 'structures', 'peptide_length')
-        peptide_set, success, errors = s3.get(peptide_key)
-        if peptide_set:
-            peptides_collection['class_i'].append(peptide_set)
-            count += len(peptide_set['members'])
-    print(count)
-    return peptides_collection
-
-
-def get_collection_items(s3, key_provider, collection_slug):
-    collection = get_collection(collection_slug)
-    if collection is not None:
-        context = collection['context']
-        collection['hydrated_members'] = {}
-        collection['all_members'] = []
-        for set_slug in collection['members']:
-            item_key = key_provider.set_key(set_slug.replace('.json',''), 'structures', context)
-            item_set, success, errors = s3.get(item_key)
-            if success:
-                collection['hydrated_members'][set_slug] = item_set
-                collection['all_members'] += item_set['members']
-    return collection
-
-
-
-def get_collections():
-    return collections
-
-
-def get_collection(collection_slug):
-    collections = get_collections()
-    if collection_slug in collections:
-        return collections[collection_slug]
-    else:
-        return None
-
-
 
 @app.route('/')
 @templated('index')
 def home_route():
     scratch_json = check_datastore()
-    collections = get_collections()
     s3 = s3Provider(app.config['AWS_CONFIG'])
     key_provider = awsKeyProvider()
-    for collection in collections:
-        hydrated_collection = get_collection_items(s3, key_provider, collection)
-    return {'collections':collections, 'collection_colours':get_collection_colours()}
+    collections = {}
+    collections['species'] = get_collection_sets(s3, key_provider, 'species')
+    collections['peptide_lengths'] = get_collection_sets(s3, key_provider, 'peptide_lengths')
+    collections['complex_types'] = get_collection_sets(s3, key_provider, 'complex_types')
+    collections['deposition_years'] = get_collection_sets(s3, key_provider, 'deposition_years')
+    collections['peptide_features'] = get_collection_sets(s3, key_provider, 'peptide_features')
+    return {'collection_colours':get_collection_colours(), 'collections':collections}
 
 
 @app.route('/structures')
@@ -265,18 +149,46 @@ def home_route():
 def structures_home_route():
     s3 = s3Provider(app.config['AWS_CONFIG'])
     key_provider = awsKeyProvider()
-    species_collection = get_species_sets(s3, key_provider)
-    peptides_collection = get_peptides_sets(s3, key_provider)
-    return {'species_collection':species_collection, 'peptides_collection':peptides_collection}
+    species_collection = get_collection_sets(s3, key_provider, 'species')
+    peptides_collection = get_collection_sets(s3, key_provider, 'peptide_lengths')
+    return {'species_collection':species_collection, 'peptides_collection':peptides_collection, 'collection_colours':get_collection_colours()}
 
 
-@app.route('/structures/collections/<string:collection_slug>')
+@app.route('/structures/collections/browse/<string:collection_slug>')
 @templated('collection')
 def structures_collections_route(collection_slug):
     s3 = s3Provider(app.config['AWS_CONFIG'])
     key_provider = awsKeyProvider()
-    collection = get_collection_items(s3, key_provider, collection_slug)
+    collection = get_collection_sets(s3, key_provider, collection_slug)
     return {'collection':collection, 'collection_colours':get_collection_colours()}
+
+
+@app.route('/structures/sets/browse/<string:set_context>/<string:set_slug>')
+@templated('shared/browse')
+def structures_sets_route(set_context:str, set_slug:str) -> Dict:
+    """
+    This handler provides the for viewing a set and the various facets
+
+    Args: 
+        userobj (Dict): a dictionary describing the currently logged in user with the correct privileges
+
+    Returns:
+        Dict: a dictionary containing the user object, an empty variables dictionary and an errors array containing the indication that it's an empty form
+
+    """
+    variables = request_variables(None, params=['page_number'])
+    set_slug = slugify(set_slug)
+    set_context = slugify(set_context)
+    itemset = None
+    page_size = 25
+    if variables['page_number'] is not None :
+        page_number = int(variables['page_number'])
+    else:
+        page_number = 1    
+    itemset = itemSet(set_slug, set_context).get(page_number=page_number, page_size=page_size)
+    if itemset is not None:
+        itemset, success, errors = Core(app.config['AWS_CONFIG']).hydrate(itemset)
+    return {'itemset':itemset, 'facet_display':'info'}
 
 
 @app.route('/structures/lookup')

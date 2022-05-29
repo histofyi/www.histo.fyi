@@ -4,15 +4,12 @@
 
 {% block main %}
 <style>
-    smaller {
-        font-size: 10pt;
-        color: #333355;
-    }
+    
     a.no-decoration {
         text-decoration: none;
     }
     div.chain_block {
-        border-left: 7px solid;
+        border-left: 7px solid #888888;
         padding-left: 10px;
     }
 
@@ -31,15 +28,19 @@
     div.tcr_alpha {
         border-left-color: #96C45E;
     }
-
+    div.tcr_gamma {
+        border-left-color: #96C45E;
+    }
     div.tcr_beta {
+        border-left-color: #DA4EA9;
+    }
+    div.tcr_delta {
         border-left-color: #DA4EA9;
     }
     a.superscript {
             position: relative; 
             top: -0.5em; 
             font-size: 80%; 
-            font-weight: bold;
     }
 </style>
 
@@ -47,16 +48,24 @@
     <div class="grid-container">
         <div class="column-full-width">
             <small><strong>{{structure.pdb_code|upper}}</strong></small>
-            <h1 class="heading-large vertical-spacing-bottom">{{structure|structure_title|safe}}</h1>
+            <h1 class="heading-large vertical-spacing-bottom structure-title">{{structure|full_structure_title|safe}}</h1>
         </div>
         <div class="column-two-thirds">
             <div class="inner">
                 {% include "structure/full_structure_display.html" %}
             </div>
+            <h2 class="heading-small vertical-spacing-top-0-5">Structure notes</h2> 
+            <div class="inner"><small>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint.</small></div>
+
         </div>
         <div class="column-one-third">
             <div class="inner">
                 <h3 class="vertical-spacing-top-0-5 heading-small">Chains in complex</h3>
+                {% if structure.complex.label %}
+                    <p>{{structure.complex.label}}</p>
+                {% else %}
+                    <p>Problems in automatic complex type assignment. Known issue being fixed.</p>
+                {% endif %}
                 {% for chain in structure.facets.chains %}
                 {% set thischain = structure.facets.chains[chain] %}
                     <div class="vertical-spacing-bottom-0-25">
@@ -91,10 +100,6 @@
 
             </div>
         </div>
-        <div class="column-full-width">
-            <div class="inner"><smaller>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint.</smaller></div>
-
-        </div>
 </div>
 </section>
 
@@ -114,7 +119,7 @@
             <p>
                 <strong><a href="/structures/view/{{associated_structure}}">{{associated_structure | upper}}</a></strong>
                 <br />
-                {{ associated_structures[associated_structure]|structure_title|safe}}
+                {{ associated_structures[associated_structure]|short_structure_title|safe}}
             </p>
             {% endif %}
             {% endfor %}

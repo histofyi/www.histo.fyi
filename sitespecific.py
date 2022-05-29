@@ -21,20 +21,33 @@ def get_collection(collection_name):
 
 
 #@cache.memoize(timeout=120)
-def get_species_sets(s3, key_provider):
-    species_collection = {
-        'class_i':[]
-    }
+def get_collection_sets(s3, key_provider, collection_name):
     count = 0
-    print ('hello')
-    collection = get_collection('species')
-    print (collection)
-    for species in collection['members']:
-        species_key = key_provider.set_key(species, 'structures', 'species')
-        print (species_key)
-        species_set, success, errors = s3.get(species_key)
-        if species_set:
-            species_collection['class_i'].append(species_set)
-            count += len(species_set['members'])
-    print(count)
-    return species_collection
+    collection = get_collection(collection_name)
+    if collection is not None:
+        context = collection['context']
+        collection['hydrated_members'] = {}
+        collection['all_members'] = []
+        for thing in collection['members']:
+            thing_key = key_provider.set_key(thing, 'structures', context)
+            thing_set, success, errors = s3.get(thing_key)
+            if thing_set:
+                collection['hydrated_members'][thing] = thing_set
+                collection['all_members'] += thing_set['members']
+    return collection
+
+
+
+def get_collection_items(s3, key_provider, collection_slug):
+    collection = get_collection(collection_slug)
+    if collection is not None:
+        context = collection['context']
+        collection['hydrated_members'] = {}
+        collection['all_members'] = []
+        for set_slug in collection['members']:
+            item_key = key_provider.set_key(set_slug.replace('.json',''), 'structures', context)
+            item_set, success, errors = s3.get(item_key)
+            if success:
+                collection['hydrated_members'][set_slug] = item_set
+                collection['all_members'] += item_set['members']
+    return collection
