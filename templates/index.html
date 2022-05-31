@@ -22,7 +22,7 @@
     </div>
   </div>
 </section>
-
+{% if not canned %}
 <section class="vertical-spacing-top-0-5">
   <div class="grid-container">
     <div class="column-full-width">
@@ -44,6 +44,62 @@
     {% endfor%}
   </div>
 </section>
+{% else %}
+<section class="vertical-spacing-top-0-5">
+  <div class="grid-container">
+    <div class="column-full-width">
+      <div class="inner">
+        <h2>MHC Class I Structures</h2>
+      </div>
+    </div>
+    <div class="grid-column proto-pipeline-phase">
+        <div class="inner">
+            <span class="phase-title is-indy"><a href="/structures/collections/browse/species">Species</a></span>
+            <span class="heading-extra-large phase-count">18</span><span class="small">MHC Class I structures of different species</span>
+            <p class="small">   
+            </p>    
+            <br />
+        </div>
+    </div>
+    <div class="grid-column proto-pipeline-phase">
+        <div class="inner">
+            <span class="phase-title is-purple"><a href="/structures/collections/browse/peptide_lengths">Peptide lengths</a></span>
+            <span class="heading-extra-large phase-count">11</span><span class="small">Structures of MHC Class I bound peptides of different lengths</span>
+            <p class="small">   
+            </p>    
+            <br />
+        </div>
+    </div>
+    <div class="grid-column proto-pipeline-phase">
+        <div class="inner">
+            <span class="phase-title is-teal"><a href="/structures/collections/browse/complex_types">Complex types</a></span>
+            <span class="heading-extra-large phase-count">4</span><span class="small">Different accessory molucules and receptors</span>
+            <p class="small">   
+            </p>    
+            <br />
+        </div>
+    </div>
+    <div class="grid-column proto-pipeline-phase">
+        <div class="inner">
+            <span class="phase-title is-indigo"><a href="/structures/collections/browse/deposition_years">Deposition years</a></span>
+            <span class="heading-extra-large phase-count">33</span><span class="small">Structures deposited in specific years</span>
+            <p class="small">   
+            </p>    
+            <br />
+        </div>
+    </div>
+    <div class="grid-column proto-pipeline-phase">
+        <div class="inner">
+            <span class="phase-title is-fuel"><a href="/structures/collections/browse/peptide_features">Peptide features</a></span>
+            <span class="heading-extra-large phase-count">0</span><span class="small">Structures of MHC Class I bound peptides with different features</span>
+            <p class="small">   
+            </p>    
+            <br />
+        </div>
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <section class="">
   <div class="grid-container">

@@ -84,7 +84,6 @@ app = create_app()
 
 @app.template_filter()
 def collection_title(title):
-    print (title)
     if 'Class' in title:
         if len(title.split('Class')[1]) < 4:
             title = title.split('Class')[0]
@@ -113,6 +112,11 @@ def full_structure_title(structure):
     return filters.structure_title(structure)
 
 
+@app.template_filter()
+def slugify_this(text):
+    return slugify(text)
+
+
 def check_datastore():
     """
     A function to return a small piece of JSON to indicate whether or not the connection to AWS is working
@@ -135,12 +139,14 @@ def home_route():
     s3 = s3Provider(app.config['AWS_CONFIG'])
     key_provider = awsKeyProvider()
     collections = {}
-    collections['species'] = get_collection_sets(s3, key_provider, 'species')
-    collections['peptide_lengths'] = get_collection_sets(s3, key_provider, 'peptide_lengths')
-    collections['complex_types'] = get_collection_sets(s3, key_provider, 'complex_types')
-    collections['deposition_years'] = get_collection_sets(s3, key_provider, 'deposition_years')
-    collections['peptide_features'] = get_collection_sets(s3, key_provider, 'peptide_features')
-    return {'collection_colours':get_collection_colours(), 'collections':collections}
+    canned = True
+    if not canned:
+        collections['species'] = get_collection_sets(s3, key_provider, 'species')
+        collections['peptide_lengths'] = get_collection_sets(s3, key_provider, 'peptide_lengths')
+        collections['complex_types'] = get_collection_sets(s3, key_provider, 'complex_types')
+        collections['deposition_years'] = get_collection_sets(s3, key_provider, 'deposition_years')
+        collections['peptide_features'] = get_collection_sets(s3, key_provider, 'peptide_features')
+    return {'collection_colours':get_collection_colours(), 'collections':collections, 'canned':canned}
 
 
 @app.route('/structures')
@@ -203,13 +209,14 @@ def structure_view(pdb_code):
     return views.structure_view(pdb_code)
 
 
-@app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.cif')
+@app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.pdb')
 def structure_file_route(action, structure_type, pdb_code, assembly_id):
     print (action)
     s3 = s3Provider(app.config['AWS_CONFIG'])
     assembly_identifier = f'{pdb_code}_{assembly_id}'
-    file_key = awsKeyProvider().cif_file_key(assembly_identifier, 'split')
-    structure_file, success, errors = s3.get(file_key, data_format='cif')
+    #file_key = awsKeyProvider().cif_file_key(assembly_identifier, 'split')
+    file_key = awsKeyProvider().structure_key(assembly_identifier, 'aligned')
+    structure_file, success, errors = s3.get(file_key, data_format='pdb')
     structure_file = structure_file.decode('utf-8')
     response = make_response(structure_file, 200)
     response.mimetype = "text/plain"
