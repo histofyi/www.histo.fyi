@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+
+{% block title %}{{structure|short_structure_title|safe}}{% endblock %}
 {% set nav = 'structures' %}
 
 {% block main %}
@@ -55,7 +57,7 @@
                 {% include "structure/full_structure_display.html" %}
             </div>
             <h2 class="heading-small vertical-spacing-top-0-5">Structure notes</h2> 
-            <div class="inner"><small>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint.</small></div>
+            <div class="inner"><small>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API<a class="superscript" href="#6">6</a>. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint. Structure visualised with 3DMol<a class="superscript" href="#7">7</a>.</small></div>
 
         </div>
         <div class="column-one-third">
@@ -74,7 +76,7 @@
                                 <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
                                 {% if thischain.best_match.match == 'class_i_alpha' %}
                                 <br />
-                                {{structure.allele.mhc_alpha}}
+                                <a href="/structures/sets/browse/allele/{{structure.allele.mhc_alpha|slugify_this}}">{{structure.allele.mhc_alpha}}</a>
                                 {% elif thischain.best_match.match == 'peptide' %}
                                 <br />
                                 {{structure.peptide.sequence}}
@@ -94,7 +96,7 @@
                 <div class="vertical-spacing-bottom-0-5">
                     {{structure.locus}}
                     {% if structure.allele_group %}
-                    / {{structure.allele_group.mhc_alpha}}
+                    / <a href="/structures/sets/browse/allele_group/{{structure.allele_group.mhc_alpha|slugify_this}}">{{structure.allele_group.mhc_alpha}}</a>
                     {% endif %}
                 </div>
 
@@ -150,8 +152,8 @@
         <div class="column-full-width">
             <div class="inner">
                 <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>    
-                
+                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>   
+                {{structure.facets.peptide_neighbours}}
             </div>
         </div>
         <div class="column-one-third">
@@ -180,10 +182,18 @@
 <section class="vertical-spacing-top">
     <div class="grid-container">
         <div class="column-full-width">
-            <div class="inner">
+            <div class="inner small">
                 <h4 class="heading-small vertical-spacing-bottom-0-25">Footnotes</h4>
                 <ol>
-                    <li><a name="1" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_new">Publication Method</a></li>
+                    <li><a name="1" class="no-decoration">Protein Data Bank Europe </a> - <a href="https://www.ebi.ac.uk/pdbe/coordinates/index.html" target="_new">Coordinate Server</a></li>
+                    <li><a name="2" href="/structures/view/1hhk">1HHK - HLA-A*02:01 binding LLFGYPVYV at 2.5Å resolution</a> - <a href="https://www.wwpdb.org/pdb?id=pdb_00001hhk" target="_new">PDB entry for 1HHK</a></li>
+                    <li><a name="3" class="no-decoration">Protein structure alignment by incremental combinatorial extension (CE) of the optimal path.</a> - <a href="https://pymolwiki.org/index.php/Cealign" target="_new">PyMol CEALIGN Method</a> - <a href="https://academic.oup.com/peds/article/11/9/739/1580846">Publication</a></li>
+                    <li><a name="4" class="no-decoration">PyMol</a> - <a href="https://www.pymol.org/pymol.html" target="_new">PyMol.org/pymol</a></li>
+                    <li><a name="5" class="no-decoration">Levenshtein distance</a> - <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" target="_new">Wikipedia entry</a></li>
+                    <li><a name="6" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_new">Molecules endpoint</a></li>
+                    <li><a name="7" class="no-decoration">3Dmol.js: molecular visualization with WebGL</a> - <a href="https://3dmol.csb.pitt.edu/" target="_new">3DMol.js</a> - <a href="https://academic.oup.com/bioinformatics/article/31/8/1322/213186">Publication</a></li>
+                    <li><a name="8" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_new">Publication endpoint</a></li>
+                    <li><a name="9" class="no-decoration">PubMed Central Europe REST API</a> - <a href="https://europepmc.org/RestfulWebService" target="_new">Articles endpoint</a></li>
                 </ol>
                 
             </div>
