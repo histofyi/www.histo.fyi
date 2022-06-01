@@ -7,25 +7,35 @@
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>   
                 {% set neighbours = structure.facets.peptide_neighbours['1'] %}
-<table width="100%">
-    <tr>
-        {% for position in neighbours %}
-            <td>
-                <strong class="peptide_position"><span class="peptide_position_display border-{{neighbours[position].residue|lower}}">P{{neighbours[position].position }}
-                {{neighbours[position].residue }}</span></strong>
+                <table width="100%">
+                    <tr>
+                        {% for position in neighbours %}
+                            <td>
+                                <strong class="peptide_position"><span class="peptide_position_display border-{{neighbours[position].residue|lower}}">P{{neighbours[position].position }}
+                                {{neighbours[position].residue }}</span></strong>
+                                <br />
+                                <br />
+                                {% for mhc_position in neighbours[position].neighbours %}
+                                    <div class="residue_container"><span class="residue {{mhc_position.residue|lower}}">{{mhc_position.residue}}{{mhc_position.position}}</span></div>
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </table>
                 <br />
+                <h3 class="heading-smaller">Colour key</h3>
+                <div class="vertical-spacing-bottom-0-25">
+                    <span class="aromatic key"><small>Aromatic</small></span>
+                    <span class="hydrophobic key"><small>Hydrophobic</small></span>
+                    <span class="acidic key"><small>Acidic</small></span>
+                    <span class="basic key"><small>Basic</small></span>
+                    <span class="neutral key"><small>Neutral/polar</small></span>
+                </div>
+                <div><small><strong>Colours</strong> selected to match the YRB scheme. [https://www.frontiersin.org/articles/10.3389/fmolb.2015.00056/full]</small></div>
                 <br />
-                {% for mhc_position in neighbours[position].neighbours %}
-                    <div class="residue_container"><span class="residue {{mhc_position.residue|lower}}">{{mhc_position.residue}}{{mhc_position.position}}</span></div>
-                {% endfor %}
-            </td>
-        {% endfor %}
-    </tr>
-</table>
-<br />
-<h3 class="heading-smaller">Colour key</h3>
-<h3 class="heading-smaller">Data provenance</h3>
-{% endif %}
+                <h3 class="heading-smaller">Data provenance</h3>
+                <br />
+            {% endif %}
             </div>
         </div>
       </div>

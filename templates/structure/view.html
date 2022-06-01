@@ -12,10 +12,11 @@
 
     span.residue {
         padding: 4px;
+        border: 1px solid #cccccc;
     }
 
     div.residue_container {
-        padding: 6px;
+        padding: 7px;
     }
 
     strong.peptide_position {
@@ -54,20 +55,25 @@
         border-top-color: rgba(200, 200, 200, 0.8) !important;  
     }
 
+    span.key {
+        padding:4px;
+        border: 1px solid #cccccc;
+    }
 
-    span.ile, span.leu, span.val, span.ala, span.met, span.cys {
+
+    span.ile, span.leu, span.val, span.ala, span.met, span.cys, span.hydrophobic {
         background-color: rgba(229, 222, 80, 0.3);
     }
-    span.trp, span.tyr, span.phe, span.his {
+    span.trp, span.tyr, span.phe, span.his, span.aromatic {
         background-color: rgba(229, 222, 80, 0.5);
     }
-    span.glu, span.asp {
+    span.glu, span.asp, span.acidic {
         background-color: rgba(194, 78, 91, 0.4);
     }
-    span.lys, span.arg {
+    span.lys, span.arg, span.basic {
         background-color: rgba(66, 110, 172, 0.4);
     }
-    span.asn, span.gln, span.thr, span.ser, span.gly, span.his, span.pro {
+    span.asn, span.gln, span.thr, span.ser, span.gly, span.his, span.pro, span.neutral {
         background-color: rgba(200, 200, 200, 0.4);
     }
 
@@ -206,22 +212,11 @@
   </div>
 </section>
 
-<section class="">
-    <div class="grid-container">
-        <div class="column-full-width">
-            <div class="inner">
-                <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide</h2>    
-            </div>
-        </div>
-        <div class="column-one-third">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{% include "structure/peptide.html" %}
 
 {% include "structure/peptide_neighbours.html" %}
+
+{% include "structure/binding_cleft.html" %}
 
 <section class="">
     <div class="grid-container">
