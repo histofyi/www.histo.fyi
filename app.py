@@ -67,7 +67,7 @@ def create_app():
                 'aws_region':app.config['AWS_REGION'],
                 's3_url':app.config['LOCAL_S3_URL'],
                 'local':True,
-                's3_bucket':app.config['S3_BUCKET'] 
+                's3_bucket':app.config['LOCAL_S3_BUCKET'] 
             }
     else:
         app.config['AWS_CONFIG'] = {
