@@ -77,6 +77,11 @@ def create_app():
             'local':False,
             's3_bucket':app.config['S3_BUCKET'] 
     }
+
+    # removing whitespace from templated returns    
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+
     return app
 
 app = create_app()
