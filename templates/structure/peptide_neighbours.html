@@ -1,0 +1,36 @@
+
+{% if structure.facets.peptide_neighbours %}
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>   
+                {% set neighbours = structure.facets.peptide_neighbours['1'] %}
+<table width="100%">
+    <tr>
+        {% for position in neighbours %}
+            <td>
+                <strong class="peptide_position"><span class="peptide_position_display border-{{neighbours[position].residue|lower}}">P{{neighbours[position].position }}
+                {{neighbours[position].residue }}</span></strong>
+                <br />
+                <br />
+                {% for mhc_position in neighbours[position].neighbours %}
+                    <div class="residue_container"><span class="residue {{mhc_position.residue|lower}}">{{mhc_position.residue}}{{mhc_position.position}}</span></div>
+                {% endfor %}
+            </td>
+        {% endfor %}
+    </tr>
+</table>
+<br />
+<h3 class="heading-smaller">Colour key</h3>
+<h3 class="heading-smaller">Data provenance</h3>
+{% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+

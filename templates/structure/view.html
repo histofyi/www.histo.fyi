@@ -6,6 +6,73 @@
 
 {% block main %}
 <style>
+    td {
+        vertical-align: top;
+    }
+
+    span.residue {
+        padding: 4px;
+    }
+
+    div.residue_container {
+        padding: 6px;
+    }
+
+    strong.peptide_position {
+        padding: 10px
+    }
+
+    span.peptide_position_display {
+        border-top: 6px solid #888888;  
+        padding-top: 9px;   
+        padding-right: 5px
+    }
+
+    span.anchor {
+        border-top: 10px solid #888888;
+        padding-top: 5px !important;
+    }
+
+    .border-trp, .border-tyr, .border-phe, .border-his {
+        border-top-color: rgba(229, 222, 80, 0.9) !important;        
+    }
+
+    .border-ile, .border-leu, .border-val, .border-ala, .border-met, .border-cys {
+        border-top-color: rgba(229, 222, 80, 0.7) !important;        
+    }
+
+    .border-asp, .border-glu {
+        border-top-color: rgba(194, 78, 91, 0.7) !important;  
+    }
+
+    .border-lys, .border-arg {
+        border-top-color: rgba(66, 110, 172, 0.7) !important;  
+    }
+
+
+    .border-asn, .border-gln, .border-thr, .border-ser, .border-gly, .border-pro {
+        border-top-color: rgba(200, 200, 200, 0.8) !important;  
+    }
+
+
+    span.ile, span.leu, span.val, span.ala, span.met, span.cys {
+        background-color: rgba(229, 222, 80, 0.3);
+    }
+    span.trp, span.tyr, span.phe, span.his {
+        background-color: rgba(229, 222, 80, 0.5);
+    }
+    span.glu, span.asp {
+        background-color: rgba(194, 78, 91, 0.4);
+    }
+    span.lys, span.arg {
+        background-color: rgba(66, 110, 172, 0.4);
+    }
+    span.asn, span.gln, span.thr, span.ser, span.gly, span.his, span.pro {
+        background-color: rgba(200, 200, 200, 0.4);
+    }
+
+</style>
+<style>
     
     a.no-decoration {
         text-decoration: none;
@@ -44,22 +111,24 @@
             top: -0.5em; 
             font-size: 80%; 
     }
+
+    .heading-smaller {
+        font-feature-settings: "salt" on;
+        font-size: 18px;
+        line-height: 26px;
+        font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+        max-width: 800px; }
+        @media screen and (min-width: 600px) {
+            .heading-smaller {
+            font-size: 19px;
+            line-height: 22px; } }
+    
 </style>
 
 <section class="">
     <div class="grid-container">
-        <div class="column-full-width">
-            <small><strong>{{structure.pdb_code|upper}}</strong></small>
-            <h1 class="heading-large vertical-spacing-bottom structure-title">{{structure|full_structure_title|safe}}</h1>
-        </div>
-        <div class="column-two-thirds">
-            <div class="inner">
-                {% include "structure/full_structure_display.html" %}
-            </div>
-            <h2 class="heading-small vertical-spacing-top-0-5">Structure notes</h2> 
-            <div class="inner"><small>Structure downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> with an RMSD of [] using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. Chains assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API<a class="superscript" href="#6">6</a>. Organism data from PDBe REST API. Data for both of these operations from the Molecules endpoint. Structure visualised with 3DMol<a class="superscript" href="#7">7</a>.</small></div>
+        {% include "structure/structure_display.html" %}
 
-        </div>
         <div class="column-one-third">
             <div class="inner">
                 <h3 class="vertical-spacing-top-0-5 heading-small">Chains in complex</h3>
@@ -76,10 +145,12 @@
                                 <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
                                 {% if thischain.best_match.match == 'class_i_alpha' %}
                                 <br />
+                                {% if structure.allele %}
                                 <a href="/structures/sets/browse/allele/{{structure.allele.mhc_alpha|slugify_this}}">{{structure.allele.mhc_alpha}}</a>
                                 {% elif thischain.best_match.match == 'peptide' %}
                                 <br />
                                 {{structure.peptide.sequence}}
+                                {% endif  %}
                                 {% else %}
                                 
                                 {% endif%}
@@ -94,7 +165,11 @@
                 <div>{{structure.organism.scientific_name}} ({{structure.organism.common_name}})</div>
                 <h3 class="vertical-spacing-top-0-5 heading-small">Locus / Allele group</h3>
                 <div class="vertical-spacing-bottom-0-5">
-                    {{structure.locus}}
+                    {% if structure.locus %}
+                        {{structure.locus}}
+                    {% else %}
+                        Locus and allele not yet aligned
+                    {% endif %}
                     {% if structure.allele_group %}
                     / <a href="/structures/sets/browse/allele_group/{{structure.allele_group.mhc_alpha|slugify_this}}">{{structure.allele_group.mhc_alpha}}</a>
                     {% endif %}
@@ -137,7 +212,6 @@
             <div class="inner">
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Peptide</h2>    
-                
             </div>
         </div>
         <div class="column-one-third">
@@ -147,21 +221,7 @@
   </div>
 </section>
 
-<section class="">
-    <div class="grid-container">
-        <div class="column-full-width">
-            <div class="inner">
-                <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide neighbours</h2>   
-                {{structure.facets.peptide_neighbours}}
-            </div>
-        </div>
-        <div class="column-one-third">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+{% include "structure/peptide_neighbours.html" %}
 
 <section class="">
     <div class="grid-container">
