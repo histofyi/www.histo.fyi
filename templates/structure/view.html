@@ -6,6 +6,11 @@
 
 {% block main %}
 <style>
+    .sequence {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12pt;
+    }
+
     td {
         vertical-align: top;
     }
@@ -83,20 +88,33 @@
     a.no-decoration {
         text-decoration: none;
     }
-    div.chain_block {
+
+    td.space-under {
+        margin-bottom:15px !important;
+    }
+
+    div.chain_block, td.chain_block {
         border-left: 7px solid #888888;
         padding-left: 10px;
     }
 
-    div.peptide {
+    td.chain_block {
+        width:25%;
+    }
+
+    div.sequence_block {
+        padding-left:50px;
+    }
+
+    div.peptide, td.peptide {
         border-left-color: #F5E54B;
     }
 
-    div.class_i_alpha {
+    div.class_i_alpha, td.class_i_alpha {
         border-left-color: #61927E;
     }
 
-    div.beta2m {
+    div.beta2m, td.beta2m {
         border-left-color: #E1935B;
     }
 
@@ -217,6 +235,55 @@
 {% include "structure/peptide_neighbours.html" %}
 
 {% include "structure/binding_cleft.html" %}
+
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Chain sequences</h2>    
+            </div>
+        </div>
+        <div class="column-full-width">
+            <table width="100%">
+            {% for chain in structure.facets.chains %}
+            {% set thischain = structure.facets.chains[chain]%}
+            <tr>
+                <td class="chain_block {{thischain.best_match.match}}">
+                    <div><strong>{{chain}}.{{chain_types[thischain.best_match.match]['ui_text']}}</strong></div>
+                    {% if thischain.best_match.match == 'peptide' %}
+                        {% if thischain.source_protein %}
+                            <div>{{thischain.source_protein.protein_name.value}} ({{thischain.source_protein.start_index}}-{{thischain.source_protein.end_index}})</div>
+                        {% endif %}
+                    {% else %}
+                        {% if thischain.best_match.match == 'class_i_alpha' %}
+                            {% if structure.allele %}
+                                <div>{{structure.allele.mhc_alpha}}</div>
+                            {% endif %}
+                        {% else %}
+                            <div>{{chain_types[thischain.best_match.match]['ui_text']}}</div>
+                        {% endif %}
+                    {% endif %}
+                    {% if thischain.source_protein %}
+                        <div>Origin : {{thischain.source_protein.source_organism.scientific_name}}</div>
+                        {% if thischain.source_protein %}
+                            <div>Uniprot [<a href="https://www.uniprot.org/uniprot/{{thischain.source_protein.uniprot_id}}" target="_new">{{thischain.source_protein.uniprot_id}}</a>]</div>
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="sequence_block sequence">{{thischain.sequences[0] | chunked_sequence|safe}}</div>
+                    <br >
+                </td>
+            </tr>
+            <tr><td></td><td></td></tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
+</section>
+
 
 <section class="">
     <div class="grid-container">
