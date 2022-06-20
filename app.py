@@ -21,6 +21,7 @@ from common.models import itemSet, Core
 
 import toml
 import datetime
+import itertools
 
 
 import logging
@@ -120,6 +121,45 @@ def full_structure_title(structure):
 @app.template_filter()
 def slugify_this(text):
     return slugify(text)
+
+
+@app.template_filter()
+def chunked_sequence(sequence):
+    line_length = 60
+    sequence_length = len(sequence)
+    sequence_chunks = []
+    i = 0
+    if len(sequence) < line_length:
+        i = 1
+        chunked_sequence = sequence
+    else:
+        remainder = sequence
+        while len(remainder) > line_length:
+            i += 1
+            sequence_chunks.append(remainder[:line_length])
+            remainder = remainder[line_length:]
+        if len(remainder) > 0: 
+            sequence_chunks.append(remainder)
+            i += 1
+    j = 0
+    numbers = range(10, line_length + 10, 10)
+    row_labels = []
+    if sequence_length > 30:
+        while j < i:
+            row_label = ''
+            for number in numbers:
+                this_number = j * line_length + number
+                this_spacecount = 10 - len(str(this_number))
+                if this_number < sequence_length:
+                    row_label = row_label + '&nbsp;' * this_spacecount + str(this_number)
+            row_labels.append(row_label)
+            j += 1
+    if len(row_labels) == 0:
+        chunked_sequence = sequence
+    else:
+        labelled_chunks = [chunk for chunk in list(itertools.chain(*zip(row_labels, sequence_chunks)))]
+        chunked_sequence = '<br/>'.join(labelled_chunks)
+    return chunked_sequence
 
 
 def check_datastore():
@@ -222,7 +262,11 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
     #file_key = awsKeyProvider().cif_file_key(assembly_identifier, 'split')
     file_key = awsKeyProvider().structure_key(assembly_identifier, 'aligned')
     structure_file, success, errors = s3.get(file_key, data_format='pdb')
-    structure_file = structure_file.decode('utf-8')
+    print (type(structure_file))
+    if not isinstance(structure_file, str):
+        structure_file = structure_file.decode('utf-8')
+    else:
+        structure_file = structure_file.encode('utf-8')
     response = make_response(structure_file, 200)
     response.mimetype = "text/plain"
     return response
