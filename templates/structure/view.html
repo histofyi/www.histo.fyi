@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{structure|short_structure_title|safe}}{% endblock %}
+{% block title %}{{pdb_code|upper}} | {{structure|short_structure_title|safe}}{% endblock %}
 {% set nav = 'structures' %}
 
 {% block main %}
