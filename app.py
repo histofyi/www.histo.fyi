@@ -142,7 +142,7 @@ def imgt_ipd_hla_parser(id):
             resource = 'IPD-MHC'
     if stem and accession_id:
         url = f'https://www.ebi.ac.uk/ipd/{stem}allele/?accession={accession_id}'
-        return f'<strong>{resource}</strong><br />[<a href="{url}">{id}</a>]'
+        return f'<strong>{resource}</strong><br />[<a href="{url}" target="_new">{id}</a>]'
     else:
         return ''
 
