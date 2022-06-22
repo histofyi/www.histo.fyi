@@ -85,12 +85,69 @@
 </style>
 <style>
     
-    a.no-decoration {
-        text-decoration: none;
+
+    span.pocket-heading {
+        border-top: 6px solid #888888;  
+        padding-top: 9px;   
+        padding-right: 5px
     }
 
-    td.space-under {
-        margin-bottom:15px !important;
+
+    span.binds_c_terminus {
+        border-color: #DF6151 !important;
+        background-color: rgba(223, 97, 81, 0.2);
+        border-width: 1px
+    }
+
+    span.binds_pc_1_backbone {
+        border-color: #926066 !important;
+        background-color: rgba(146, 96, 102, 0.2);
+    }
+
+
+    span.binds_p1_backbone {
+        border-color: #626780 !important;
+        background-color: rgba(98, 103, 128, 0.2);
+    }
+
+    span.binds_p2_backbone {
+        border-color: #7A6473 !important;
+        background-color: rgba(122, 100, 115, 0.2);
+    }
+
+
+    span.binds_n_terminus {
+        border-color: #4A6F96 !important;
+        background-color: rgba(74, 111, 150, 0.2);
+    }
+
+
+    span.a-pocket {
+        border-top-color: rgba(255, 223, 184, 1) !important;    
+    }
+
+    span.b-pocket {
+        border-top-color: rgba(252, 202, 226, 1) !important;    
+    }
+
+    span.c-pocket {
+        border-top-color: rgba(174, 211, 211, 1) !important;    
+    }
+
+    span.d-pocket {
+        border-top-color: rgba(174, 230, 174, 1) !important;    
+    }
+
+    span.e-pocket {
+        border-top-color: rgba(149, 149, 192, 1) !important;    
+    }
+
+    span.f-pocket {
+        border-top-color: rgba(228, 187, 123, 1) !important;    
+    }
+
+    a.no-decoration {
+        text-decoration: none;
     }
 
     div.chain_block, td.chain_block {
@@ -282,6 +339,10 @@
             <tr><td></td><td></td></tr>
             {% endfor %}
             </table>
+            <br />
+            <h3 class="heading-smaller">Data provenance</h3>
+            <br />
+
         </div>
     </div>
   </div>
