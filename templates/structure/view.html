@@ -265,9 +265,12 @@
                         {% endif %}
                     {% endif %}
                     {% if thischain.source_protein %}
-                        <div>Origin : {{thischain.source_protein.source_organism.scientific_name}}</div>
+                        <div><strong>Origin</strong><br />{{thischain.source_protein.source_organism.scientific_name}}</div>
+                        {% if structure.facets.allele_match and thischain.best_match.match == 'class_i_alpha'%}
+                        <div>{{structure.facets.allele_match.id|imgt_ipd_hla_parser|safe}}</div>
+                        {% endif %}
                         {% if thischain.source_protein %}
-                            <div>Uniprot [<a href="https://www.uniprot.org/uniprot/{{thischain.source_protein.uniprot_id}}" target="_new">{{thischain.source_protein.uniprot_id}}</a>]</div>
+                            <div><strong>Uniprot</strong><br/>[<a href="https://www.uniprot.org/uniprot/{{thischain.source_protein.uniprot_id}}" target="_new">{{thischain.source_protein.uniprot_id}}</a>]</div>
                         {% endif %}
                     {% endif %}
                 </td>

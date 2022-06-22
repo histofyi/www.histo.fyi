@@ -124,6 +124,30 @@ def slugify_this(text):
 
 
 @app.template_filter()
+def imgt_ipd_hla_parser(id):
+    stem = None
+    accession_id = None
+    if id:
+        if ':' in id:
+            split_id = id.split(':')
+            stem = f'imgt/{split_id[0].lower()}/alleles/'
+            accession_id = split_id[1]
+            resource = 'IPD-IMGT/HLA'
+        elif 'H2-' in id:
+            stem = None
+            accession_id = None
+        else:
+            stem = 'mhc'
+            accession_id = id
+            resource = 'IPD-MHC'
+    if stem and accession_id:
+        url = f'https://www.ebi.ac.uk/ipd/{stem}allele/?accession={accession_id}'
+        return f'<strong>{resource}</strong><br />[<a href="{url}">{id}</a>]'
+    else:
+        return ''
+
+
+@app.template_filter()
 def chunked_sequence(sequence):
     line_length = 60
     sequence_length = len(sequence)
