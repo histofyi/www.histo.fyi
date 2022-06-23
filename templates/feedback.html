@@ -14,7 +14,7 @@
                         Your name and email address will only ever be used to reply to your feedback.
                     </p>
                     <p class="vertical-spacing-top">
-                    <div class="vertical-spacing-bottom-0-5"><small>Fields marked with a * are required.</small></div>
+                    <div class="vertical-spacing-bottom-0-5"><small>{% if errors %}Please check the form, you have not filled in the required fields. {% endif %} Fields marked with a * are required.</small></div>
 
                     {% set action = '/feedback' %}
                     {% set method = 'POST' %}

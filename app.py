@@ -1,4 +1,5 @@
 import re
+from common.providers.slack import slackProvider
 from flask import Flask, request, make_response
 from typing import Dict, List
 from cache import cache
@@ -7,7 +8,7 @@ from cache import cache
 import doi
 
 from common.decorators import templated
-from common.providers import s3Provider, awsKeyProvider, algoliaProvider, steinProvider, plausibleProvider
+from common.providers import s3Provider, awsKeyProvider, algoliaProvider, steinProvider, plausibleProvider, slackProvider
 
 import common.functions as functions
 import common.views as views
@@ -364,12 +365,15 @@ def feedback_form():
 def post_feedback():
     variables = request_variables(None, ['name','email','feedback','url','feedback_type'])
     if variables['name'] is not None and variables['email'] is not None and variables['feedback'] is not None:
+        variables['feedback'] = '\n'.join(variables['feedback'].splitlines())
         variables['date'] = datetime.datetime.now().isoformat()
         stein = steinProvider(app.config['STEIN_API_URL'], app.config['STEIN_USERNAME'], app.config['STEIN_PASSCODE'])
-        data = stein.add('alpha_feedback', variables)
+        stein_response = stein.add('alpha_feedback', variables)
+        slack = slackProvider(app.config['SLACK_WEBHOOK'])
+        slack_response = slack.send('feedback', variables)
         return {'redirect_to': f'/feedback/thank-you'}
     else:
-        return {'variables':variables}
+        return {'variables':variables, 'errors':True}
 
 
 @app.get('/feedback/thank-you')
