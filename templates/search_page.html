@@ -16,6 +16,7 @@
             <div>{{search_results|length}} results</div>
             <br />
             <hr />
+            {% if not empty_search %}
             <p>Page 1 of 1 | 25 items per page</p>
             <strong>1</strong>&nbsp;
             <hr />
@@ -23,6 +24,11 @@
             {% set structures = search_results %}
             {% include "shared/partials/sets/info.html" %}
             </div>
+            {% else %}
+            <div class="vertical-spacing-top vertical-spacing-bottom">
+              Sorry, we can't find any results for that search.
+            </div>
+              {% endif %}
         </div>
     </div>
 </div>

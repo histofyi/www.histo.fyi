@@ -6,7 +6,7 @@ from cache import cache
 import doi
 
 from common.decorators import templated
-from common.providers import s3Provider, awsKeyProvider, algoliaProvider
+from common.providers import s3Provider, awsKeyProvider, algoliaProvider, steinProvider, plausibleProvider
 
 import common.functions as functions
 import common.views as views
@@ -299,16 +299,25 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
 @app.get('/search')
 @templated('search_page')
 def search():
+    empty_search = True
     variables = request_variables(None, params=['query'])
     if variables['query'] is not None:
         query = variables['query']
         algolia = algoliaProvider(app.config['ALGOLIA_APPLICATION_ID'], app.config['ALGOLIA_KEY'])
         search_results, success, errors = algolia.search('core', query)
-        processed_search_results = [{'pdb_code':structure['pdb_code'], 'core':structure} for structure in search_results['hits']]
+        if 'hits' in search_results:
+            if len(search_results['hits']) == 0:
+                plausible = plausibleProvider('histo.fyi')
+                plausible.empty_search(variables['query'])
+                processed_search_results = []
+                success = False
+                errors = ['no_matching results']
+            else:
+                processed_search_results = [{'pdb_code':structure['pdb_code'], 'core':structure} for structure in search_results['hits']]
+                empty_search = False
     else:
         processed_search_results = []
-    return {'search_results':processed_search_results, 'variables':variables}
-
+    return {'search_results':processed_search_results, 'variables':variables, 'empty_search':empty_search}
 
 
 @app.route('/changelog')
