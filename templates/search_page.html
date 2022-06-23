@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block main %}
+<style>
+    td {
+      vertical-align: top;
+    }
+  
+</style>
+
+<section class="">
+    <div class="grid-container">
+      <div class="column-full-width">
+        <div class="inner">
+            <div class="vertical-spacing-top vertical-spacing-bottom">
+            {% set structures = search_results %}
+            {% include "shared/partials/sets/info.html" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

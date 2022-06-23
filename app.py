@@ -6,7 +6,7 @@ from cache import cache
 import doi
 
 from common.decorators import templated
-from common.providers import s3Provider, awsKeyProvider
+from common.providers import s3Provider, awsKeyProvider, algoliaProvider
 
 import common.functions as functions
 import common.views as views
@@ -294,6 +294,21 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
     response = make_response(structure_file, 200)
     response.mimetype = "text/plain"
     return response
+
+
+@app.get('/search')
+@templated('search_page')
+def search():
+    variables = request_variables(None, params=['query'])
+    if variables['query'] is not None:
+        query = variables['query']
+        algolia = algoliaProvider(app.config['ALGOLIA_APPLICATION_ID'], app.config['ALGOLIA_KEY'])
+        search_results, success, errors = algolia.search('core', query)
+        processed_search_results = [{'pdb_code':structure['pdb_code'], 'core':structure} for structure in search_results['hits']]
+    else:
+        processed_search_results = []
+    return {'search_results':processed_search_results}
+
 
 
 @app.route('/changelog')
