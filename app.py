@@ -344,6 +344,8 @@ def posters_route():
 @app.route('/<path:path>')
 @templated('404')
 def error_404(path):
+    plausible = plausibleProvider('histo.fyi')
+    plausible.record_404(path)
     return {'path': path, 'code':404}
 
 
