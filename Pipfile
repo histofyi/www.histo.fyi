@@ -13,12 +13,9 @@ numpy = "*"
 toml = "*"
 Flask-Caching = "*"
 pyjwt = "*"
-
+algoliasearch = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.9"
-
-
-
