@@ -17,10 +17,10 @@
 
     </style>
     
-    <form method="GET" action="/structures/lookup" >
         <table>
             <tr>
                 <td>
+                    <form method="GET" action="/structures/lookup" >
                     <label for="pdb_code" class="inline-label">PDB code</label>
                 </td>
                 <td>{% if variables %}
@@ -31,9 +31,26 @@
                 </td>
                 <td>
                     <input type="submit" class="button-input" value="Look up" />
+                </form>
+                </td>
+                <td>&nbsp;&nbsp;</td>
+                <td>
+                    <form method="GET" action="/search" >
+                    <label for="query" class="inline-label">Search for</label>
+                </td>
+                <td>{% if variables %}
+                        <input type="text" class="text-input" name="query" value="{{variables.query}}"/>
+                    {% else %}
+                        <input type="text" class="text-input" name="query"/>
+                    {% endif %}
+                </td>
+                <td>
+                    <input type="submit" class="button-input" value="Search" /> <!--or use <a href="/search">advanced search</a>-->
+                </form>
                 </td>
             </tr>
         </table>
     </form>
+    
 <br />
 <br />

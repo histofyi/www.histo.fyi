@@ -12,6 +12,13 @@
     <div class="grid-container">
       <div class="column-full-width">
         <div class="inner">
+            <h1 class="vertical-spacing-bottom-0-25">Search for "{{variables.query}}"</h1>
+            <div>{{search_results|length}} results</div>
+            <br />
+            <hr />
+            <p>Page 1 of 1 | 25 items per page</p>
+            <strong>1</strong>&nbsp;
+            <hr />
             <div class="vertical-spacing-top vertical-spacing-bottom">
             {% set structures = search_results %}
             {% include "shared/partials/sets/info.html" %}

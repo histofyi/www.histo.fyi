@@ -307,7 +307,7 @@ def search():
         processed_search_results = [{'pdb_code':structure['pdb_code'], 'core':structure} for structure in search_results['hits']]
     else:
         processed_search_results = []
-    return {'search_results':processed_search_results}
+    return {'search_results':processed_search_results, 'variables':variables}
 
 
 
