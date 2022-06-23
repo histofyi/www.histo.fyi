@@ -1,3 +1,4 @@
+import re
 from flask import Flask, request, make_response
 from typing import Dict, List
 from cache import cache
@@ -350,3 +351,28 @@ def error_404(path):
 
 
 
+
+@app.get('/feedback')
+@templated('feedback')
+def feedback_form():
+    variables = request_variables(None, ['url','feedback_type'])
+    return {'variables':variables}
+
+
+@app.post('/feedback')
+@templated('feedback')
+def post_feedback():
+    variables = request_variables(None, ['name','email','feedback','url','feedback_type'])
+    if variables['name'] is not None and variables['email'] is not None and variables['feedback'] is not None:
+        variables['date'] = datetime.datetime.now().isoformat()
+        stein = steinProvider(app.config['STEIN_API_URL'], app.config['STEIN_USERNAME'], app.config['STEIN_PASSCODE'])
+        data = stein.add('alpha_feedback', variables)
+        return {'redirect_to': f'/feedback/thank-you'}
+    else:
+        return {'variables':variables}
+
+
+@app.get('/feedback/thank-you')
+@templated('feedback')
+def feedback_thanks():
+    return {'message':'Thank you for your feedback. We\'ll be in touch soon'}

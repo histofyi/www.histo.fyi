@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <h1 class="vertical-spacing-bottom">Feedback</h1>
+                {% if not message %}
+                    <p class="vertical-spacing-bottom-0.5">
+                        We will be constantly improving the data, the presentation and the user interface of this site. Your feedback will help us in this endeavour. 
+                    </p><p>
+                        Your name and email address will only ever be used to reply to your feedback.
+                    </p>
+                    <p class="vertical-spacing-top">
+                    <div class="vertical-spacing-bottom-0-5"><small>Fields marked with a * are required.</small></div>
+
+                    {% set action = '/feedback' %}
+                    {% set method = 'POST' %}
+                    {% include "shared/partials/forms/feedback_form.html" %}
+                {% else %}
+                    <p class="vertical-spacing-bottom-0.5">
+                        {{message|safe}}
+                    </p>
+                {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
