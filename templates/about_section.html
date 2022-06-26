@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+<section class="">
+    <div class="grid-container">
+        <div class="column-two-thirds">
+            <div class="inner">
+                {{content|safe}}
+            </div>
+        </div>
+        <div class="column-one-third">
+            <hr/>
+            <ul>
+                {% for item in navigation %}
+                    <li class="vertical-spacing-top-0-25"><a href="{{item.url}}">
+                        {% if route == item.url %}
+                        <strong>{{item.title}}</strong>
+                        {% else %}
+                        {{item.title}}
+                        {% endif %}
+                    </a></li>
+                {% endfor %}
+            </ul>
+            <hr />
+        </div>
+    </div>
+</section>
+
+{% endblock %}

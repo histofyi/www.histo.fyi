@@ -323,7 +323,6 @@ def search():
 
 
 @app.route('/changelog')
-@app.route('/about')
 @templated('content')
 def content_route():
     route = str(request.url_rule)
@@ -331,6 +330,43 @@ def content_route():
     with app.open_resource(content_route) as f:
         content = f.read().decode('UTF-8')
     return {'content': content, 'route':route}
+
+
+
+def about_handler(route):
+    navigation = [
+        {'url': '/about/','title': 'About histo.fyi'},
+        {'url': '/about/why-needed','title': 'Why is this resource needed?'},
+        {'url': '/about/how-can','title': 'How can the data be used?'},
+        {'url': '/about/mhc-molecules-information','title': 'Information about MHC molecules'},
+        {'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
+        {'url': '/about/data-provenance','title': 'Data provenance'},
+        {'url': '/about/data-pipeline','title': 'Data pipeline'},
+        {'url': '/about/why-histo','title': 'Why histo.fyi?'},
+        {'url': '/about/technology-used','title': 'Technology used'},
+        {'url': '/about/acknowledgements-and-references','title': 'Acknowledgements and references'},
+        {'url': '/about/contact','title': 'Contact'},
+        {'url': '/feedback?feedback_type=general','title': 'Feedback'}
+    ]
+    content_route = f'content{route}.html'
+    with app.open_resource(content_route) as f:
+        content = f.read().decode('UTF-8')
+    return {'content': content, 'route':route, 'navigation':navigation}
+
+
+@app.route('/about/')
+@app.route('/about')
+@templated('about_section')
+def about_home():
+    return about_handler('/about')
+    
+
+@app.route('/about/<string:about_page>')
+@templated('about_section')
+def about_page(about_page):
+    route = f'/about/{about_page}'
+    return about_handler(route)
+
 
 
 @app.route('/posters/2021/bsi/')
@@ -368,7 +404,7 @@ def post_feedback():
         variables['feedback'] = '\n'.join(variables['feedback'].splitlines())
         variables['date'] = datetime.datetime.now().isoformat()
         stein = steinProvider(app.config['STEIN_API_URL'], app.config['STEIN_USERNAME'], app.config['STEIN_PASSCODE'])
-        stein_response = stein.add('alpha_feedback', variables)
+        stein_response = stein.add('alpha', variables)
         slack = slackProvider(app.config['SLACK_WEBHOOK'])
         slack_response = slack.send('feedback', variables)
         return {'redirect_to': f'/feedback/thank-you'}

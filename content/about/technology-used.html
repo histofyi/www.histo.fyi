@@ -1,0 +1,23 @@
+<h1 class="vertical-spacing-bottom vertical-spacing-top-0-5 heading-large">Technology used</h1>
+
+<p>
+    The website is developed in <strong>Python</strong> using the  <a href="https://flask.palletsprojects.com/" target="_new"><strong>Flask</strong></a> microframework, with  <a href="https://github.com/zappa/Zappa" target="_new"><strong>Zappa</strong></a> being used to host on  <a href="https://aws.amazon.com/lambda/" target="_new"><strong>AWS Lambda</strong></a>. This allows it to scale up and down and consume as few resources as possible for cost and environmental reasons.
+</p>
+<p>
+    Data is generated in a local pipeline and is queried as static  <a href="https://www.json.org/" target="_new"><strong>JSON</strong></a> objects persisted in  <a href="https://aws.amazon.com/s3/" target="_new"><strong>AWS S3</strong></a>. This again requires no constantly running database instance and is a good fit for "Write infrequently, read often" applications. Structures are served out of S3 directly. The data for each release is available as Open Data from GitHub.
+</p>
+<p>
+    The search is powered by <a href="https://www.algolia.com/" target="_new"><strong>Algolia</strong></a>, with data being posted to Algolia as the last step of the pipeline. Queries are pre-parsed to speed up the search and to use synonyms for outdated nomenclature.
+</p>
+<p>
+    Analtics are provided by <a href="https://plausible.io/" target="_new"><strong>Plausible</strong></a> a "simple, lightweight, open source and privacy-first Google Analytics alternative". Custom analytics events are used for empty searches and page not found errors to help in product management.
+</p>
+<p>
+    <a href="https://steinhq.com/" target="_new"><strong>Stein</strong></a> is used to integrate some elements of the site with Google Sheets. 
+</p>
+<p>
+    Molecules are visualised using xxxx
+</p>
+<p>
+    The UI framework is a development of the <a href="https://design-system.thecatalyst.org.uk/" target="_new"><strong>Catalyst design system</strong></a> designed by <a href="https://www.futurefabric.co/" target="_new"><strong>Guy Moorhouse</strong></a>. 
+</p>
