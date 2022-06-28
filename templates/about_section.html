@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 
-{% block main %}
+{% if metadata %}
+{% block title %}{{metadata.section}} | {{metadata.title}}{% endblock %}
+{% endif %}
 
+{% block main %}
+<style>
+    img.editorial {
+        border:1px solid #ddd;
+    }
+</style>
 <section class="">
     <div class="grid-container">
         <div class="column-two-thirds">
             <div class="inner">
+                {% if metadata %}
+                    <h1 class="vertical-spacing-bottom vertical-spacing-top-0-5 heading-large">{{metadata.title}}</h1>
+                {% endif %}
                 {{content|safe}}
             </div>
         </div>
