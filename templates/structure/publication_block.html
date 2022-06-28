@@ -11,12 +11,12 @@
     </div>
     <div>
         <i>{{publication.citation.iso_abbreviation}}</i> ({{publication.citation.year}}), <strong>{{publication.citation.volume}}</strong>, 
-        {{publication.citation.pages}} [<a href="{{structure.resolved_doi_url}}" target="_new">doi://{{structure.doi }}</a>] [View on PubMed]  
+        {{publication.citation.pages}} [<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>] {# [View on PubMed] #}
     </div>
     <br />
     <p>
         {{ publication.abstract | safe}}
     </p>
     <h3 class="heading-smaller vertical-spacing-top-0-5">Data provenance</h3> 
-    <p><small><strong>Publication data</strong> retrieved on [{{structure.last_updated}}] from PDBe REST API<a class="superscript" href="#8">8</a> and PMCe REST API<a class="superscript" href="#9">9</a></small></p>
+    <p><small><strong>Publication data</strong> retrieved {# on [{{structure.last_updated}}] #} from PDBe REST API<a class="superscript" href="#8">8</a> and PMCe REST API<a class="superscript" href="#9">9</a></small></p>
 </div>
