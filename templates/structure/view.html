@@ -206,6 +206,7 @@
     
 </style>
 
+{% if display %}
 <section class="">
     <div class="grid-container">
         {% include "structure/structure_display.html" %}
@@ -387,5 +388,20 @@
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
+{% else %}
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <small><strong>{{structure.pdb_code|upper}}</strong></small>
+                <h1 class="heading-large vertical-spacing-bottom structure-title">Coming soon...</h1>
+                <p>
+                    {{message|safe}}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
 
 {% endblock %}
