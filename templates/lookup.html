@@ -6,13 +6,24 @@
   <div class="grid-container">
     <div class="column-full-width">
       <div class="inner">
+        {{variables['pdb_code']}}
+        {% set obsolete = {'5cnz':'5h5z'}%}
+
+        {% if variables['pdb_code'].lower() in ['5cnz'] %}
+        <h1 class="vertical-spacing-bottom">You've entered a code for an obsolete structure "{{variables['pdb_code']|upper}}"</h1>
+        <p>
+            <div class="vertical-spacing-bottom-0-25">
+                This structure is now obsolete. Please use '<strong><a href="/structures/view/{{obsolete[variables['pdb_code']]}}">{{obsolete[variables['pdb_code']]}}</a></strong>' in future.
+            </div>
+        </p>
+        {% else %}
         <h1 class="vertical-spacing-bottom">Sorry, we can't find "{{variables['pdb_code']|upper}}"</h1>
         <p>
             <div class="vertical-spacing-bottom-0-25">
                 If you think "{{variables['pdb_code']|upper}}" is the PDB code for an MHC molecule, please let us know.
             </div>
-            
         </p>
+        {% endif %}
       </div>
     </div>
   </div>
