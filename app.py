@@ -135,7 +135,7 @@ def imgt_ipd_hla_parser(id):
             stem = f'imgt/{split_id[0].lower()}/alleles/'
             accession_id = split_id[1]
             resource = 'IPD-IMGT/HLA'
-        elif 'H2-' in id:
+        elif 'H2-' in id or 'mouse' in id.lower() or id.lower().index('sp') == 0:
             stem = None
             accession_id = None
         else:
@@ -338,13 +338,13 @@ def about_handler(route):
         {'url': '/about/','title': 'About histo.fyi'},
         {'url': '/about/why-needed','title': 'Why is this resource needed?'},
         {'url': '/about/how-can','title': 'How can the data be used?'},
-        {'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
-        {'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
+        #{'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
+        #{'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
         {'url': '/about/data-provenance','title': 'Data provenance'},
         {'url': '/about/data-pipeline','title': 'Data pipeline'},
         {'url': '/about/why-histo','title': 'Why histo.fyi?'},
         {'url': '/about/technology-used','title': 'Technology used'},
-        {'url': '/about/acknowledgements-and-references','title': 'Acknowledgements and references'},
+        #{'url': '/about/acknowledgements-and-references','title': 'Acknowledgements and references'},
         {'url': '/about/contact','title': 'Contact'},
         {'url': '/about/team','title': 'Team'},
         {'url': '/feedback?feedback_type=general','title': 'Feedback'}

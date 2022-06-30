@@ -4,19 +4,22 @@
             <div class="inner">
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Peptide details</h2>  
-                <br />
+                <p><strong>Peptide length</strong>: {{structure.peptide.length.text|capitalize}}</p>
+                <br>
             </div>
         </div>
-        <div class="column-two-thirds">
-            Peptide Structure
+        <div class="column-one-half">
+            <strong>Side view</strong>
+            <br />
+            <img src="/static/images/structures/cleft/cutaway/side/{{pdb_code}}_1_combined.png" />
         </div>
-
-        <div class="column-one-third">
-            <h3 class="heading-small">Peptide length</h3>
-            <div>{{structure.peptide.length.text|capitalize}}</div>
-            <br/>
-            <br/>
-            <h3 class="heading-small">Peptide motif</h3>
+        <div class="column-one-half">
+            <strong>Top view</strong>
+            <br />
+            <img src="/static/images/structures/cleft/cutaway/top/{{pdb_code}}_1_combined.png" />
+        </div>
+        <div class="column-full-width vertical-spacing-top">
+            <h3 class="heading-smaller">Data provenance</h3>
         </div>
       </div>
     </div>
