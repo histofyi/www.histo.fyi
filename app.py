@@ -126,6 +126,13 @@ def slugify_this(text):
 
 
 @app.template_filter()
+def html_stripped(text):
+    html_tags = ['strong']
+    for tag in html_tags:
+        text = text.replace(f'<{tag}>','').replace(f'</{tag}>','').replace(f'<{tag}/>','')
+    return text
+
+@app.template_filter()
 def imgt_ipd_hla_parser(id):
     stem = None
     accession_id = None
@@ -341,7 +348,7 @@ def about_handler(route):
         #{'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
         #{'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
         {'url': '/about/data-provenance','title': 'Data provenance'},
-        {'url': '/about/data-pipeline','title': 'Data pipeline'},
+        #{'url': '/about/data-pipeline','title': 'Data pipeline'},
         {'url': '/about/why-histo','title': 'Why histo.fyi?'},
         {'url': '/about/technology-used','title': 'Technology used'},
         #{'url': '/about/acknowledgements-and-references','title': 'Acknowledgements and references'},
