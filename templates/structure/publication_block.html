@@ -10,8 +10,8 @@
         {% endfor %}
     </div>
     <div>
-        <i>{{publication.citation.iso_abbreviation}}</i> ({{publication.citation.year}}), <strong>{{publication.citation.volume}}</strong>, 
-        {{publication.citation.pages}} [<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>] {# [View on PubMed] #}
+        {% if publication.citation.iso_abbreviation %}<i>{{publication.citation.iso_abbreviation}}</i>{% endif %} {% if publication.citation.year %}({{publication.citation.year}}),{% endif %}  {% if publication.citation.iso_abbreviation %}<strong>{{publication.citation.volume}}</strong>,{% endif %} 
+        {% if publication.citation.pages != '-' %}{{publication.citation.pages}}{% endif %} {% if structure.doi %}[<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>]{% endif %} {# [View on PubMed] #}
     </div>
     <br />
     <p>
