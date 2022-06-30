@@ -4,7 +4,8 @@
             <div class="inner">
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Peptide details</h2>  
-                <p><strong>Peptide length</strong>: {{structure.peptide.length.text|capitalize}}</p>
+                <p><strong>Peptide length</strong>: {{structure.peptide.length.text|capitalize}} ({{structure.peptide.length.numeric}} amino acids)</p>
+                <p><strong>Peptide sequence</strong>: {{structure.peptide.sequence}}</p>
                 <br>
             </div>
         </div>
@@ -20,6 +21,7 @@
         </div>
         <div class="column-full-width vertical-spacing-top">
             <h3 class="heading-smaller">Data provenance</h3>
+            <div><small><strong>MHC:peptide complexes</strong> are visualised using PyMol. The peptide is superimposed on a consistent cutaway slice of the MHC binding cleft (displayed as a grey mesh) which best indicates the binding pockets for the <strong>P1</strong>/<strong>P5</strong>/<strong>PC</strong> positions (side view - pockets <strong>A</strong>, <strong>E</strong>, <strong>F</strong>) and for the <strong>P2</strong>/<strong>P3</strong>/<strong>PC-2</strong> positions (top view - pockets <strong>B</strong>, <strong>C</strong>, <strong>D</strong>). In some cases peptides will use a different pocket for a specific peptide position (atypical anchoring). On some structures the peptide may appear to sterically clash with a pocket. This is an artefact of picking a standardised slice of the cleft and overlaying the peptide.</small></div>
         </div>
       </div>
     </div>
