@@ -345,7 +345,7 @@ def about_handler(route):
         {'url': '/about/','title': 'About histo.fyi'},
         {'url': '/about/why-needed','title': 'Why is this resource needed?'},
         {'url': '/about/how-can','title': 'How can the data be used?'},
-        #{'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
+        {'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
         #{'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
         {'url': '/about/data-provenance','title': 'Data provenance'},
         #{'url': '/about/data-pipeline','title': 'Data pipeline'},

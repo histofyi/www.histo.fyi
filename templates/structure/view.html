@@ -342,7 +342,7 @@
             </table>
             <br />
             <h3 class="heading-smaller">Data provenance</h3>
-            <br />
+            <div><small><strong>Sequences</strong> are retrieved via the Uniprot method of the RSCB REST API. Sequences are then compared to those derived from the PDB file and matched against sequences retrieved from the IPD-IMGT/HLA database for human sequences, or the IPD-MHC database for other species. Mouse sequences are matched against FASTA files from Uniprot. Sequences for the mature extracellular protein (signal petide and cytoplasmic tail removed) are compared to identical length sequences from the datasources mentioned before using either exact matching or Levenshtein distance based matching.</small></div>
 
         </div>
     </div>
@@ -365,9 +365,10 @@
                 <div><strong>gamma</strong>: {{structure.crystallography.cell.gamma}}</div>
                 </p>
                 <p><strong>Spacegroup</strong>: {{structure.crystallography.spacegroup}}</p>
+                <br />
+                <h3 class="heading-smaller">Data provenance</h3>
+
             </div>
-        </div>
-        <div class="column-one-third">
         </div>
       </div>
     </div>
