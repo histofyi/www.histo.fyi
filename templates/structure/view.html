@@ -348,7 +348,7 @@
     </div>
   </div>
 </section>
-
+{# 
 {% if structure.crystallography %}
 <section class="">
     <div class="grid-container">
@@ -375,8 +375,71 @@
   </div>
 </section>
 {% endif %}
+#}
 
-<section class="vertical-spacing-top">
+<section class="">
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5">Downloadable data</h2>  
+            </div>
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Complete structures</h3>
+            <div class="vertical-spacing-bottom-0-25"><strong>Aligned structures [cif]</strong></div>
+            {% set item_folder = "aligned" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Components</h3>
+            <div><strong>MHC Class I alpha chain [cif]</strong></div>
+            {% set item_folder = "alpha" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+            <div><strong>MHC Class I antigen binding domain (alpha1/alpha2) [cif]</strong></div>
+            {% set item_folder = "abd" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+            <div><strong>Peptide only [cif]</strong></div>
+            {% set item_folder = "peptide" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Derived data</h3>
+            {#
+            <div><strong>Calpha - Calpha distances [json]</strong></div>
+            {% set item_folder = "calphas" %}
+            {% set item_format = "json" %}
+            {% include "structure/download_block.html" %}
+            #}
+            <div><strong>Peptide neighbours [json]</strong></div>
+            {% set item_folder = "peptide_neighbours" %}
+            {% set item_format = "json" %}
+            {% include "structure/download_block.html" %}
+        </div>
+        
+        <div class="column-full-width">
+            <div class="inner">
+                <h3 class="heading-smaller">Data license</h3>
+                <div>
+                    <small>The <strong>data</strong> above is made available under a <strong>Creative Commons <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</strong> license</a>. This means you can copy, remix, transform, build and redistribute the material, but you must give appropriate credit, provide a link to the license, and indicate if changes were made.</small>
+                </div>
+                <br />
+                <div>
+                    <small>If you use any data downloaded from this site in a publication, please cite 'https://www.histo.fyi'. A preprint is in preparation.</small>
+                </div>
+                <hr class="vertical-spacing-bottom"/>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+
+<section>
     <div class="grid-container">
         <div class="column-full-width">
             <div class="inner small">
@@ -392,7 +455,7 @@
                     <li><a name="8" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_blank">Publication endpoint</a></li>
                     <li><a name="9" class="no-decoration">PubMed Central Europe REST API</a> - <a href="https://europepmc.org/RestfulWebService" target="_blank">Articles endpoint</a></li>
                 </ol>
-                
+                <hr class="vertical-spacing-bottom"/>                
             </div>
         </div>
     </div>

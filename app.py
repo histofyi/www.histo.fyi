@@ -1,9 +1,9 @@
 import re
 from common.providers.slack import slackProvider
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, Response
 from typing import Dict, List
 from cache import cache
-
+import json
 
 import doi
 
@@ -15,7 +15,7 @@ import common.views as views
 import common.filters as filters
 
 from common.forms import request_variables
-from common.helpers import fetch_constants, fetch_core, slugify
+from common.helpers import fetch_constants, fetch_core, fetch_facet, slugify
 
 from sitespecific import get_collection_colours, get_collection_sets
 
@@ -305,6 +305,33 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
     return response
 
 
+@app.route('/structures/downloads/<string:download_type>/<string:pdb_code>_<string:assembly_id>.<string:file_extension>')
+def download_file_route(download_type, pdb_code, assembly_id, file_extension):
+    print (download_type)
+    s3 = s3Provider(app.config['AWS_CONFIG'])
+    assembly_identifier = f'{pdb_code}_{assembly_id}'
+    if file_extension == 'cif' and download_type in ['aligned','alpha', 'peptide', 'abd']:
+        file_key = awsKeyProvider().cif_file_key(assembly_identifier, download_type)
+        structure_file, success, errors = s3.get(file_key, data_format='cif')
+        if not isinstance(structure_file, str):
+            structure_file = structure_file.decode('utf-8')
+        else:
+            structure_file = structure_file.encode('utf-8')
+        return Response(structure_file,
+                        mimetype="text/plain",
+                        headers={"Content-disposition": f"attachment; filename={pdb_code}_{assembly_id}_{download_type}.cif"})
+    elif file_extension == 'json' and download_type in ['calphas','peptide_neighbours']:
+        data_file, success, errors = fetch_facet(pdb_code, download_type, app.config['AWS_CONFIG'])
+        if assembly_id in data_file:
+            data_file = data_file[assembly_id]
+        data_file = json.dumps(data_file)
+        return Response(data_file,
+                        mimetype="application/json",
+                        headers={"Content-disposition": f"attachment; filename={pdb_code}_{assembly_id}_{download_type}.json"})
+        
+
+
+
 @app.get('/search')
 @templated('search_page')
 def search():
@@ -345,7 +372,7 @@ def about_handler(route):
         {'url': '/about/','title': 'About histo.fyi'},
         {'url': '/about/why-needed','title': 'Why is this resource needed?'},
         {'url': '/about/how-can','title': 'How can the data be used?'},
-        {'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
+        #{'url': '/about/structural-introduction-to-class-i','title': 'A structural introduction to MHC Class I molecules'},
         #{'url': '/about/mhc-binding-molecules','title': 'Information about molecules which bind to MHC molecules'},
         {'url': '/about/data-provenance','title': 'Data provenance'},
         #{'url': '/about/data-pipeline','title': 'Data pipeline'},

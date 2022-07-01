@@ -1,0 +1,5 @@
+<ol>
+    {% for assembly_id in structure.assemblies.files %}
+        <li><a href="/structures/downloads/{{item_folder}}/{{pdb_code}}_{{assembly_id}}.{{item_format}}" target="_blank">{{pdb_code|upper}} assembly {{assembly_id}}</a></li>
+    {% endfor %}
+</ol>
