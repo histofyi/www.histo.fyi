@@ -367,6 +367,8 @@ def about_handler(route):
             value = row.split(':')[1]
             metadata[key] = value
         content = elements[2]
+        if '{{static_route}}' in content:
+            content = content.replace('{{static_route}}', app.config['STATIC_ROUTE'])
     else:
         metadata = None
     return {'content': content, 'route':route, 'navigation':navigation, 'metadata':metadata}
