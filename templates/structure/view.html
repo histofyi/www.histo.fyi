@@ -205,6 +205,15 @@
             line-height: 22px; } }
     
 </style>
+<script>
+    function copyUrl(elementId) {
+        /* Get the the href */
+        var url = document.getElementById(elementId).href;
+
+        /* Copy the text inside the text field */
+        navigator.clipboard.writeText(url);
+    }
+</script>
 
 {% if display %}
 <section class="">
@@ -383,8 +392,15 @@
             <div class="inner">
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Downloadable data</h2>  
+                <div class="vertical-spacing-bottom-0-25">
+                    Data can be downloaded to your local machine by clicking on the links below. Clicking on the clipboard icon will copy the url for the data to your clipboard. This can then be used to load the data directly from the url into an application like PyMol (for 3D structures) using the load command e.g. load http://www.histo.fyi/structures/downloads/1hhk_1_peptide.cif or in the case of json formatted files to use them in notebooks such as Jupyter or GoogleColab.
+                </div>
+                <div class="vertical-spacing-bottom">
+                    Please take note of the data license.
+                </div>
             </div>
         </div>
+        <script src="https://kit.fontawesome.com/cfc6b2d410.js" crossorigin="anonymous"></script>
         <div class="column-one-third">
             <h3 class="heading-small">Complete structures</h3>
             <div class="vertical-spacing-bottom-0-25"><strong>Aligned structures [cif]</strong></div>
@@ -394,15 +410,15 @@
         </div>
         <div class="column-one-third">
             <h3 class="heading-small">Components</h3>
-            <div><strong>MHC Class I alpha chain [cif]</strong></div>
+            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I alpha chain [cif]</strong></div>
             {% set item_folder = "alpha" %}
             {% set item_format = "cif" %}
             {% include "structure/download_block.html" %}
-            <div><strong>MHC Class I antigen binding domain (alpha1/alpha2) [cif]</strong></div>
+            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I antigen binding domain (alpha1/alpha2) [cif]</strong></div>
             {% set item_folder = "abd" %}
             {% set item_format = "cif" %}
             {% include "structure/download_block.html" %}
-            <div><strong>Peptide only [cif]</strong></div>
+            <div class="vertical-spacing-bottom-0-25"><strong>Peptide only [cif]</strong></div>
             {% set item_folder = "peptide" %}
             {% set item_format = "cif" %}
             {% include "structure/download_block.html" %}
@@ -410,12 +426,12 @@
         <div class="column-one-third">
             <h3 class="heading-small">Derived data</h3>
             {#
-            <div><strong>Calpha - Calpha distances [json]</strong></div>
+            <div class="vertical-spacing-bottom-0-25"><strong>Calpha - Calpha distances [json]</strong></div>
             {% set item_folder = "calphas" %}
             {% set item_format = "json" %}
             {% include "structure/download_block.html" %}
             #}
-            <div><strong>Peptide neighbours [json]</strong></div>
+            <div class="vertical-spacing-bottom-0-25"><strong>Peptide neighbours [json]</strong></div>
             {% set item_folder = "peptide_neighbours" %}
             {% set item_format = "json" %}
             {% include "structure/download_block.html" %}
