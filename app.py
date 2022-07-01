@@ -305,8 +305,8 @@ def structure_file_route(action, structure_type, pdb_code, assembly_id):
     return response
 
 
-@app.route('/structures/downloads/<string:download_type>/<string:pdb_code>_<string:assembly_id>.<string:file_extension>')
-def download_file_route(download_type, pdb_code, assembly_id, file_extension):
+@app.route('/structures/downloads/<string:pdb_code>_<string:assembly_id>_<string:download_type>.<string:file_extension>')
+def download_file_route(pdb_code, assembly_id, download_type, file_extension):
     print (download_type)
     s3 = s3Provider(app.config['AWS_CONFIG'])
     assembly_identifier = f'{pdb_code}_{assembly_id}'
