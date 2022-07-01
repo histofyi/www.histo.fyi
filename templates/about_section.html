@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% if metadata %}
-{% block title %}{{metadata.section}} | {{metadata.title}}{% endblock %}
+{% block title %}{{metadata.section}} | {{metadata.title|html_stripped}}{% endblock %}
 {% endif %}
 
 {% block main %}
@@ -15,7 +15,7 @@
         <div class="column-two-thirds">
             <div class="inner">
                 {% if metadata %}
-                    <h1 class="vertical-spacing-bottom vertical-spacing-top-0-5 heading-large">{{metadata.title}}</h1>
+                    <h1 class="vertical-spacing-bottom vertical-spacing-top-0-5 heading-large">{{metadata.title|safe}}</h1>
                 {% endif %}
                 {{content|safe}}
             </div>
