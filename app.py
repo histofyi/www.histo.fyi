@@ -317,17 +317,28 @@ def download_file_route(pdb_code, assembly_id, download_type, file_extension):
             structure_file = structure_file.decode('utf-8')
         else:
             structure_file = structure_file.encode('utf-8')
+        file_name = f'{pdb_code}_{assembly_id}_{download_type}.cif'
+        plausible = plausibleProvider('histo.fyi')    
+        plausible.structure_download(file_name, download_type, pdb_code)    
         return Response(structure_file,
                         mimetype="text/plain",
-                        headers={"Content-disposition": f"attachment; filename={pdb_code}_{assembly_id}_{download_type}.cif"})
-    elif file_extension == 'json' and download_type in ['calphas','peptide_neighbours']:
+                        headers={"Content-disposition": f"attachment; filename={file_name}"})
+            
+    elif file_extension == 'json' and download_type in ['calphas','neighbours']:
+        if download_type == 'neighbours':
+            download_type = 'peptide_neighbours'
+        print (download_type)
         data_file, success, errors = fetch_facet(pdb_code, download_type, app.config['AWS_CONFIG'])
         if assembly_id in data_file:
             data_file = data_file[assembly_id]
         data_file = json.dumps(data_file)
+        file_name = f'{pdb_code}_{assembly_id}_{download_type}.json'
+        print (file_name)
+        plausible = plausibleProvider('histo.fyi')    
+        plausible.data_download(file_name, download_type, pdb_code)    
         return Response(data_file,
                         mimetype="application/json",
-                        headers={"Content-disposition": f"attachment; filename={pdb_code}_{assembly_id}_{download_type}.json"})
+                        headers={"Content-disposition": f"attachment; filename={file_name}"})
         
 
 
@@ -336,24 +347,45 @@ def download_file_route(pdb_code, assembly_id, download_type, file_extension):
 @templated('search_page')
 def search():
     empty_search = True
-    variables = request_variables(None, params=['query'])
+    variables = request_variables(None, params=['query','page_number'])
+    if not variables['page_number']:
+        current_page = 1
+    else:
+        current_page = int(variables['page_number'])
+    print (variables)
+    hits = 0
+    pages = 0
+    itemset = {'pagination':{}}
     if variables['query'] is not None:
         query = variables['query']
         algolia = algoliaProvider(app.config['ALGOLIA_APPLICATION_ID'], app.config['ALGOLIA_KEY'])
-        search_results, success, errors = algolia.search('core', query)
-        if 'hits' in search_results:
-            if len(search_results['hits']) == 0:
+        search_results, success, errors = algolia.search('core', query, current_page)
+        if 'nbHits' in search_results:
+            if search_results['nbHits'] == 0:
                 plausible = plausibleProvider('histo.fyi')
                 plausible.empty_search(variables['query'])
                 processed_search_results = []
                 success = False
                 errors = ['no_matching results']
+                itemset['pagination'] = {
+                    'total':0,
+                    'current_page':0,
+                    'page_count':0,
+                    'page_size':25
+                }
             else:
+                itemset['pagination'] = {
+                    'total':search_results['nbHits'],
+                    'current_page':current_page,
+                    'page_count':search_results['nbPages'],
+                    'page_size':25,
+                    'pages':range(1,search_results['nbPages'] + 1)
+                }
                 processed_search_results = [{'pdb_code':structure['pdb_code'], 'core':structure} for structure in search_results['hits']]
                 empty_search = False
     else:
         processed_search_results = []
-    return {'search_results':processed_search_results, 'variables':variables, 'empty_search':empty_search}
+    return {'search_results':processed_search_results, 'variables':variables, 'query':variables['query'], 'page_number':variables['page_number'], 'empty_search':empty_search, 'itemset':itemset}
 
 
 @app.route('/changelog')

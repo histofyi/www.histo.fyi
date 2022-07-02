@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% block title %}search | {{variables.query}}{% endblock %}
+{% set nav = 'structures' %}
+
 {% block main %}
 <style>
     td {
@@ -12,13 +15,13 @@
     <div class="grid-container">
       <div class="column-full-width">
         <div class="inner">
-            <h1 class="vertical-spacing-bottom-0-25">Search for "{{variables.query}}"</h1>
-            <div>{{search_results|length}} results</div>
+            <h1 class="vertical-spacing-bottom-0-25">Fulltext search for "{{variables.query}}"</h1>
+            <div>{{itemset.pagination.total}} results</div>
             <br />
             <hr />
             {% if not empty_search %}
-            <p>Page 1 of 1 | 25 items per page</p>
-            <strong>1</strong>&nbsp;
+            <p>Page {{itemset.pagination.current_page}} of {{itemset.pagination.page_count}} | {{itemset.pagination.page_size}} items per page</p>
+            {% include "shared/partials/sets/pagination.html" %}
             <hr />
             <div class="vertical-spacing-top vertical-spacing-bottom">
             {% set structures = search_results %}
@@ -28,7 +31,14 @@
             <div class="vertical-spacing-top vertical-spacing-bottom">
               Sorry, we can't find any results for that search.
             </div>
-              {% endif %}
+            {% endif %}
+            {% if not empty_search %}
+            <hr />
+            {% include "shared/partials/sets/pagination.html" %}
+            {% endif %}
+            <br />
+            <br />
+            <br />    
         </div>
     </div>
 </div>

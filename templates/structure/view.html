@@ -393,7 +393,7 @@
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5">Downloadable data</h2>  
                 <div class="vertical-spacing-bottom-0-25">
-                    Data can be downloaded to your local machine by clicking on the links below. Clicking on the clipboard icon will copy the url for the data to your clipboard. This can then be used to load the data directly from the url into an application like PyMol (for 3D structures) using the load command e.g. load http://www.histo.fyi/structures/downloads/1hhk_1_peptide.cif or in the case of json formatted files to use them in notebooks such as Jupyter or GoogleColab.
+                    Data can be downloaded to your local machine by clicking on the links below. Clicking on the clipboard icon will copy the url for the data to your clipboard. This can then be used to load the structure/data directly from the url into an application like PyMol (for 3D structures) using the load command e.g. 'load http://www.histo.fyi/structures/downloads/1hhk_1_peptide.cif' or in the case of json formatted files to use them in notebooks such as Jupyter or GoogleColab.
                 </div>
                 <div class="vertical-spacing-bottom">
                     Please take note of the data license.
@@ -432,7 +432,7 @@
             {% include "structure/download_block.html" %}
             #}
             <div class="vertical-spacing-bottom-0-25"><strong>Peptide neighbours [json]</strong></div>
-            {% set item_folder = "peptide_neighbours" %}
+            {% set item_folder = "neighbours" %}
             {% set item_format = "json" %}
             {% include "structure/download_block.html" %}
         </div>
