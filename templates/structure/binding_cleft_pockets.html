@@ -2,10 +2,28 @@
 <section class="">
     <div class="grid-container">
         <div class="column-full-width">
-            <div class="inner">
-                <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Binding cleft details</h2>  
+          <div class="inner">
+              <hr />
+              <h2 class="heading-medium vertical-spacing-top-0-5"><a name="binding_cleft_pockets" class="anchor"></a>Binding cleft pockets</h2>  
+              <br />
+          </div>
+        </div>
+        <div class="column-one-half">
+          <div class="inner">
+                  <strong>Peptide sidechain binding pockets</strong> (static)
+                  <br />
+                  <img src="{{static_route}}/images/structures/cleft/pockets/{{pdb_code}}_labelled_medium.png" />
+                </div>
+          </div>
+            <div class="column-one-half">
+              <div class="inner">
+                <strong>Peptide terminii and backbone binding residues</strong> (static)
                 <br />
+                <img src="{{static_route}}/images/structures/cleft/terminii/{{pdb_code}}_labelled_medium.png" />
+              </div>
+          </div>
+          <div class="column-full-width">
+            <div class="inner">
                 <table width="100%">
                   <tr>
                     {% for pocket in structure.facets.pockets.pockets %}

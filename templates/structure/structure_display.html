@@ -1,27 +1,22 @@
 {% set data_url = "/structures/files/view/aligned/" + pdb_code + "_1.pdb"%}
-<div class="column-full-width">
-    <small><strong>{{structure.pdb_code|upper}}</strong></small>
-    <h1 class="heading-large vertical-spacing-bottom structure-title">{{structure|full_structure_title|safe}}</h1>
-</div>
-<div class="column-two-thirds">
-    <div class="inner">
-        <div id="element1" style="height: 600px; width: 600px; position: relative;" class="viewer_3Dmoljs"                            
+        <div id="full_structure" style="height: 600px; width: 600px; position: relative;" class="viewer_3Dmoljs"                            
         data-href="{{data_url}}"
         data-backgroundcolor="0xffffff"
         data-style='cartoon'
         {% include "structure/ngl_colour_selector.jnj" %}
         ></div>
-    </div>
-    <h3 class="heading-smaller vertical-spacing-top-0-5">Data provenance</h3> 
-    <div class="inner"><small>
-        <strong>Structure</strong> downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. 
-        Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> {% if structure.facets.aligned %} with an RMSD of [{{"{:.3f}".format(structure.facets.aligned['1'].alignment.rmsd)}}]{% endif %}
-        using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. 
-        <strong>Chain</strong> assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API<a class="superscript" href="#6">6</a>. 
-        <strong>Organism</strong> data from PDBe REST API. Data for both of these operations from the Molecules endpoint. 
-        <strong>Structure</strong> visualised with 3DMol<a class="superscript" href="#7">7</a>.</small></div>
+        <h3 class="heading-smaller vertical-spacing-top-0-5">Data provenance</h3> 
+        <div class="inner">
+            <small>
+            <strong>Structure</strong> downloaded from PDB Europe using the Coordinate Server<a class="superscript" href="#1">1</a>. 
+    Aligned to residues 1-180 of 1HHK<a class="superscript" href="#2">2</a> {% if structure.facets.aligned %} with an RMSD of [{{"{:.3f}".format(structure.facets.aligned['1'].alignment.rmsd)}}]{% endif %}
+    using the CEALIGN<a class="superscript" href="#3">3</a> function of PyMol<a class="superscript" href="#4">4</a>. 
+    <strong>Chain</strong> assigment using a Levenshtein distance<a class="superscript" href="#5">5</a> method using data from the PDBe REST API<a class="superscript" href="#6">6</a>. 
+    <strong>Organism</strong> data from PDBe REST API. Data for both of these operations from the Molecules endpoint. 
+    <strong>Structure</strong> visualised with 3DMol<a class="superscript" href="#7">7</a>.
+            </small>
+        </div>
 
-</div>
 
 
 

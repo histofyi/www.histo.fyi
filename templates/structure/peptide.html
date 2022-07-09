@@ -1,24 +1,34 @@
 {% if structure.facets.peptide_neighbours %}
 <section class="">
     <div class="grid-container">
-        <div class="column-full-width">
+        <div class="column-full-width vertical-spacing-top">
+            <h2 class="heading-medium vertical-spacing-top-0-5"><a name="peptide_details"></a>Peptide details</h2>
+        </div>
+        <div class="column-two-thirds">
             <div class="inner">
-                <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Peptide details</h2>  
-                <p><strong>Peptide length</strong>: {{structure.peptide.length.text|capitalize}} ({{structure.peptide.length.numeric}} amino acids)</p>
-                <p><strong>Peptide sequence</strong>: {{structure.peptide.sequence}}</p>
-                <br>
+                <strong>Interactive view</strong> 
+                {% set peptide_url = "/structures/files/view/peptide/" + pdb_code + "_1.cif" %}
+                <div id="peptide_structure" style="height: 400px; width: 500px; position: relative;" class="viewer_3Dmoljs"                            
+                data-href="{{peptide_url}}"
+                data-backgroundcolor="0xffffff"
+                data-style="stick:colorscheme=yellowCarbon"
+                ></div>
+
             </div>
         </div>
-        <div class="column-one-half">
-            <strong>Side view</strong>
-            <br />
-            <img src="{{static_route}}/images/structures/cleft/cutaway/side/{{pdb_code}}_1_combined.png" />
+        <div class="column-one-third">              
+            <p><strong>Length</strong>: {{structure.peptide.length.text|capitalize}} ({{structure.peptide.length.numeric}} amino acids)</p>
+            <p><strong>Sequence</strong>: {{structure.peptide.sequence}}</p>
         </div>
         <div class="column-one-half">
-            <strong>Top view</strong>
+            <strong>Cutaway side view</strong> (static)
             <br />
-            <img src="{{static_route}}/images/structures/cleft/cutaway/top/{{pdb_code}}_1_combined.png" />
+            <img src="{{static_route}}/images/structures/cleft/cutaway/side/{{pdb_code}}_1_combined_medium.png" />
+        </div>
+        <div class="column-one-half">
+            <strong>Cutaway top view</strong> (static)
+            <br />
+            <img src="{{static_route}}/images/structures/cleft/cutaway/top/{{pdb_code}}_1_combined_medium.png" />
         </div>
         <div class="column-full-width vertical-spacing-top">
             <h3 class="heading-smaller">Data provenance</h3>

@@ -1,0 +1,26 @@
+<section>
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5"><a name="publication" class="anchor"></a>Publication</h2>    
+            </div>
+        </div>
+        {% include "structure/publication_block.html" %}
+        <div class="column-one-third">
+            <p>Other structures from this publication</p>
+            {% for associated_structure in associated_structures %}
+            {% if associated_structure != pdb_code %}
+            <p>
+                {% set associated_url = "/structures/view/" + associated_structure %}
+                <strong><a href="{{associated_url}}">{{associated_structure | upper}}</a></strong>
+                <br />
+                {{ associated_structures[associated_structure]|short_structure_title(associated_url)|safe}}
+            </p>
+            {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

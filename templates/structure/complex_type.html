@@ -1,0 +1,30 @@
+<h3 class="vertical-spacing-top-0-5 heading-small">Complex type</h3>
+{% if structure.complex.label %}
+    <p>{{structure.complex.label}}</p>
+{% else %}
+    <p>Problems in automatic complex type assignment. Known issue being fixed.</p>
+{% endif %}
+{% for chain in structure.facets.chains %}
+{% set thischain = structure.facets.chains[chain] %}
+    <div class="vertical-spacing-bottom-0-25">
+        <div class="chain_block {{thischain.best_match.match}}">
+            <div>
+                <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
+                {% if thischain.best_match.match == 'class_i_alpha' %}
+                <br />
+                {% if structure.allele %}
+                <a href="/structures/sets/browse/allele/{{structure.allele.mhc_alpha|slugify_this}}">{{structure.allele.mhc_alpha}}</a>
+                {% elif thischain.best_match.match == 'peptide' %}
+                <br />
+                {{structure.peptide.sequence}}
+                {% endif  %}
+                {% else %}
+                
+                {% endif%}
+            </div>
+            <div>
+                {{thischain.chains}}
+            </div>
+        </div>
+    </div>
+{% endfor %}

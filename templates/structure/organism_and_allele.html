@@ -1,0 +1,14 @@
+<h3 class="vertical-spacing-top-0-5 heading-small">Organism</h3>
+<div>{{structure.organism.scientific_name}} ({{structure.organism.common_name}})</div>
+<hr />
+<h3 class="vertical-spacing-top-0-5 heading-small">Locus / Allele group</h3>
+<div class="vertical-spacing-bottom-0-5">
+    {% if structure.locus %}
+        {{structure.locus}}
+    {% else %}
+        Locus and allele not yet assigned
+    {% endif %}
+    {% if structure.allele_group %}
+    / <a href="/structures/sets/browse/allele_group/{{structure.allele_group.mhc_alpha|slugify_this}}">{{structure.allele_group.mhc_alpha}}</a>
+    {% endif %}
+</div>
