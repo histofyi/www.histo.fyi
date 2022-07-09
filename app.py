@@ -1,3 +1,4 @@
+from inspect import cleandoc
 import re
 from common.providers.slack import slackProvider
 from flask import Flask, request, make_response, Response
@@ -8,7 +9,7 @@ import json
 import doi
 
 from common.decorators import templated
-from common.providers import s3Provider, awsKeyProvider, algoliaProvider, steinProvider, plausibleProvider, slackProvider
+from common.providers import s3Provider, awsKeyProvider, algoliaProvider, steinProvider, plausibleProvider, slackProvider, httpProvider
 
 import common.functions as functions
 import common.views as views
@@ -111,18 +112,23 @@ def timesince(start_time):
 
 
 @app.template_filter()
-def short_structure_title(structure):
-    return filters.structure_title(structure, short=True)
+def short_structure_title(structure, url):
+    return filters.structure_title(structure, url, short=True)
 
 
 @app.template_filter()
-def full_structure_title(structure):
-    return filters.structure_title(structure)
+def full_structure_title(structure, url):
+    return filters.structure_title(structure, url)
 
 
 @app.template_filter()
 def slugify_this(text):
     return slugify(text)
+
+
+@app.template_filter()
+def year_from_rcsb_date(text):
+    return text[0:4]
 
 
 @app.template_filter()
@@ -272,7 +278,7 @@ def structures_sets_route(set_context:str, set_slug:str) -> Dict:
     itemset = itemSet(set_slug, set_context).get(page_number=page_number, page_size=page_size)
     if itemset is not None:
         itemset, success, errors = Core(app.config['AWS_CONFIG']).hydrate(itemset)
-    return {'itemset':itemset, 'facet_display':'info'}
+    return {'itemset':itemset, 'facet_display':'info',  'chain_types':fetch_constants('chains')}
 
 
 @app.route('/structures/lookup')
@@ -287,14 +293,18 @@ def structure_view(pdb_code):
     return views.structure_view(pdb_code)
 
 
-@app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.pdb')
-def structure_file_route(action, structure_type, pdb_code, assembly_id):
+@app.route('/structures/files/<string:action>/<string:structure_type>/<string:pdb_code>_<string:assembly_id>.<string:fileformat>')
+def structure_file_route(action, structure_type, pdb_code, assembly_id, fileformat):
     print (action)
     s3 = s3Provider(app.config['AWS_CONFIG'])
     assembly_identifier = f'{pdb_code}_{assembly_id}'
     #file_key = awsKeyProvider().cif_file_key(assembly_identifier, 'split')
-    file_key = awsKeyProvider().structure_key(assembly_identifier, 'aligned')
-    structure_file, success, errors = s3.get(file_key, data_format='pdb')
+    if structure_type == 'aligned':
+        file_key = awsKeyProvider().structure_key(assembly_identifier, structure_type)
+        structure_file, success, errors = s3.get(file_key, data_format='pdb')
+    else:
+        file_key = awsKeyProvider().cif_file_key(assembly_identifier, structure_type)
+        structure_file, success, errors = s3.get(file_key, data_format='cif')
     print (type(structure_file))
     if not isinstance(structure_file, str):
         structure_file = structure_file.decode('utf-8')
@@ -385,7 +395,7 @@ def search():
                 empty_search = False
     else:
         processed_search_results = []
-    return {'search_results':processed_search_results, 'variables':variables, 'query':variables['query'], 'page_number':variables['page_number'], 'empty_search':empty_search, 'itemset':itemset}
+    return {'search_results':processed_search_results, 'variables':variables, 'query':variables['query'], 'page_number':variables['page_number'], 'empty_search':empty_search, 'itemset':itemset, 'chain_types':fetch_constants('chains')}
 
 
 @app.route('/changelog')
@@ -495,3 +505,4 @@ def post_feedback():
 @templated('feedback')
 def feedback_thanks():
     return {'message':'Thank you for your feedback. We\'ll be in touch soon'}
+
