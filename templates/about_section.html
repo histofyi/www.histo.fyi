@@ -4,6 +4,10 @@
 {% block title %}{{metadata.section}} | {{metadata.title|html_stripped}}{% endblock %}
 {% endif %}
 
+{% if route == '/about' %}
+{% set route = '/about/' %}
+{% endif %}
+
 {% block main %}
 <style>
     img.editorial {
