@@ -1,7 +1,7 @@
 <ol>
     {% for assembly_id in structure.assemblies %}
         <li>
-            <a href="/structures/downloads/{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}.{{item_format}}" id="{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}" target="_blank">{{structure.pdb_code|upper}} assembly {{assembly_id}}</a>&nbsp;&nbsp;<span onclick="copyUrl('{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}')"><small><i class="fa-regular fa-paste"></i></small></span>            
+            <a href="https://coordinates.histo.fyi/structures/downloads/class_i/without_solvent/{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}.{{item_format}}" id="{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}" target="_blank">{{structure.pdb_code|upper}} assembly {{assembly_id}}</a>&nbsp;&nbsp;<span onclick="copyUrl('{{structure.pdb_code}}_{{assembly_id}}_{{item_folder}}')"><small><i class="fa-regular fa-paste"></i></small></span>            
         </li>
     {% endfor %}
 </ol>
