@@ -2,14 +2,20 @@
 
 {% block main %}
 
+<style>
+  td {
+    vertical-align: top;
+  }
+
+</style>
+
 <section class="">
   <div class="grid-container">
     <div class="column-full-width">
       <div class="inner">
-        {{variables['pdb_code']}}
         {% set obsolete = {'5cnz':'5h5z'}%}
 
-        {% if variables['pdb_code'].lower() in ['5cnz'] %}
+        {% if pdb_code.lower() in ['5cnz'] %}
         <h1 class="vertical-spacing-bottom">You've entered a code for an obsolete structure "{{variables['pdb_code']|upper}}"</h1>
         <p>
             <div class="vertical-spacing-bottom-0-25">
@@ -17,10 +23,21 @@
             </div>
         </p>
         {% else %}
-        <h1 class="vertical-spacing-bottom">Sorry, we can't find "{{variables['pdb_code']|upper}}"</h1>
+        <h1 class="vertical-spacing-bottom">Sorry, we can't find "{{pdb_code|upper}}"</h1>
+        <p>
+          <h2 class="vertical-spacing-bottom heading-small">Did you mean one of these?</h2>
+          
+          {% set structures = best_matches %}
+          {% include "shared/partials/sets/info.html" %}
+        </p>
+        <p>
+          <h2 class="vertical-spacing-bottom heading-small">Or we have some other suggestions...</h2>
+          {% set structures = matches %}
+          {% include "shared/partials/sets/info.html" %}
+        </p>
         <p>
             <div class="vertical-spacing-bottom-0-25">
-                If you think "{{variables['pdb_code']|upper}}" is the PDB code for an MHC molecule, please let us know.
+                If you think "{{pdb_code|upper}}" is the PDB code for an MHC molecule, please let us know.
             </div>
         </p>
         {% endif %}

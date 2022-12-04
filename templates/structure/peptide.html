@@ -1,41 +1,52 @@
-{% if structure.facets.peptide_neighbours %}
-<section class="">
+{% if structure.peptide_length %}
+<section>
     <div class="grid-container">
-        <div class="column-full-width vertical-spacing-top">
-            <h2 class="heading-medium vertical-spacing-top-0-5"><a name="peptide_details"></a>Peptide details</h2>
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5"><a name="peptide_details" class="anchor"></a>Peptide details</h2>
+                <p><strong>Length</strong>: {{structure.peptide_length_name|capitalize}} ({{structure.peptide_length}} amino acids)</p>
+                <p><strong>Sequence</strong>: {{structure.peptide_sequence}}</p>
+            </div>
         </div>
-        <div class="column-two-thirds">
+        <div class="column-one-half">
             <div class="inner">
                 <strong>Interactive view</strong> 
-                {% set peptide_url = "/structures/files/view/peptide/" + pdb_code + "_1.cif" %}
-                <div id="peptide_structure" style="height: 400px; width: 500px; position: relative;" class="viewer_3Dmoljs"                            
+                {% set peptide_url = "https://coordinates.histo.fyi/structures/view/class_i/without_solvent/" + structure.pdb_code + "_1_peptide.cif" %}
+                <div id="peptide_structure" style="height: 400px; width: 600px; position: relative;" class="viewer_3Dmoljs"                            
                 data-href="{{peptide_url}}"
                 data-backgroundcolor="0xffffff"
                 data-style="stick:colorscheme=yellowCarbon"
                 ></div>
-
             </div>
         </div>
-        <div class="column-one-third">              
-            <p><strong>Length</strong>: {{structure.peptide.length.text|capitalize}} ({{structure.peptide.length.numeric}} amino acids)</p>
-            <p><strong>Sequence</strong>: {{structure.peptide.sequence}}</p>
+        <div class="column-one-half">    
+            <div class="inner">
+                <strong>Cutaway side view</strong> (static)
+                <br />
+                <img src="https://images.histo.fyi/cleft/side/combined/{{structure.pdb_code}}_1_combined_medium.png" />
+            </div>
         </div>
         <div class="column-one-half">
-            <strong>Cutaway side view</strong> (static)
-            <br />
-            <img src="{{static_route}}/images/structures/cleft/cutaway/side/{{pdb_code}}_1_combined_medium.png" />
+            <div class="inner">
+                <strong>Surface top view</strong> (static - coloured by atom property)
+                <br />
+                <img src="https://images.histo.fyi/cleft/yrb/{{structure.pdb_code}}_1_yrb_medium.png" />
+            </div>
         </div>
         <div class="column-one-half">
-            <strong>Cutaway top view</strong> (static)
-            <br />
-            <img src="{{static_route}}/images/structures/cleft/cutaway/top/{{pdb_code}}_1_combined_medium.png" />
+            <div class="inner">
+                <strong>Cutaway top view</strong> (static)
+                <br />
+                <img src="https://images.histo.fyi/cleft/top/combined/{{structure.pdb_code}}_1_combined_medium.png" />
+            </div>
         </div>
         <div class="column-full-width vertical-spacing-top">
-            <h3 class="heading-smaller">Data provenance</h3>
-            <div><small><strong>MHC:peptide complexes</strong> are visualised using PyMol. The peptide is superimposed on a consistent cutaway slice of the MHC binding cleft (displayed as a grey mesh) which best indicates the binding pockets for the <strong>P1</strong>/<strong>P5</strong>/<strong>PC</strong> positions (side view - pockets <strong>A</strong>, <strong>E</strong>, <strong>F</strong>) and for the <strong>P2</strong>/<strong>P3</strong>/<strong>PC-2</strong> positions (top view - pockets <strong>B</strong>, <strong>C</strong>, <strong>D</strong>). In some cases peptides will use a different pocket for a specific peptide position (atypical anchoring). On some structures the peptide may appear to sterically clash with a pocket. This is an artefact of picking a standardised slice of the cleft and overlaying the peptide.</small></div>
+            <div class="inner">
+                <h3 class="heading-smaller">Data provenance</h3>
+                <p><small><strong>MHC:peptide complexes</strong> are visualised using PyMol. The peptide is superimposed on a consistent cutaway slice of the MHC binding cleft (displayed as a grey mesh) which best indicates the binding pockets for the <strong>P1</strong>/<strong>P5</strong>/<strong>PC</strong> positions (side view - pockets <strong>A</strong>, <strong>E</strong>, <strong>F</strong>) and for the <strong>P2</strong>/<strong>P3</strong>/<strong>PC-2</strong> positions (top view - pockets <strong>B</strong>, <strong>C</strong>, <strong>D</strong>). In some cases peptides will use a different pocket for a specific peptide position (atypical anchoring). On some structures the peptide may appear to sterically clash with a pocket. This is an artefact of picking a standardised slice of the cleft and overlaying the peptide.</small></p>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 {% endif %}

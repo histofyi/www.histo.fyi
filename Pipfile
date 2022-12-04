@@ -4,15 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
 zappa = "*"
-Flask = "*"
-boto3 = "*"
-python-doi = "*"
-biopython = "*"
-numpy = "*"
-toml = "*"
-Flask-Caching = "*"
-pyjwt = "*"
+fuzzywuzzy = "*"
 algoliasearch = "*"
 
 [dev-packages]

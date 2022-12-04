@@ -1,14 +1,19 @@
-<h3 class="vertical-spacing-top-0-5 heading-small">Organism</h3>
-<div>{{structure.organism.scientific_name}} ({{structure.organism.common_name}})</div>
+<h3 class="vertical-spacing-top-0-5 heading-small">Species</h3>
+<div><a href="/structures/browse/species/{{structure.species.common_name|slugify_this}}">{{structure.species.scientific_name}}</a> (<a href="/structures/browse/species/{{structure.species.common_name|slugify_this}}">{{structure.species.common_name}}</a>)</div>
 <hr />
 <h3 class="vertical-spacing-top-0-5 heading-small">Locus / Allele group</h3>
 <div class="vertical-spacing-bottom-0-5">
+    {% if structure.classical %}
+    {% set allele_group = structure.allele.alpha.name.split(':')[0]%}
     {% if structure.locus %}
-        {{structure.locus}}
+        <a href="/structures/browse/loci/{{structure.locus|slugify_this}}">{{structure.locus|upper}}</a>
     {% else %}
         Locus and allele not yet assigned
     {% endif %}
-    {% if structure.allele_group %}
-    / <a href="/structures/sets/browse/allele_group/{{structure.allele_group.mhc_alpha|slugify_this}}">{{structure.allele_group.mhc_alpha}}</a>
+    {% if allele_group %}
+    / <a href="/structures/browse/allele_groups/{{allele_group|slugify_this}}">{{allele_group}}</a>
+    {% endif %}
+    {% else %}
+        Non-classical MHC Class I molecule
     {% endif %}
 </div>

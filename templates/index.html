@@ -9,17 +9,20 @@
         <h1 class="heading-extra-large vertical-spacing-bottom">Welcome to <strong>histo.fyi</strong></h1>
         <p>
             <div class="vertical-spacing-bottom-0-25">
-              <strong>histo.fyi</strong> is a database of 3D structures of MHC molecules and their ligands which are available in the Protein Databank. It provides data about these molecules in a standardised interface, using the most up to date nomenclature. 
+              <strong>histo.fyi</strong> is a database of 3D structures of Major Histocompatibility Complex (<strong>MHC</strong> molecules and their ligands which are available in the Protein Databank. It provides data about these molecules in a standardised interface, using the most up to date nomenclature. 
             </div>
             <div class="vertical-spacing-bottom-0-25">
-                The initial focus is on MHC Class I molecules. Over time it will be extended to cover MHC Class II molecules and their ligands and non-classical MHC molecules and homologues.
+              The complex of an antigenic peptide and the MHC molecule (<strong>pMHC</strong>) is the ligand recognised by T-cell receptors (<strong>TCR</strong>) as part of the adaptive immune response to pathogens and tumors.
             </div>
+            <div class="vertical-spacing-bottom-0-25">
+              The initial focus of this database/website is on MHC Class I molecules. Over time it will be extended to cover MHC Class II molecules and their ligands and non-classical MHC molecules and homologues.
+          </div>
         </p>
       </div>
     </div>
   </div>
 </section>
-{% if not canned %}
+
 <section class="vertical-spacing-top-0-5">
   <div class="grid-container">
     <div class="column-full-width">
@@ -31,77 +34,38 @@
     {% set collection = collections[collection]%}
     <div class="grid-column proto-pipeline-phase">
         <div class="inner">
-            <span class="phase-title is-{{collection_colours[collection.context]}}"><a href="/structures/collections/browse/{{collection.slug}}">{{collection.name|capitalize}}</a></span>
-            <span class="heading-extra-large phase-count">{{collection.members|length}}</span><span class="small">{{collection.description}}</span>
-            <p class="small">   
-            </p>    
-            <br />
+            <span class="phase-title is-{{collection.color_name}}"><a href="/structures/collections/{{collection.slug}}">{{collection.heading|capitalize}}</a></span>
+            <span class="heading-extra-large phase-count">{{collection.count}}</span><span class="small">{{collection.text}}</span>
         </div>
     </div>
     {% endfor%}
   </div>
 </section>
-{% else %}
-<section class="vertical-spacing-top-0-5">
+
+<section>
   <div class="grid-container">
     <div class="column-full-width">
-      <div class="inner">
-        <h2>MHC Class I Structures</h2>
-      </div>
-    </div>
-    <div class="grid-column proto-pipeline-phase">
-        <div class="inner">
-            <span class="phase-title is-indy"><a href="/structures/collections/browse/species">Species</a></span>
-            <span class="heading-extra-large phase-count">19</span><span class="small">different species</span>
-            <p class="small">   
-            </p>    
-            <br />
-        </div>
-    </div>
-    <div class="grid-column proto-pipeline-phase">
-        <div class="inner">
-            <span class="phase-title is-purple"><a href="/structures/collections/browse/peptide_lengths">Peptide lengths</a></span>
-            <span class="heading-extra-large phase-count">10</span><span class="small">different lengths</span>
-            <p class="small">   
-            </p>    
-            <br />
-        </div>
-    </div>
-    <div class="grid-column proto-pipeline-phase">
-        <div class="inner">
-            <span class="phase-title is-teal"><a href="/structures/collections/browse/complex_types">Complex types</a></span>
-            <span class="heading-extra-large phase-count">4</span><span class="small">combinations</span>
-            <p class="small">   
-            </p>    
-            <br />
-        </div>
-    </div>
-    <div class="grid-column proto-pipeline-phase">
-        <div class="inner">
-            <span class="phase-title is-indigo"><a href="/structures/collections/browse/deposition_years">Deposition years</a></span>
-            <span class="heading-extra-large phase-count">32</span><span class="small">different years</span>
-            <p class="small">   
-            </p>    
-            <br />
-        </div>
-    </div>
-    <!--
-    <div class="grid-column proto-pipeline-phase">
-        <div class="inner">
-            <span class="phase-title is-fuel"><a href="/structures/collections/browse/peptide_features">Peptide features</a></span>
-            <span class="heading-extra-large phase-count">0</span><span class="small">Structures of MHC Class I bound peptides with different features</span>
-            <p class="small">   
-            </p>    
-            <br />
-        </div>
-    </div>-->
-      <div class="column-full-width">
           <div class="inner">
+            <h2 class="vertical-spacing-bottom-0-25">Latest structures</h2>
+            <p class="vertical-spacing-bottom">
+              The 10 most recently released structures added from the Protein Data Bank.
+            </p>
+            <style>
+              td {
+                vertical-align: top;
+              }
+            
+            </style>
+            {% set structures = latest.members %}
+            {% include "shared/partials/sets/info.html" %}
+            <p>
+              <a href="/structures/browse/released/2022">More structures released in the PDB this year</a>.
+            </p>
           </div>
       </div>
   </div>
 </section>
-{% endif %}
+
 
 
 

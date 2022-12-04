@@ -1,0 +1,32 @@
+{
+    "homepage":{
+        "species":{
+            "count":18,
+            "text":"different species",
+            "heading":"Species",
+            "color_name":"indy",
+            "slug":"species"
+        },
+        "peptide_lengths":{
+            "count":16,
+            "text":"different lengths",
+            "heading":"Peptide lengths",
+            "color_name":"purple",
+            "slug":"peptide_lengths"
+        },
+        "complex_types":{
+            "count":30,
+            "text":"combinations",
+            "heading":"Complex types",
+            "color_name":"teal",
+            "slug":"complex_types"
+        },
+        "deposited":{
+            "count":31,
+            "text":"different years",
+            "heading":"Deposition years",
+            "color_name":"indigo",
+            "slug":"deposited"
+        }
+    }
+}

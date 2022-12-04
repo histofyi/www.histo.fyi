@@ -39,7 +39,7 @@
                     <label for="query" class="inline-label">Search for</label>
                 </td>
                 <td>{% if variables %}
-                        <input type="text" class="text-input" name="query" value="{{variables.query}}"/>
+                        <input type="text" class="text-input" name="query" value="{% if variables.query %}{{variables.query}}{% endif %}"/>
                     {% else %}
                         <input type="text" class="text-input" name="query"/>
                     {% endif %}

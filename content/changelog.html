@@ -3,46 +3,38 @@
       <div class="column-full-width">
         <div class="inner">
           <h1 class="vertical-spacing-bottom heading-extra-large">Changelog</h1>
-          <h2 class="vertical-spacing-bottom heading-large">v 0.2</h2>
+          <h2 class="vertical-spacing-bottom heading-large">v 1.0</h2>
           <ul>
-            <li class="vertical-spacing-bottom-0-25"></li>
+            <li class="vertical-spacing-bottom-0-25">Revised search of local copy of the PDB to yield more structures than the previous queries against the RCSB API could return.</li>
+            <li class="vertical-spacing-bottom-0-25">Improved categorization of structures, especially for non-classical MHC Class I.</li>
+            <li class="vertical-spacing-bottom-0-25">Improved matching to the IPD-IMGT/HLA or IPD-MHC sequence collections and nomenclature.</li>
+            <li class="vertical-spacing-bottom-0-25">Improved back-end services where most of the data (excluding images, search results and coordinates are held in an in-memory cache to speed up the site).</li>
           </ul>
           <h3 class="vertical-spacing-bottom-0-25 heading-small">
             Known issues
           </h3>
           <ul>
-            <li class="vertical-spacing-bottom-0-25">Single chain complexes are currently not categorized - single chain complexes being a combination of peptide, Class I alpha chain and beta 2 microglobulin joined by linkers. e.g. 2QRI</li>
-            <li class="vertical-spacing-bottom-0-25"><s>Class I alpha chains with a full length sequence in their structure files currently fail on categorization and matching to allele sequences. e.g. 1BII</s></li>
-            <li class="vertical-spacing-bottom-0-25"><s>Early structures, either without discernable peptide or with fragments of modelled peptides are not categorized. e.g. 2HLA</s></li>
-            <li class="vertical-spacing-bottom-0-25">Structures with unusual chain lettering, e.g. D-2 will not have those chains coloured correctly in molecular visualisations. e.g. 7RRG</li>
-            <li class="vertical-spacing-bottom-0-25">52 structures are currently uncategorised, representing just under 4% of the Class I structures analyzed.</li>
-            <li class="vertical-spacing-bottom-0-25">Some gamma/delta T cell receptor containing complexes are not-currently characterised, leading to an under representation in the sets.</li>
-            <li class="vertical-spacing-bottom-0-25">Truncated Class I alpha chains (expressed as antigen binding domains only) are not currently present in the PDBe search query. Future releases will include these by combining a set of different queries. e.g. 6L9K</li>
-            <li class="vertical-spacing-bottom-0-25"><s>Beta-2 microglobulin sequences are not yet matched to species or allele. e.g. 5H5Z / 6LBE</s></li>
-            <li class="vertical-spacing-bottom-0-25"><s>A couple of MHC Class II structures have been returned with the PDBe Fold query. These will be removed in the next data release e.g. 4Y1A</s></li>
+            <li class="vertical-spacing-bottom-0-25">Single chain MHC Class I molecules are currently displayed as a single chain. A piece of data clean up work is currently underway to split the structures for visualisation purposes. Some assemblies from the structure data from the PDB contain additional chains or alternate versions of chains.</li>
+            <li class="vertical-spacing-bottom-0-25">Non-classical MHC Class I molecules that bind a non-peptide ligand currently do not have a display of that ligand. Work is currently underway to enable the display.</li>
+            <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules with peptide fragments are mis-characterized. A fix is in development. This fix will also recategorize the early MHC structures where consensus structures from endogenous mixtures of peptides were modelled</li>
+            <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules have an incorrect species assignment. This is due to errors in the underlying structure data from the PDB and will be addressed in the next point release of the data.</li>
+            <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules have more than one copy of parts of the complex in each assembly file. This is due to errors in the underlying structure data from the PDB and will be addressed in the next point release of the data.</li>
+            <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules have some sequences missing e.g. <a href="/structures/view/8d5q">8D5Q</a>. This is due to errors in the underlying structure dat from the PDBa and will be addressed in the next point release of the data.</li>
+            <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules have some sequences assigned to the incorrect Uniprot id. This is due to errors in the underlying structure data from the PDB and will be addressed in the next point release of the data. For now Uniprot IDs are not shown.</li>
           </ul>
-          <h2 class="vertical-spacing-bottom vertical-spacing-top heading-large">v 0.1</h2>
-          <ul>
-              <li class="vertical-spacing-bottom-0-25">
-                  Place holder site built in <a href="https://flask.palletsprojects.com/en/2.0.x/" target="_new">Flask</a>, deployed to <a href="https://aws.amazon.com/lambda/" target="_new">AWS Lambda</a> using <a href="https://github.com/zappa/Zappa" target="_new">Zappa</a>.
-              </li>
-              <li class="vertical-spacing-bottom-0-25">
-                  <a href="/posters/2021/bsi">Information on poster</a> being presented at the <a href="https://www.bsicongress.com/bsi/frontend/reg/thome.csp?pageID=5589&eventID=8" target="_new">British Society of Immunology Congress in Edinburgh</a>.
-              </li>
-              <li class="vertical-spacing-bottom-0-25">
-                  Setting up the backend machinery to host datasets of work to date.
-              </li>
-            </ul>
           <h2 class="vertical-spacing-top heading-large">Roadmap</h2>
           <ul>
+            <li>Display of non-peptide ligands for non-classical MHC Class I - e.g. lipids bound to CD1a</li>
             <li>API access</li>
-            <li>Analysis of positions</li>
+            <li>Allele, allele group and peptide searches</li>
             <li>Analysis of complexes with receptors and accessory molecules</li>
-            <li>Analysis of peptide conformation</li>
+            <li>Related structures - same peptide with different MHC alleles, TCR bound and apo complexes, same peptide with different co-receptors, similar peptides</li>
+            <li>Structure comparisons - TCR bound and apo forms, etc</li>            
+            <li>Atlas of the positions in the MHC molecule and interaction patches e.g. contacts with Tapasin</li>
             <li>Analysis of MHC cleft rotamers</li>
+            <li>Analysis of peptide conformation</li>
             <li>Analysis of coarse scale MHC molecule geometry changes</li>
             <li>MHC Class II</li>
-            <li>Non-classical MHC Class I</li>
           </ul>
         </div>
       </div>

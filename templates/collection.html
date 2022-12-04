@@ -8,15 +8,24 @@
   <div class="grid-container">
       <div class="column-full-width">
           <div class="inner">
-              <h1 class="heading-extra-large vertical-spacing-bottom">{{collection.name}}</h1>
+              <h1 class="heading-extra-large vertical-spacing-bottom-0-25">{{collection.slug|deslugify|capitalize}}</h1>
+              <div class="vertical-spacing-bottom">Ordered by {% if order=='chronology'%}year, ascending{%else%}number of structures, descending{%endif%}</div>
           </div>
       </div>
   </div>
 
   <div class="grid-container">
-      {% for member in collection['hydrated_members'] %}
-      {% set item = collection['hydrated_members'][member]%}
-      {% include "shared/partials/sets/collection_card.html" %}
+    {% for item in collection.sets %}
+        {% if collection.slug == 'complex_types' %}
+          {% if 'class_i' in item %}
+            {% set set = collection.sets[item] %}  
+          {% else %}
+            {% set set = None %}
+          {% endif %}
+        {% else %}
+          {% set set = collection.sets[item] %}  
+        {% endif %}
+        {% include "shared/partials/sets/collection_card.html" %}
       {% endfor %}
   </div>
 

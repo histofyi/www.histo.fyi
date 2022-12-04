@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 
-{% block title %}{{pdb_code|upper}} | {{structure|short_structure_title('none')|safe}}{% endblock %}
+{% block title %}{{ structure.page_title |safe}}{% endblock %}
 {% set nav = 'structures' %}
 
 {% block main %}
@@ -176,16 +176,16 @@
         border-left-color: #E1935B;
     }
 
-    div.tcr_alpha {
+    div.tcr_alpha, td.tcr_alpha {
         border-left-color: #96C45E;
     }
-    div.tcr_gamma {
+    div.tcr_gamma, td.tcr_gamma {
         border-left-color: #96C45E;
     }
-    div.tcr_beta {
+    div.tcr_beta, td.tcr_beta {
         border-left-color: #DA4EA9;
     }
-    div.tcr_delta {
+    div.tcr_delta, td.tcr_delta {
         border-left-color: #DA4EA9;
     }
     a.superscript {
@@ -223,7 +223,7 @@
         <div class="column-full-width">
             <div class="inner">
                 <small><strong>{{structure.pdb_code|upper}}</strong></small>
-                <h1 class="heading-large vertical-spacing-bottom structure-title">{{structure|full_structure_title('none')|safe}}</h1>
+                <h1 class="heading-large vertical-spacing-bottom structure-title">{{structure.title|safe}}</h1>
             </div>
         </div>
         <div class="column-two-thirds">
@@ -247,7 +247,14 @@
 
 {% include "structure/peptide.html" %}
 
+{% if structure.peptide %}
+
 {% include "structure/peptide_neighbours.html" %}
+
+{% endif %}
+{#
+{% include "structure/binding_cleft_properties.html" %}
+#}
 
 {% include "structure/binding_cleft_pockets.html" %}
 
@@ -258,112 +265,30 @@
 {% endif %}
 #}
 
-<section class="">
-    <div class="grid-container">
-        <div class="column-full-width">
-            <div class="inner">
-                <hr />
-                <h2 class="heading-medium vertical-spacing-top-0-5">Downloadable data</h2>  
-                <div class="vertical-spacing-bottom-0-25">
-                    Data can be downloaded to your local machine by clicking on the links below. Clicking on the clipboard icon will copy the url for the data to your clipboard. This can then be used to load the structure/data directly from the url into an application like PyMol (for 3D structures) using the load command e.g. 'load http://www.histo.fyi/structures/downloads/1hhk_1_peptide.cif' or in the case of json formatted files to use them in notebooks such as Jupyter or GoogleColab.
-                </div>
-                <div class="vertical-spacing-bottom">
-                    Please take note of the data license.
-                </div>
-            </div>
-        </div>
-        <script src="https://kit.fontawesome.com/cfc6b2d410.js" crossorigin="anonymous"></script>
-        <div class="column-one-third">
-            <h3 class="heading-small">Complete structures</h3>
-            <div class="vertical-spacing-bottom-0-25"><strong>Aligned structures [cif]</strong></div>
-            {% set item_folder = "aligned" %}
-            {% set item_format = "cif" %}
-            {% include "structure/download_block.html" %}
-        </div>
-        <div class="column-one-third">
-            <h3 class="heading-small">Components</h3>
-            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I alpha chain [cif]</strong></div>
-            {% set item_folder = "alpha" %}
-            {% set item_format = "cif" %}
-            {% include "structure/download_block.html" %}
-            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I antigen binding domain (alpha1/alpha2) [cif]</strong></div>
-            {% set item_folder = "abd" %}
-            {% set item_format = "cif" %}
-            {% include "structure/download_block.html" %}
-            <div class="vertical-spacing-bottom-0-25"><strong>Peptide only [cif]</strong></div>
-            {% set item_folder = "peptide" %}
-            {% set item_format = "cif" %}
-            {% include "structure/download_block.html" %}
-        </div>
-        <div class="column-one-third">
-            <h3 class="heading-small">Derived data</h3>
-            {#
-            <div class="vertical-spacing-bottom-0-25"><strong>Calpha - Calpha distances [json]</strong></div>
-            {% set item_folder = "calphas" %}
-            {% set item_format = "json" %}
-            {% include "structure/download_block.html" %}
-            #}
-            <div class="vertical-spacing-bottom-0-25"><strong>Peptide neighbours [json]</strong></div>
-            {% set item_folder = "neighbours" %}
-            {% set item_format = "json" %}
-            {% include "structure/download_block.html" %}
-        </div>
-        
-        </div>
-    </div>
-  </div>
-</section>
+{% include "structure/downloadable_data.html" %}
 
-<section>
-    <div class="grid-container">
-        <div class="column-full-width">
-            <div class="inner">
-                <h3 class="heading-smaller">Data license</h3>
-                <p>
-                    The <strong>data</strong> above is made available under a <strong>Creative Commons <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</strong> license</a>. This means you can copy, remix, transform, build and redistribute the material, but you must give appropriate credit, provide a link to the license, and indicate if changes were made.
-                </p>
-                <p>
-                    If you use any data downloaded from this site in a publication, please cite 'https://www.histo.fyi'. A preprint is in preparation.
-                </p>
-                <hr class="vertical-spacing-bottom"/>
-            </div>
-        </div>
-    </div>
-</section>
+
+{% include "structure/data_license.html" %}
+
+{% include "structure/footnotes.html" %}
     
 
-<section>
-    <div class="grid-container">
-        <div class="column-full-width">
-            <div class="inner small">
-                <h4 class="heading-small vertical-spacing-bottom-0-25">Footnotes</h4>
-                <ol>
-                    <li><a name="1" class="no-decoration">Protein Data Bank Europe </a> - <a href="https://www.ebi.ac.uk/pdbe/coordinates/index.html" target="_blank">Coordinate Server</a></li>
-                    <li><a name="2" href="/structures/view/1hhk">1HHK - HLA-A*02:01 binding LLFGYPVYV at 2.5Å resolution</a> - <a href="https://www.wwpdb.org/pdb?id=pdb_00001hhk" target="_blank">PDB entry for 1HHK</a></li>
-                    <li><a name="3" class="no-decoration">Protein structure alignment by incremental combinatorial extension (CE) of the optimal path.</a> - <a href="https://pymolwiki.org/index.php/Cealign" target="_blank">PyMol CEALIGN Method</a> - <a href="https://academic.oup.com/peds/article/11/9/739/1580846">Publication</a></li>
-                    <li><a name="4" class="no-decoration">PyMol</a> - <a href="https://www.pymol.org/pymol.html" target="_blank">PyMol.org/pymol</a></li>
-                    <li><a name="5" class="no-decoration">Levenshtein distance</a> - <a href="https://en.wikipedia.org/wiki/Levenshtein_distance" target="_blank">Wikipedia entry</a></li>
-                    <li><a name="6" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_blank">Molecules endpoint</a></li>
-                    <li><a name="7" class="no-decoration">3Dmol.js: molecular visualization with WebGL</a> - <a href="https://3dmol.csb.pitt.edu/" target="_blank">3DMol.js</a> - <a href="https://academic.oup.com/bioinformatics/article/31/8/1322/213186">Publication</a></li>
-                    <li><a name="8" class="no-decoration">Protein Data Bank Europe REST API</a> - <a href="https://www.ebi.ac.uk/pdbe/api/doc/" target="_blank">Publication endpoint</a></li>
-                    <li><a name="9" class="no-decoration">PubMed Central Europe REST API</a> - <a href="https://europepmc.org/RestfulWebService" target="_blank">Articles endpoint</a></li>
-                </ol>
-                <hr class="vertical-spacing-bottom"/>                
-            </div>
-        </div>
-    </div>
-</section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/1.4.0/3Dmol-min.js"></script>
+
+
 {% else %}
+
+
 <section class="">
     <div class="grid-container">
         <div class="column-full-width">
             <div class="inner">
-                <small><strong>{{structure.pdb_code|upper}}</strong></small>
-                <h1 class="heading-large vertical-spacing-bottom structure-title">Coming soon...</h1>
+                <h1 class="heading-large vertical-spacing-bottom structure-title">We don't have a structure for "{{pdb_code|upper}}"</h1>
                 <p>
-                    {{message|safe}}
-                </p>
+                    <h2 class="vertical-spacing-bottom heading-small">Did you mean one of these?</h2>
+                    {% set structures = suggestions.best_matches %}
+                    {% include "shared/partials/sets/info.html" %}
+                  </p>
             </div>
         </div>
     </div>

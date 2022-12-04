@@ -1,0 +1,69 @@
+<script src="https://kit.fontawesome.com/cfc6b2d410.js" crossorigin="anonymous"></script>
+<section>
+    <div class="grid-container">
+        <div class="column-full-width">
+            <div class="inner">
+                <hr />
+                <h2 class="heading-medium vertical-spacing-top-0-5"><a name="downloadable_data" class="anchor"></a>Downloadable data</h2>  
+                <div class="vertical-spacing-bottom-0-25">
+                    Data can be downloaded to your local machine from the links below.
+                </div>
+                <div class="vertical-spacing-bottom-0-25">
+                    Clicking on the <strong>clipboard icon</strong> <i class="fa-regular fa-paste"></i> will copy the url for the data to your clipboard. 
+                </div>
+                <div class="vertical-spacing-bottom-0-25">
+                    This can then be used to load the structure/data directly from the url into an application like PyMol (for 3D structures) using the load command:
+                </div>
+                <div class="vertical-spacing-bottom-0-25">
+                    &nbsp;&nbsp;&nbsp;e.g. <strong>load http://www.histo.fyi/structures/downloads/1hhk_1_peptide.cif</strong> 
+                </div>
+                <div class="vertical-spacing-bottom-0-25">
+                    or in the case of JSON formatted files to retrieve it and use it as part of notebooks such as Jupyter or GoogleColab.
+                </div>
+                <div class="vertical-spacing-bottom">
+                    Please take note of the <a href="data_license">data license</a>. Using data from this site assumes that you have read and will comply with the license.
+                </div>
+            </div>
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Complete structures</h3>
+            <div class="vertical-spacing-bottom-0-25"><strong>Aligned structures [cif]</strong></div>
+            {% set item_folder = "aligned" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Components</h3>
+            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I alpha chain [cif]</strong></div>
+            {% set item_folder = "alpha" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+            <div class="vertical-spacing-bottom-0-25"><strong>MHC Class I antigen binding domain (alpha1/alpha2) [cif]</strong></div>
+            {% set item_folder = "abd" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+            {% if structure.peptide_length %}
+            <div class="vertical-spacing-bottom-0-25"><strong>Peptide only [cif]</strong></div>
+            {% set item_folder = "peptide" %}
+            {% set item_format = "cif" %}
+            {% include "structure/download_block.html" %}
+            {% endif %}
+        </div>
+        <div class="column-one-third">
+            <h3 class="heading-small">Derived data</h3>
+            {#
+            <div class="vertical-spacing-bottom-0-25"><strong>Calpha - Calpha distances [json]</strong></div>
+            {% set item_folder = "calphas" %}
+            {% set item_format = "json" %}
+            {% include "structure/download_block.html" %}
+            #}
+            <div class="vertical-spacing-bottom-0-25"><strong>Peptide neighbours [json]</strong></div>
+            {% set item_folder = "neighbours" %}
+            {% set item_format = "json" %}
+            {% include "structure/download_block.html" %}
+        </div>
+        
+        </div>
+    </div>
+  </div>
+</section>

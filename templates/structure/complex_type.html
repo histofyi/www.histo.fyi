@@ -1,30 +1,43 @@
 <h3 class="vertical-spacing-top-0-5 heading-small">Complex type</h3>
-{% if structure.complex.label %}
-    <p>{{structure.complex.label}}</p>
+{% if structure.complex_type %}
+    <p><a href="/structures/browse/complex_types/{{structure.complex_type}}">{{structure.complex_type|deslugify|capitalize}}</a></p>
 {% else %}
     <p>Problems in automatic complex type assignment. Known issue being fixed.</p>
 {% endif %}
-{% for chain in structure.facets.chains %}
-{% set thischain = structure.facets.chains[chain] %}
+{% for chain in structure.assigned_chains %}
+{% if chain not in ['note','forced_replace'] %}
+{% set thischain = structure.assigned_chains[chain] %}
     <div class="vertical-spacing-bottom-0-25">
-        <div class="chain_block {{thischain.best_match.match}}">
+        <div class="chain_block {{chain}}">
             <div>
-                <strong>{{chain}}.</strong> {{chain_types[thischain.best_match.match]['ui_text']}}
-                {% if thischain.best_match.match == 'class_i_alpha' %}
+                <strong>{{loop.index}}.</strong> {%if chain in chain_types%}{{chain_types[chain]['ui_text']}}{% else %}{{chain}}{% endif %}
+                {% if chain == 'class_i_alpha' %}
                 <br />
-                {% if structure.allele %}
-                <a href="/structures/sets/browse/allele/{{structure.allele.mhc_alpha|slugify_this}}">{{structure.allele.mhc_alpha}}</a>
-                {% elif thischain.best_match.match == 'peptide' %}
+                    {% if structure.allele %}
+                    <a href="/structures/browse/alleles/{{structure.allele.alpha.slug}}">{{structure.allele.alpha.name}}</a>
+                    {% endif %}
+                {% elif chain == 'peptide' %}
                 <br />
-                {{structure.peptide.sequence}}
-                {% endif  %}
+                <a href="/structures/browse/peptide_sequences/{{structure.peptide_sequence|lower}}">{{structure.peptide_sequence}}</a>
                 {% else %}
-                
+                {% if structure.tcr and chain in ['tcr_alpha','tcr_beta','tcr_delta','tcr_gamma'] %}
+                {% set tcr_chain = chain.replace('tcr_','') %}
+                <br />
+                {{structure.tcr[tcr_chain].subgroup}}
+            {% endif %}
                 {% endif%}
             </div>
             <div>
                 {{thischain.chains}}
             </div>
+            
+
         </div>
     </div>
+{% endif %}
 {% endfor %}
+{% if structure.tcr %}
+            <div>
+                <a href="http://opig.stats.ox.ac.uk/webapps/stcrdab/StrViewer?pdb={{structure.pdb_code}}" target="_new">Information on this structure</a> on STCRdab.
+            </div>
+{% endif %}

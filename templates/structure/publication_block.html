@@ -2,21 +2,44 @@
 {% set publication = structure.publication %}
 <div class="column-two-thirds">
     <h3 class="heading-small">
-        {{publication.citation.title | safe}}
+        {{publication.bibjson.title | safe}}
     </h3>
     <div>
-        {% for author in publication.citation.authors %}
-            {{author.full_name | safe }}{% if not loop.last %}, {% endif %}
+        {% for author in publication.bibjson.author %}
+            {{author.name | safe }}{% if not loop.last %}, {% endif %}
         {% endfor %}
     </div>
     <div>
-        {% if publication.citation.iso_abbreviation %}<i>{{publication.citation.iso_abbreviation}}</i>{% endif %} {% if publication.citation.year %}({{publication.citation.year}}),{% endif %}  {% if publication.citation.iso_abbreviation %}<strong>{{publication.citation.volume}}</strong>,{% endif %} 
-        {% if publication.citation.pages != '-' %}{{publication.citation.pages}}{% endif %} {% if structure.doi %}[<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>]{% endif %} {# [View on PubMed] #}
+        {% if publication.bibjson.journal %}
+            {% if publication.bibjson.journal.iso_abbreviation %}<i>{{publication.bibjson.journal.iso_abbreviation}}</i>{% endif %} {% if publication.bibjson.year %}({{publication.bibjson.year[0]}}),{% endif %}  {% if publication.bibjson.volume %}<strong>{{publication.bibjson.volume[0]}}</strong>,{% endif %} 
+            {% if publication.bibjson.pages != '-' %}{{publication.bibjson.pages[0]}}{% endif %} {% if structure.doi %}[<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>]{% endif %} {# [View on PubMed] #}
+            {% for identifier in publication.bibjson.identifier %}
+            {% if identifier.type == "doi" %}
+                {% if structure.publication.bibjson.url %}
+                    [<strong>doi</strong>:<a href="{{structure.publication.bibjson.url}}" target="_blank">{{identifier.id}}</a>]&nbsp;
+                {% else %}
+                    [<strong>doi</strong>:{{identifier.id}}]
+                {% endif %}
+            {% elif identifier.type == "pubmed" %}
+                [<strong>pubmed</strong>:<a href="https://pubmed.ncbi.nlm.nih.gov/{{identifier.id}}/" target="_blank">{{identifier.id}}</a>]&nbsp;
+            {% else %}
+                [<strong>{{identifier.type}}</strong>:{{identifier.id}}]
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
     </div>
     <br />
     <p>
-        {{ publication.abstract | safe}}
+        {% if publication.abstract %}
+            {{ publication.abstract | safe}}
+        {% endif %}
     </p>
+    <h3  class="heading-small">Structure deposition and release</h3>
+    <div>Deposited: {{structure.chronology.deposition_date}}</div>
+    <div>Released: {{structure.chronology.release_date}}</div>
+    <div>Revised: {{structure.chronology.revision_date}}</div>
+
     <h3 class="heading-smaller vertical-spacing-top-0-5">Data provenance</h3> 
     <p><small><strong>Publication data</strong> retrieved {# on [{{structure.last_updated}}] #} from PDBe REST API<a class="superscript" href="#8">8</a> and PMCe REST API<a class="superscript" href="#9">9</a></small></p>
 </div>

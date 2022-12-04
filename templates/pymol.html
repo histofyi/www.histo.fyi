@@ -1,0 +1,20 @@
+{% for structure in structures %}
+cmd.load('https://www.histo.fyi/structures/downloads/{{structure.pdb_code}}_1_abd.cif')
+cmd.color('{{structure.color}}','{{structure.pdb_code}}_1_abd')
+{% endfor %}
+cmd.hide('cartoon', 'all')
+cmd.show('mesh', 'all')
+cmd.bg_colour('white')
+cmd.set_view({{orientations.side.class_i}})
+cmd.png('overlay.png', width=2400, height=2200, dpi=300, ray=1, quiet=0)
+cmd.delete('all')
+{% for structure in structures %}
+cmd.load('https://www.histo.fyi/structures/downloads/{{structure.pdb_code}}_1_abd.cif')
+cmd.color('{{structure.color}}','{{structure.pdb_code}}_1_abd')
+{% endfor %}
+cmd.hide('cartoon', 'all')
+cmd.show('mesh', 'all')
+cmd.bg_colour('black')
+cmd.set_view({{orientations.side.class_i}})
+cmd.png('overlay2.png', width=2400, height=2200, dpi=300, ray=1, quiet=0)
+cmd.delete('all')

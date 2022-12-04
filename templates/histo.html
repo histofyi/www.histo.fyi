@@ -1,0 +1,23 @@
+import requests
+
+loaded = {}
+
+class Histo():
+
+    def test(self):
+        print('hello')
+
+
+    def abd(self, pdb_code):
+        selection = f'{pdb_code}_1_abd'
+        url = f'https://www.histo.fyi/structures/downloads/{selection}.cif'
+        cmd.load(url)
+        cmd.color('white', selection)
+        cmd.show('mesh', selection)
+
+    
+    def clear(self, selection):
+        cmd.delete('all')
+
+
+histo = Histo()

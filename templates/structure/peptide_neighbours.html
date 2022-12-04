@@ -1,12 +1,12 @@
 
-{% if structure.facets.peptide_neighbours %}
-<section class="">
+{% if structure.peptide_neighbours %}
+<section>
     <div class="grid-container">
         <div class="column-full-width">
             <div class="inner">
                 <hr />
                 <h2 class="heading-medium vertical-spacing-top-0-5"><a name="peptide_neighbours" class="anchor"></a>Peptide neighbours</h2>   
-                {% set neighbours = structure.facets.peptide_neighbours['1'] %}
+                {% set neighbours = structure.peptide_neighbours %}
                 <table width="100%">
                     <tr>
                         {% for position in neighbours %}
@@ -24,7 +24,7 @@
                 </table>
                 <br />
                 <h3 class="heading-smaller">Colour key</h3>
-                <div class="vertical-spacing-bottom-0-25">
+                <div class="vertical-spacing-bottom">
                     <span class="aromatic key"><small>Aromatic</small></span>
                     <span class="hydrophobic key"><small>Hydrophobic</small></span>
                     <span class="acidic key"><small>Acidic</small></span>
@@ -32,12 +32,11 @@
                     <span class="neutral key"><small>Neutral/polar</small></span>
                 </div>
                 <h3 class="heading-smaller">Data provenance</h3>
-                <div><small><strong>Neighbours</strong> are calculated by finding residues with atoms within 5&#8491; of each other using BioPython Neighboursearch module. The list of neighbours is then sorted and filtered to inlcude only neighbours where between the peptide and the MHC Class I alpha chain.</small></div>
-                <div><small><strong>Colours</strong> selected to match the YRB scheme. [https://www.frontiersin.org/articles/10.3389/fmolb.2015.00056/full]</small></div>
+                <p><small><strong>Neighbours</strong> are calculated by finding residues with atoms within 5&#8491; of each other using BioPython Neighboursearch module. The list of neighbours is then sorted and filtered to inlcude only neighbours where between the peptide and the MHC Class I alpha chain.</small></div>
+                <p><small><strong>Colours</strong> selected to match the YRB scheme. [https://www.frontiersin.org/articles/10.3389/fmolb.2015.00056/full]</small></div>
             </div>
         </div>
     </div>
-  </div>
 </section>
 {% endif %}
 

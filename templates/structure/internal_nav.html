@@ -1,9 +1,10 @@
 <h3 class="heading-small">Information sections</h3>
 <ul>
     <li><a href="#publication">Publication</a></li>
-    <li><a href="#peptide_details">Peptide details</a></li>
-    <li><a href="#peptide_neighbours">Peptide neighbours</a></li>
-    <li><a href="#binding_cleft">Binding cleft properties</a></li>
+    {% if structure.peptide_sequence %}
+        <li><a href="#peptide_details">Peptide details</a></li>
+        <li><a href="#peptide_neighbours">Peptide neighbours</a></li>
+    {% endif %}
     <li><a href="#binding_cleft_pockets">Binding cleft pockets</a></li>
     <li><a href="#chain_sequences">Chain sequences</a></li>
     <li><a href="#downloadable_data">Downloadable data</a></li>

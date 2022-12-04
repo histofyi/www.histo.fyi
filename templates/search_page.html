@@ -15,12 +15,36 @@
     <div class="grid-container">
       <div class="column-full-width">
         <div class="inner">
-            <h1 class="vertical-spacing-bottom-0-25">Fulltext search for "{{variables.query}}"</h1>
-            <div>{{itemset.pagination.total}} results</div>
+          {% if variables.query %}
+            <h1 class="vertical-spacing-bottom-0-25">
+              {% if querytype == 'fulltext' %}
+              Fulltext search 
+              {% else %}
+                {{ search_types[querytype] }} search
+              {% endif %}
+              {% if "+" in query %}
+                {% set display_query = query.replace('+','').strip() %}
+              {% else %}
+                {% set display_query = query %}
+              {% endif %}
+              for "{{display_query}}"
+            
+            </h1>
+            <div>{{set.pagination.total}} results</div>
+          {% else %}
+            <h1 class="vertical-spacing-bottom-0-25">Nothing was entered in the search box</h1>
+            <div>Please try again</div>
+          {% endif %}
             <br />
             <hr />
             {% if not empty_search %}
-            <p>Page {{itemset.pagination.current_page}} of {{itemset.pagination.page_count}} | {{itemset.pagination.page_size}} items per page</p>
+            <p>Page {{set.pagination.current_page}} of {{set.pagination.page_count}} | {{set.pagination.page_size}} items per page  |
+              {% if querytype == 'fulltext' %}
+              ordered by relevance, descending
+              {% else %}
+              ordered by release date, descending
+              {% endif %}
+            </p>
             {% include "shared/partials/sets/pagination.html" %}
             <hr />
             <div class="vertical-spacing-top vertical-spacing-bottom">
