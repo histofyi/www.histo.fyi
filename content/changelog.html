@@ -9,12 +9,16 @@
             <li class="vertical-spacing-bottom-0-25">Improved categorization of structures, especially for non-classical MHC Class I.</li>
             <li class="vertical-spacing-bottom-0-25">Improved matching to the IPD-IMGT/HLA or IPD-MHC sequence collections and nomenclature.</li>
             <li class="vertical-spacing-bottom-0-25">Improved back-end services where most of the data (excluding images, search results and coordinates are held in an in-memory cache to speed up the site).</li>
+            <li class="vertical-spacing-bottom-0-25">API access is now available. For details of available methods please see the <a href="https://api.histo.fyi/apidocs/">API docs</a>.</li>
           </ul>
           <h3 class="vertical-spacing-bottom-0-25 heading-small">
             Known issues
           </h3>
           <ul>
+            <li class="vertical-spacing-bottom-0-25">Work needs to be performed for mobile/responsive display, especially on the structure views.</li>
             <li class="vertical-spacing-bottom-0-25">Single chain MHC Class I molecules are currently displayed as a single chain. A piece of data clean up work is currently underway to split the structures for visualisation purposes. Some assemblies from the structure data from the PDB contain additional chains or alternate versions of chains.</li>
+            <li class="vertical-spacing-bottom-0-25">Some non-natural or modified amino acids are not displayed properly. A fix is curently in prepraration.</li>
+            <li class="vertical-spacing-bottom-0-25">Some structures with alternative locations for atoms are not displayed properly. A fix is curently in prepraration where these will be split out into additional assemblies.</li>
             <li class="vertical-spacing-bottom-0-25">Non-classical MHC Class I molecules that bind a non-peptide ligand currently do not have a display of that ligand. Work is currently underway to enable the display.</li>
             <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules with peptide fragments are mis-characterized. A fix is in development. This fix will also recategorize the early MHC structures where consensus structures from endogenous mixtures of peptides were modelled</li>
             <li class="vertical-spacing-bottom-0-25">Some MHC Class I molecules have an incorrect species assignment. This is due to errors in the underlying structure data from the PDB and will be addressed in the next point release of the data.</li>
@@ -25,7 +29,6 @@
           <h2 class="vertical-spacing-top heading-large">Roadmap</h2>
           <ul>
             <li>Display of non-peptide ligands for non-classical MHC Class I - e.g. lipids bound to CD1a</li>
-            <li>API access</li>
             <li>Allele, allele group and peptide searches</li>
             <li>Analysis of complexes with receptors and accessory molecules</li>
             <li>Related structures - same peptide with different MHC alleles, TCR bound and apo complexes, same peptide with different co-receptors, similar peptides</li>
