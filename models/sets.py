@@ -10,7 +10,7 @@ class StructureSetMembers():
             hydration = current_app.data['listings']
         else:
             hydration = current_app.data['core']
-        return [hydration[pdb_code] for pdb_code in members]
+        return [hydration[pdb_code] for pdb_code in members if pdb_code in hydration]
 
   
 class StructureSet():
