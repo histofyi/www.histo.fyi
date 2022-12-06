@@ -10,45 +10,54 @@
             <div class="inner">
                 <h1 class="heading-extra-large vertical-spacing-bottom">Structures</h1>
                 <div class="vertical-spacing-bottom">
-                    Initially the focus is on MHC Class I molecules. MHC Class II molecules will follow on by the autumn. 
+                    Initially the focus is on MHC Class I molecules. MHC Class II molecules will follow on in spring 2023. 
                 </div>
-                <h2>
-                    Browse Class I structures by species
-                </h2>        
             </div>
         </div>
     </div>
 
     <div class="grid-container">
-        {% for species in species_collection['hydrated_members'] %}
-        {% set item = species_collection['hydrated_members'][species]%}
-        {% include "shared/partials/sets/collection_card.html" %}
-        {% endfor %}
     </div>
 
     <div class="grid-container">
-        <div class="column-full-width">
+        <div class="column-two-thirds">
             <div class="inner">
-                <hr />
-                <br />
-                <h2>
-                    Browse Class I structures by peptide length
-                </h2>        
+                {% include "fragments/releases.svg" %}
+            </div>
+        </div>
+        <div class="column-one-third">
+            <div class="grid-container">
+                <div class="grid-column">
+                    <div class="inner">
+                        <span class="phase-title is-indigo">All Class I structures</span>
+                        <span class="heading-extra-large phase-count">{{total_structures}}</span><span class="small">structures</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="grid-container">
-        {% for peptide in peptides_collection['hydrated_members'] %}
-        {% set item = peptides_collection['hydrated_members'][peptide]%}
-        {% include "shared/partials/sets/collection_card.html" %}
-        {% endfor %}
-    </div>
+
 
     <div class="grid-container">
         <div class="column-full-width">
             <div class="inner">
-            </div>
+                <h2 class="vertical-spacing-bottom-0-25 vertical-spacing-top">Latest structures</h2>
+                <p class="vertical-spacing-bottom">
+                  The 10 most recently released structures added from the Protein Data Bank.
+                </p>
+                <style>
+                  td {
+                    vertical-align: top;
+                  }
+                
+                </style>
+                {% set structures = latest.members %}
+                {% include "shared/partials/sets/info.html" %}
+                <p>
+                  <a href="/structures/browse/released/2022">More structures released in the PDB this year</a>.
+                </p>
+              </div>
         </div>
     </div>
 </section>

@@ -11,8 +11,8 @@
     </div>
     <div>
         {% if publication.bibjson.journal %}
-            {% if publication.bibjson.journal.iso_abbreviation %}<i>{{publication.bibjson.journal.iso_abbreviation}}</i>{% endif %} {% if publication.bibjson.year %}({{publication.bibjson.year[0]}}),{% endif %}  {% if publication.bibjson.volume %}<strong>{{publication.bibjson.volume[0]}}</strong>,{% endif %} 
-            {% if publication.bibjson.pages != '-' %}{{publication.bibjson.pages[0]}}{% endif %} {% if structure.doi %}[<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>]{% endif %} {# [View on PubMed] #}
+            {% if publication.bibjson.journal.iso_abbreviation %}<i>{{publication.bibjson.journal.iso_abbreviation}}</i>{% endif %} {% if publication.bibjson.year[0] %}({{publication.bibjson.year[0]}}){% endif %}  {% if publication.bibjson.volume[0] %}<strong>{{publication.bibjson.volume[0]}}</strong>,{% endif %} 
+            {% if publication.bibjson.pages[0] %}{{publication.bibjson.pages[0]}}{% endif %} {% if structure.doi %}[<a href="{{structure.resolved_doi_url}}" target="_blank">doi://{{structure.doi }}</a>]{% endif %} {# [View on PubMed] #}
             {% for identifier in publication.bibjson.identifier %}
             {% if identifier.type == "doi" %}
                 {% if structure.publication.bibjson.url %}

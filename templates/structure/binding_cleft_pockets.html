@@ -34,17 +34,18 @@
                       <br />
                       {% for position in thispocket %}
                       {% set thisposition = thispocket[position] %}
+                      {% set thisposition_number = thispocket[position]['number']|string %}
                       <div class="residue_container">  
-                        {% if thisposition.number in features.class_i.alpha %}
-                          {% if features.class_i.alpha[thisposition.number].binds_n_terminus %}
+                        {% if thisposition_number in features.class_i.alpha %}
+                          {% if features.class_i.alpha[thisposition_number].binds_n_terminus %}
                             {% set label = "binds_n_terminus" %}
-                          {% elif features.class_i.alpha[thisposition.number].binds_p1_backbone %}
+                          {% elif features.class_i.alpha[thisposition_number].binds_p1_backbone %}
                             {% set label = "binds_p1_backbone" %}
-                          {% elif features.class_i.alpha[thisposition.number].binds_p2_backbone %}
+                          {% elif features.class_i.alpha[thisposition_number].binds_p2_backbone %}
                             {% set label = "binds_p2_backbone" %}
-                          {% elif features.class_i.alpha[thisposition.number].binds_pc_1_backbone %}
+                          {% elif features.class_i.alpha[thisposition_number].binds_pc_1_backbone %}
                             {% set label = "binds_pc_1_backbone" %}
-                          {% elif features.class_i.alpha[thisposition.number].binds_c_terminus %}
+                          {% elif features.class_i.alpha[thisposition_number].binds_c_terminus %}
                             {% set label = "binds_c_terminus" %}
                           {% else %}
                             {% set label = "" %}
