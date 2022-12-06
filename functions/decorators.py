@@ -18,6 +18,8 @@ def webview(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if request.host in ['api.histo.fyi','127.0.0.1:8082']:
+            if request.path == '/':
+                return redirect('/apidocs/')
             return abort(404)
         return f(*args, **kwargs)
     return decorated_function
