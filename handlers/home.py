@@ -13,7 +13,6 @@ def home_handler():
         latest = None
         print (error)
     total_structures = len(app_context.data['index']['deposition_date_asc'])
-    print (total_structures)
     page_data = {
         'collections':app_context.data['collections']['homepage'],
         'latest':latest,
