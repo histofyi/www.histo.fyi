@@ -1,7 +1,6 @@
 from functions.app import app_context
 
 def about_handler(route):
-    print (route)
     navigation = [
         {'url': '/about/','title': 'About histo.fyi'},
         {'url': '/about/why-needed','title': 'Why is this resource needed?'},
