@@ -4,6 +4,7 @@ from models.collections import StructureCollection
 from actions.structures import StructureLookup
 from functions.forms import request_variables
 
+from functions.app import app_context
 
 def transform_neighbours(neighbours, assigned_chains):
     transformed_neighbours = {}
@@ -12,9 +13,7 @@ def transform_neighbours(neighbours, assigned_chains):
         peptide_chains = assigned_chains['peptide']['chains']
         for chain in intermediate_neighbours:
             if chain in peptide_chains:
-                print ('hello')
                 transformed_neighbours = intermediate_neighbours[chain]
-                print (transformed_neighbours)
     if transformed_neighbours:
         return transformed_neighbours
     else:
@@ -29,7 +28,7 @@ def structure_view_handler(pdb_code):
     This function is the structure view handler
 
     """
-    if True:
+    try:
         structure_record = StructureRecord(pdb_code).get()
         altered_structure_record = {}
         for key in structure_record:
@@ -42,14 +41,32 @@ def structure_view_handler(pdb_code):
             'structure':altered_structure_record,
             'display':True
          }
-    #except Exception as error:
-    #    return {
-    #        'error':str(error),
-    #        'error_code':404,
-    #        'structure':None,
-    #        'pdb_code':pdb_code,
-    #        'suggestions':StructureLookup(pdb_code=pdb_code).get()
-    #    }
+    except Exception as error:
+        return {
+            'error':str(error),
+            'error_code':404,
+            'structure':None,
+            'pdb_code':pdb_code,
+            'suggestions':StructureLookup(pdb_code=pdb_code).get()
+        }
+
+
+def structure_home_handler():
+    """
+    This is the home action.
+
+    """
+    try:
+        latest = StructureSet('website','latest').hydrate()
+    except Exception as error:
+        latest = None
+    total_structures = len(app_context.data['index']['deposition_date_asc'])
+    page_data = {
+        'collections':app_context.data['collections']['homepage'],
+        'latest':latest,
+        'total_structures':total_structures
+    }
+    return page_data
 
 
 def structure_lookup_handler():
