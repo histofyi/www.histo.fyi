@@ -8,6 +8,7 @@ flask = "*"
 zappa = "*"
 fuzzywuzzy = "*"
 algoliasearch = "*"
+flasgger = "*"
 
 [dev-packages]
 
