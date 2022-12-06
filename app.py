@@ -6,7 +6,7 @@ import datetime
 import itertools
 
 from flask import Flask, Response, redirect, jsonify
-
+from flasgger import Swagger
 
 from functions.files import load_json
 from functions.decorators import templated, webview
@@ -39,15 +39,23 @@ def create_app():
     app.config.from_file('config.toml', toml.load)
     app.secret_key = app.config['SECRET_KEY']
 
+    app.config['SWAGGER'] = {
+        'title': 'histo.fyi API',
+        'description':'An API for data on MHC molecules',
+        'version':'0.9',
+        'termsOfService':'https://www.histo.fyi/about/tos'
+    }
+
     # removing whitespace from templated returns    
     app.jinja_env.trim_blocks = True
     app.jinja_env.lstrip_blocks = True
+
 
     return app
 
 
 app = create_app()
-
+swagger = Swagger(app)
 
 
 @app.before_first_request
@@ -69,6 +77,15 @@ def load_data():
 @templated('index')
 def home_handler():
     return handlers.home_handler()
+
+
+@app.route('/structures/')
+@app.route('/structures')
+@webview
+@templated('structures')
+def structure_overview_handler():
+    return handlers.structure_home_handler()
+
 
 
 @app.route('/structures/lookup/')
@@ -184,6 +201,7 @@ def robots_txt():
 @app.route('/favicon.ico')
 def favicon():
     return redirect('/static/histo-32-color.png')
+
 
 @app.errorhandler(404)
 def resource_not_found(e):
