@@ -3,7 +3,7 @@
     {% else %}
         <li><a href="/">Home</a></li>
     {% endif %}
-    {% set navitems = ['structures', 'about', 'changelog'] %}
+    {% set navitems = ['structures', 'about', 'changelog','weeknotes'] %}
     {% for navitem in navitems %}
         {% if nav == navitem %}
             <li><a class="is-active" href="/{{navitem}}">{{navitem|title}}</a></li>
