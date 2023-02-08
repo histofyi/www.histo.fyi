@@ -21,12 +21,12 @@
             "color_name":"teal",
             "slug":"complex_types"
         },
-        "deposited":{
-            "count":31,
+        "released":{
+            "count":33,
             "text":"different years",
-            "heading":"Deposition years",
+            "heading":"Release years",
             "color_name":"indigo",
-            "slug":"deposited"
+            "slug":"released"
         }
     }
 }
