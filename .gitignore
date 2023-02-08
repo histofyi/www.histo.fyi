@@ -133,3 +133,6 @@ config.toml
 
 #OSX files
 .DS_Store
+
+#tmp directory
+tmp/*
