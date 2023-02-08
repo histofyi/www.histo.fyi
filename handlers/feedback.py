@@ -14,7 +14,7 @@ def feedback_form_page():
 def feedback_form_handler():
     variables = request_variables(None, ['name','email','feedback','url','feedback_type','this_title'])
     if variables['name'] is not None and variables['email'] is not None and variables['feedback'] is not None:
-        if variables['name'] not in ['Ritobill','CrytoBoype'] or variables['this_title'] is None:
+        if variables['name'] not in ['Ritobill','CrytoBoype','Boype'] or variables['this_title'] is None:
             variables['feedback'] = '\n'.join(variables['feedback'].splitlines())
             variables['date'] = datetime.datetime.now().isoformat()
             stein = steinProvider(app_context.config['STEIN_API_URL'], app_context.config['STEIN_USERNAME'], app_context.config['STEIN_PASSCODE'])
