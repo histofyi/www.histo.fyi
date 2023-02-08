@@ -6,6 +6,7 @@
         "project_name": "www-histo-fyi",
         "runtime": "python3.9",
         "s3_bucket": "www.histo.fyi",
+        "slim_handler":true,
         "exclude": [
             "*.jpg", "*.jpeg", "*.png", "*.gif"
         ]  
